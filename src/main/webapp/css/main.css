@@ -187,3 +187,8 @@ hr {
 #f i:hover {
 	color: #ff7878;
 }
+
+.w i {
+	color: #ff7878;
+	font-size: 30px;
+}

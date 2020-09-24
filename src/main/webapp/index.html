@@ -1,190 +1,234 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <title>Ремонтное агенство "MAX Service"</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootstrap CSS File -->
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <!-- Libraries CSS Files -->
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-  <!-- Main Stylesheet File -->
-  <link href="css/main.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>Ремонтное агенство "MAX Service"</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS File -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Libraries CSS Files -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- Main Stylesheet File -->
+    <link href="css/main.css" rel="stylesheet">
+    <!-- Register/sign in/popup Stylesheet File -->
+    <link href="css/style.css" rel="stylesheet">
 
-  <!-- Favicons -->
-  <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Raleway:400,300,700,900" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Raleway:400,300,700,900" rel="stylesheet">
 
 </head>
-	<body>
-		<!-- header -->
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">MAX Service</a>
-					
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="#">Домой</a></li>
-						<li><a href="#">Про нас</a></li>
-						<li><a href="#">Сервисы</a></li>
-						<li><a href="#">Работы</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- End header -->
-		<div id="headerwrap">
-			<div class="container">
-				<div class="row centered">
-					<div class="coi-lg-8 col-lg-offset-2">
-						<h1>Ремонт сервис!</h1>
-						<h2>Вы будете приятно удивлены уровнем нашего сервиса</h2>
-					</div>
-				</div>
-			</div>
-		</div>
+<body>
+<div class="wrapper">
+    <div class="navbar navbar-inverse navbar-fixed-top lock-padding" id="header">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">MAX Service</a>
 
-		<div class="container w">
-			<div class="row centered">
-				<br><br>
-				<div class="col-lg-4">
-					<i class="fa fa-heart"></i>
-					<h4>Дизайн</h4>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<i class="fa fa-laptop"></i>
-					<h4>Компьютеры</h4>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-				</div>
-				<div class="col-lg-4">
-					<i class="fa fa-trophy"></i>
-					<h4>Помощь</h4>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-				</div>
-				<br><br>
-			</div>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="#">Домой</a></li>
+                    <li><a href="#">Про нас</a></li>
+                    <li><a href="#">Сервисы</a></li>
+                    <li><a href="#">Работы</a></li>
+                    <li>
+                        <a href="#popup_login" class="popup-link">Sign In</a> / <a href="#popup_register" class="popup-link">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-			<div id="dg">
-				<div class="container">
-					<div class="row centered">
-						<h4>Последние работы</h4>
-						<br>
-						<div class="col-lg-4">
-							<div class="tilt">
-								<a href="#"><img src="img/p01.png"></a>
-							</div>
-						</div>
-						<div class="col-lg-4">
-							<div class="tilt">
-								<a href="#"><img src="img/p02.png"></a>
-							</div>
-						</div>
-						<div class="col-lg-4">
-							<div class="tilt">
-								<a href="#"><img src="img/p03.png"></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row centered">
+                <div class="coi-lg-8 col-lg-offset-2">
+                    <h1>Ремонт сервис!</h1>
+                    <h2>Вы будете приятно удивлены уровнем нашего сервиса</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="container wb">
-			<div class="row centered">
-				<br><br>
-				<div class="col-lg-8 col-lg-offset-2">
-					<h4>Мы ремонтируем ваши любимые гаджеты</h4>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-					<p><br><br></p>
-				</div>
-				<div class="col-lg-2"></div>
-				<div class="col-lg-10 col-lg-offset-1">
-					<img src="img/munter.png" alt="" class="img-responsive">
-				</div>
-			</div>
-		</div>
+    <div class="container w">
+        <div class="row centered">
+            <br><br>
+            <div class="col-lg-4">
+                <i class="fa fa-heart"></i>
+                <h4>Дизайн</h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-laptop"></i>
+                <h4>Компьютеры</h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <i class="fa fa-trophy"></i>
+                <h4>Помощь</h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+            </div>
+            <br><br>
+        </div>
 
-		<div id="lg">
-			<div class="container">
-				<div class="row centered">
-					<h4>Партнеры</h4>
-					<div class="col-lg-2 col-lg-offset-1">
-						<img src="img/c01.gif" alt="">
-					</div>
-					<div class="col-lg-2">
-						<img src="img/c02.gif" alt="">
-					</div>
-					<div class="col-lg-2">
-						<img src="img/c03.gif" alt="">
-					</div>
-					<div class="col-lg-2">
-						<img src="img/c04.gif" alt="">
-					</div>
-					<div class="col-lg-2">
-						<img src="img/c05.gif" alt="">
-					</div>
-				</div>
-			</div>
-		</div>
+        <div id="dg">
+            <div class="container">
+                <div class="row centered">
+                    <h4>Последние работы</h4>
+                    <br>
+                    <div class="col-lg-4">
+                        <div class="tilt">
+                            <a href="#"><img src="img/p01.png"></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="tilt">
+                            <a href="#"><img src="img/p02.png"></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="tilt">
+                            <a href="#"><img src="img/p03.png"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div id="r">
-			<div class="container">
-				<div class="row centered">
-					<div class="col-lg-8 col-lg-offset-2">
-						<h4>Ремонт гаджетов на профессиональном уровне</h4>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div class="container wb">
+        <div class="row centered">
+            <br><br>
+            <div class="col-lg-8 col-lg-offset-2">
+                <h4>Мы ремонтируем ваши любимые гаджеты</h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+                <p><br><br></p>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-10 col-lg-offset-1">
+                <img src="img/munter.png" alt="" class="img-responsive">
+            </div>
+        </div>
+    </div>
 
-		<div id="f">
-			<div class="container">
-				<div class="row centered">
-					<a href="#"><i class="fa fa-twitter"></i></a>
-					<a href="#"><i class="fa fa-facebook"></i></a>
-					<a href="#"><i class="fa fa-instagram"></i></a>
-				</div>
-			</div>
-		</div>
-		
-		
-		
-		
-	<!-- Loging form 
-	<div>
-		<form class="box" action="index.html" method="post">
-			<h1>Login</h1>
-			<input type="text" name="" placeholder="Username">
-			<input type="password" name="" placeholder="Passsword">
-			<input type="submit" name="" value="Login">
-		</form>
-	</div>
-	-->
+    <div id="lg">
+        <div class="container">
+            <div class="row centered">
+                <h4>Партнеры</h4>
+                <div class="col-lg-2 col-lg-offset-1">
+                    <img src="img/c01.gif" alt="">
+                </div>
+                <div class="col-lg-2">
+                    <img src="img/c02.gif" alt="">
+                </div>
+                <div class="col-lg-2">
+                    <img src="img/c03.gif" alt="">
+                </div>
+                <div class="col-lg-2">
+                    <img src="img/c04.gif" alt="">
+                </div>
+                <div class="col-lg-2">
+                    <img src="img/c05.gif" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div id="r">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h4>Ремонт гаджетов на профессиональном уровне</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                        culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	</body>
+    <div id="f">
+        <div class="container">
+            <div class="row centered">
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="popup_login" class="w_popup">
+    <div class="popup_body">
+        <div class="popup_content">
+            <a href="#header" class="popup_close close-popup">X</a>
+            <div>
+                <form class="box" action="index.html" method="post">
+                    <h1>Login</h1>
+                    <input type="text" name="" placeholder="Username">
+                    <input type="password" name="" placeholder="Passsword">
+                    <input type="submit" name="" value="Login">
+                    <a href="#popup_register" class="popup-link">or Register</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="popup_register" class="w_popup">
+    <div class="popup_body">
+        <div class="popup_content">
+            <a href="#header" class="popup_close close-popup">X</a>
+            <div>
+                <form class="box" action="index.html" method="post">
+                    <h1>Register</h1>
+                    <input type="text" name="" placeholder="Username">
+                    <input type="password" name="" placeholder="Passsword">
+                    <input type="submit" name="" value="Register">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/popups.js"></script>
+</body>
 </html>
