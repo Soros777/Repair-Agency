@@ -112,3 +112,8 @@ body.lock {
 li a {
 	display: inline-block !important;
 }
+
+a.close-popup {
+	text-decoration: none;
+	color: #7b7b7b;
+}

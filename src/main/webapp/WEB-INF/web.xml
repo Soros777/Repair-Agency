@@ -16,4 +16,40 @@
         <url-pattern>/clients</url-pattern>
     </servlet-mapping>
 
+<!-- Учебные сервлеты  -->
+    <servlet>
+        <servlet-name>Dispatcher</servlet-name>
+        <servlet-class>ua.epam.finalproject.repairagency.servlets.Dispatcher</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dispatcher</servlet-name>
+        <url-pattern>/Dispatcher</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CheckClient</servlet-name>
+        <servlet-class>ua.epam.finalproject.repairagency.servlets.CheckClient</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckClient</servlet-name>
+        <url-pattern>/CheckClient</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Registration</servlet-name>
+        <servlet-class>ua.epam.finalproject.repairagency.servlets.Registration</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Registration</servlet-name>
+        <url-pattern>/Registration</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddClient</servlet-name>
+        <servlet-class>ua.epam.finalproject.repairagency.servlets.AddClient</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddClient</servlet-name>
+        <url-pattern>/AddClient</url-pattern>
+    </servlet-mapping>
 </web-app>
