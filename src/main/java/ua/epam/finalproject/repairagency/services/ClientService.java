@@ -27,12 +27,11 @@ public class ClientService {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String clientMailFromDB = resultSet.getString("email");
-                Locale userLocale = Locale.forLanguageTag(resultSet.getString("locale"));
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDate userRegistrationDate = LocalDate.parse(resultSet.getString("registration_date"), dateTimeFormatter);
-                Client client = null;
                 if(clientEmailFromRequest.equals(clientMailFromDB)) {
-                    client = Client.getClientWithInitParams(
+                    Locale userLocale = Locale.forLanguageTag(resultSet.getString("locale"));
+                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDate userRegistrationDate = LocalDate.parse(resultSet.getString("registration_date"), dateTimeFormatter);
+                    Client client = Client.getClientWithInitParams(
                             resultSet.getInt("id"),
                             resultSet.getString("email"),
                             resultSet.getString("password"),
@@ -41,8 +40,8 @@ public class ClientService {
                             resultSet.getString("contact_phone"),
                             userLocale,
                             userRegistrationDate);
+                    return client;
                 }
-                return client;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,15 +58,15 @@ public class ClientService {
 
         try (Connection connection = dbManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "INSERT INTO clients (email, password, client_name) VALUES (?, ?, ?);");)
+                     "INSERT INTO clients (email, password, client_name) VALUES (?, ?, ?)"))
             {
                 preparedStatement.setString(1, client.getEmail());
                 preparedStatement.setString(2, client.getPassword());
                 preparedStatement.setString(3, client.getClientName());
 
-                ResultSet resultSet = preparedStatement.executeQuery();
+                int changedRows = preparedStatement.executeUpdate();
 
-                return resultSet.next();
+                return changedRows == 1;
 
             } catch (SQLException e) {
             e.printStackTrace();
