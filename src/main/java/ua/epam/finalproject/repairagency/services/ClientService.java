@@ -1,8 +1,10 @@
 package ua.epam.finalproject.repairagency.services;
 
 import ua.epam.finalproject.repairagency.dao.DBManager;
+import ua.epam.finalproject.repairagency.database.ConnectionPool;
 import ua.epam.finalproject.repairagency.model.Client;
 
+import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,34 +20,32 @@ public class ClientService {
             return null;
         }
 
-        DBManager dbManager = DBManager.getInstance();
-
-        try {
-            Connection connection = dbManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM clients");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String clientMailFromDB = resultSet.getString("email");
-                if(clientEmailFromRequest.equals(clientMailFromDB)) {
-                    Locale userLocale = Locale.forLanguageTag(resultSet.getString("locale"));
-                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    LocalDate userRegistrationDate = LocalDate.parse(resultSet.getString("registration_date"), dateTimeFormatter);
-                    Client client = Client.getClientWithInitParams(
-                            resultSet.getInt("id"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password"),
-                            resultSet.getString("client_name"),
-                            Double.parseDouble(resultSet.getString("wallet_count")),
-                            resultSet.getString("contact_phone"),
-                            userLocale,
-                            userRegistrationDate);
-                    return client;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM clients"))
+            {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String clientMailFromDB = resultSet.getString("email");
+                    if(clientEmailFromRequest.equals(clientMailFromDB)) {
+                        Locale userLocale = Locale.forLanguageTag(resultSet.getString("locale"));
+                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        LocalDate userRegistrationDate = LocalDate.parse(resultSet.getString("registration_date"), dateTimeFormatter);
+                        Client client = Client.getClientWithInitParams(
+                                resultSet.getInt("id"),
+                                resultSet.getString("email"),
+                                resultSet.getString("password"),
+                                resultSet.getString("client_name"),
+                                Double.parseDouble(resultSet.getString("wallet_count")),
+                                resultSet.getString("contact_phone"),
+                                userLocale,
+                                userRegistrationDate);
+                        return client;
+                    }
                 }
+            } catch (SQLException | NamingException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
         return null;
     }
 
@@ -54,9 +54,7 @@ public class ClientService {
             return false;
         }
 
-        DBManager dbManager = DBManager.getInstance();
-
-        try (Connection connection = dbManager.getConnection();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "INSERT INTO clients (email, password, client_name) VALUES (?, ?, ?)"))
             {
@@ -68,9 +66,10 @@ public class ClientService {
 
                 return changedRows == 1;
 
-            } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            } catch (SQLException | NamingException e) {
+                e.printStackTrace();
+            }
+
         return false;
     }
 }
