@@ -12,7 +12,13 @@ public class DBManager {
     private static DBManager dbManager;
     private static final Logger log = getLogger(DBManager.class);
 
-    private DBManager() {}
+    private DBManager() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static DBManager getInstance() {
         if(dbManager == null) {

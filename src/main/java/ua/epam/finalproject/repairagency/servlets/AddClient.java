@@ -1,15 +1,13 @@
 package ua.epam.finalproject.repairagency.servlets;
 
 import ua.epam.finalproject.repairagency.model.Client;
+import ua.epam.finalproject.repairagency.services.ClientService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
 
 public class AddClient extends Dispatcher {
 
@@ -34,7 +32,7 @@ public class AddClient extends Dispatcher {
             newClient.setPassword(clientPassword);
             newClient.setClientName(clientName);
             ctx.setAttribute("client", newClient);
-            boolean res = ClientList.addClient(newClient);
+            boolean res = ClientService.addClient(newClient);
             if(res) {
                 this.forward("/successRegistration.jsp", request, response);
             } else {

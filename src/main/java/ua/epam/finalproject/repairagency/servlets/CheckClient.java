@@ -25,6 +25,7 @@ public class CheckClient extends Dispatcher {
             if(!client.getPassword().equals(request.getParameter("password"))) {
                 this.forward("/index.html", request, response);
             } else {
+                request.setAttribute("client", client);
                 this.forward("/successLogin.jsp", request, response);
             }
         }

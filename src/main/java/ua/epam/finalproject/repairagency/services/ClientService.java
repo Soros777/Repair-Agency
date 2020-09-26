@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class ClientService {
@@ -27,7 +28,8 @@ public class ClientService {
             while (resultSet.next()) {
                 String clientMailFromDB = resultSet.getString("email");
                 Locale userLocale = Locale.forLanguageTag(resultSet.getString("locale"));
-                LocalDate userRegistrationDate = LocalDate.parse(resultSet.getString("registration_date"));
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDate userRegistrationDate = LocalDate.parse(resultSet.getString("registration_date"), dateTimeFormatter);
                 Client client = null;
                 if(clientEmailFromRequest.equals(clientMailFromDB)) {
                     client = Client.getClientWithInitParams(
@@ -48,20 +50,28 @@ public class ClientService {
         return null;
     }
 
-//    public static void main(String[] args) {
-//        DBManager dbManager = DBManager.getInstance();
-//
-//        try {
-//            Connection connection = dbManager.getConnection();
-//            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM clients");
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()) {
-//                System.out.println("Client : " + resultSet.getString("client_name"));
-//
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static boolean addClient(Client client) {
+        if(client == null) {
+            return false;
+        }
+
+        DBManager dbManager = DBManager.getInstance();
+
+        try (Connection connection = dbManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "INSERT INTO clients (email, password, client_name) VALUES (?, ?, ?);");)
+            {
+                preparedStatement.setString(1, client.getEmail());
+                preparedStatement.setString(2, client.getPassword());
+                preparedStatement.setString(3, client.getClientName());
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                return resultSet.next();
+
+            } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

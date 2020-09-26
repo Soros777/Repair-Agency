@@ -6,12 +6,11 @@
 <body>
 <br>
 <h1>Вход посетителя в систему прошел успешно</h1>
-<jsp:useBean id="client" class="ua.epam.finalproject.repairagency.model.Client" scope="application"/>
 <p>
-    Клиент: <%= client.getClientName()%>
+    Клиент: ${client.clientName}
 </p>
 <p>
-    Email: <%= client.getEmail()%>
+    Email: ${client.email}
 </p>
 </body>
 </html>
