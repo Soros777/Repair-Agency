@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <param name="Encoding" value="utf-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%-5p][%-16.16t][%32.32c] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="FileAppender" class="org.apache.log4j.RollingFileAppender">
+        <param name="Encoding" value="utf-8"/>
+        <param name="maxFileSize" value="1Mb"/>
+        <param name="maxBackupIndex" value="50"/>
+        <param name="file" value="target/logfile.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%-5p][%-16.16t][%32.32c] - %m%n" />
+        </layout>
+    </appender>
+
+    <category name="ua.epam.finalproject.repairagency">
+        <!-- all, trace, debug, info, warn, error, fatal -->
+        <priority value="all"/>
+        <appender-ref ref="FileAppender"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </category>
+
+</log4j:configuration>

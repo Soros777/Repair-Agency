@@ -1,8 +1,10 @@
 package ua.epam.finalproject.repairagency.services;
 
-import ua.epam.finalproject.repairagency.dao.DBManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.epam.finalproject.repairagency.database.ConnectionPool;
 import ua.epam.finalproject.repairagency.model.Client;
+import ua.epam.finalproject.repairagency.web.Controller;
 
 import javax.naming.NamingException;
 import java.sql.Connection;
@@ -15,7 +17,10 @@ import java.util.Locale;
 
 public class ClientService {
 
+    private static final Logger Log = LoggerFactory.getLogger(Controller.class);
+
     public static Client findClient(String clientEmailFromRequest) {
+        Log.info("finding client");
         if(clientEmailFromRequest == null || "".equals(clientEmailFromRequest)) {
             return null;
         }
@@ -50,6 +55,7 @@ public class ClientService {
     }
 
     public static boolean addClient(Client client) {
+        Log.info("adding client");
         if(client == null) {
             return false;
         }
