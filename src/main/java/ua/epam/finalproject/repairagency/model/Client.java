@@ -14,6 +14,19 @@ public class Client {
     private Locale locale;
     private LocalDate registrationDate;
 
+    /**
+     * Creates Client object with initiated specific fields
+     *
+     * @param id
+     * @param email
+     * @param password
+     * @param clientName
+     * @param walletCount
+     * @param contactPhone
+     * @param locale
+     * @param registrationDate
+     * @return Client object with fully settings
+     */
     public static Client getClientWithInitParams(
             int id, String email, String password,
             String clientName, double walletCount,

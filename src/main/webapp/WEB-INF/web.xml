@@ -7,49 +7,59 @@
     <display-name>Repair Agency "Max Service"</display-name>
 
     <servlet>
-        <servlet-name>clientServlet</servlet-name>
-        <servlet-class>ua.epam.finalproject.repairagency.web.ClientServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>ua.epam.finalproject.repairagency.web.Controller</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>clientServlet</servlet-name>
-        <url-pattern>/clients</url-pattern>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/controller</url-pattern>
     </servlet-mapping>
 
-<!-- Учебные сервлеты  -->
-    <servlet>
-        <servlet-name>Dispatcher</servlet-name>
-        <servlet-class>ua.epam.finalproject.repairagency.servlets.Dispatcher</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Dispatcher</servlet-name>
-        <url-pattern>/Dispatcher</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>clientServlet</servlet-name>-->
+<!--        <servlet-class>ua.epam.finalproject.repairagency.web.ClientServlet</servlet-class>-->
+<!--        <load-on-startup>0</load-on-startup>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>clientServlet</servlet-name>-->
+<!--        <url-pattern>/clients</url-pattern>-->
+<!--    </servlet-mapping>-->
 
-    <servlet>
-        <servlet-name>CheckClient</servlet-name>
-        <servlet-class>ua.epam.finalproject.repairagency.servlets.CheckClient</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CheckClient</servlet-name>
-        <url-pattern>/CheckClient</url-pattern>
-    </servlet-mapping>
 
-    <servlet>
-        <servlet-name>Registration</servlet-name>
-        <servlet-class>ua.epam.finalproject.repairagency.servlets.Registration</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Registration</servlet-name>
-        <url-pattern>/Registration</url-pattern>
-    </servlet-mapping>
+<!--&lt;!&ndash; Учебные сервлеты  &ndash;&gt;-->
+<!--    <servlet>-->
+<!--        <servlet-name>Dispatcher</servlet-name>-->
+<!--        <servlet-class>ua.epam.finalproject.repairagency.servlets.Dispatcher</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>Dispatcher</servlet-name>-->
+<!--        <url-pattern>/Dispatcher</url-pattern>-->
+<!--    </servlet-mapping>-->
 
-    <servlet>
-        <servlet-name>AddClient</servlet-name>
-        <servlet-class>ua.epam.finalproject.repairagency.servlets.AddClient</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddClient</servlet-name>
-        <url-pattern>/AddClient</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>CheckClient</servlet-name>-->
+<!--        <servlet-class>ua.epam.finalproject.repairagency.servlets.CheckClient</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>CheckClient</servlet-name>-->
+<!--        <url-pattern>/CheckClient</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>Registration</servlet-name>-->
+<!--        <servlet-class>ua.epam.finalproject.repairagency.servlets.Registration</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>Registration</servlet-name>-->
+<!--        <url-pattern>/Registration</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AddClient</servlet-name>-->
+<!--        <servlet-class>ua.epam.finalproject.repairagency.servlets.AddClient</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AddClient</servlet-name>-->
+<!--        <url-pattern>/AddClient</url-pattern>-->
+<!--    </servlet-mapping>-->
 </web-app>

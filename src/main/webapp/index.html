@@ -198,10 +198,11 @@
     <div class="popup_body">
         <div class="popup_content">
             <div>
-                <form action="Registration" method="post" class="box">
+                <form action="controller" method="post" class="box">
                     <h1>Login</h1>
                     <input type="text" name="email" placeholder="User Email">
                     <input type="password" name="password" placeholder="Passsword">
+                    <input type="hidden" name="command" value="login">
                     <input type="submit" name="login" value="Login">
                     <a href="#popup_register" class="popup-link">or Register</a>
                 </form>
@@ -214,11 +215,12 @@
     <div class="popup_body">
         <div class="popup_content">
             <div>
-                <form action="AddClient" method="post" class="box">
+                <form action="controller" method="post" class="box">
                     <h1>Register</h1>
                     <input type="text" name="client" placeholder="Username">
                     <input type="text" name="email" placeholder="email">
                     <input type="password" name="password" placeholder="Passsword">
+                    <input type="hidden" name="command" value="register">
                     <input type="submit" name="save" value="Register">
                     <a href="" class="close-popup">or cancel</a>
                 </form>

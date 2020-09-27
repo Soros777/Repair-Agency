@@ -5,10 +5,9 @@
 </head>
 <body>
 <h1>Регистрация посетителя успешно завершена</h1>
-<jsp:useBean id="client" class="ua.epam.finalproject.repairagency.model.Client" scope="application"/>
 <p>
-    Пользователь <%= client.getClientName()%> <br>
-    Email: <%= client.getEmail()%> <br>
+    Пользователь ${client.clientName} <br>
+    Email: ${client.email} <br>
     Зарегистрирован.
 </p>
 </body>

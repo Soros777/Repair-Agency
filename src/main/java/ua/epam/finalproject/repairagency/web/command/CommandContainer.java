@@ -1,16 +1,32 @@
 package ua.epam.finalproject.repairagency.web.command;
 
-import org.slf4j.Logger;
-import ua.epam.finalproject.repairagency.web.ClientServlet;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
-
-import static org.slf4j.LoggerFactory.getLogger;
-
+import java.util.TreeMap;
 public class CommandContainer {
 
-    private static Map<String, Command> commands;
-    private static final Logger Log = getLogger(ClientServlet.class);
+    private static Map<String, Command> commands = new TreeMap<>();
+    private static final Logger Log = Logger.getLogger(CommandContainer.class);
+
+    static {
+        // common commands
+        commands.put("register", new RegisterCommand());
+        commands.put("login", new LoginCommand());
+//        commands.put("logout", new LogoutCommand());
+//        commands.put("noCommand", new NoCommand());
+//        commands.put("viewSettings", new ViewSettingsCommand());
+//        commands.put("updateSettings", new UpdateSettingsCommand());
+//
+//        // client commands
+//        commands.put("listMenu", new ListMenuCommand());
+//
+//        //admin commands
+//        commands.put("listOrders", new ListOrdersCommand());
+
+        Log.debug("Command container was successfully initialized");
+        Log.trace("Number of commands --> " + commands.size());
+    }
 
     /**
      * Returns command object with the given name.

@@ -1,7 +1,6 @@
 package ua.epam.finalproject.repairagency.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.database.ConnectionPool;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.web.Controller;
@@ -17,7 +16,7 @@ import java.util.Locale;
 
 public class ClientService {
 
-    private static final Logger Log = LoggerFactory.getLogger(Controller.class);
+    private static final Logger Log = Logger.getLogger(Controller.class);
 
     public static Client findClient(String clientEmailFromRequest) {
         Log.info("finding client");
