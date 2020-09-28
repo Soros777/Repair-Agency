@@ -1,0 +1,25 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<div class="navbar navbar-inverse navbar-fixed-top lock-padding" id="header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MAX Service</a>
+
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#">Домой</a></li>
+                <li><a href="#">Про нас</a></li>
+                <li><a href="#">Сервисы</a></li>
+                <li><a href="#">Работы</a></li>
+                <li>
+                    <a href="#popup_login" class="popup-link">Sign In</a> / <a href="#popup_register" class="popup-link">Register</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<div id="headerwrap">
+    <div class="container">
+        <div class="row centered">
+            <div class="coi-lg-8 col-lg-offset-2">
+                <h1>Ремонт сервис!</h1>
+                <h2>Вы будете приятно удивлены уровнем нашего сервиса</h2>
+            </div>
+        </div>
+    </div>
+</div>

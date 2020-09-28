@@ -1,0 +1,18 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<div id="popup_register" class="w_popup">
+    <div class="popup_body">
+        <div class="popup_content">
+            <div>
+                <form action="controller" method="post" class="box">
+                    <h1>Register</h1>
+                    <input type="text" name="client" placeholder="Username">
+                    <input type="text" name="email" placeholder="email">
+                    <input type="password" name="password" placeholder="Passsword">
+                    <input type="hidden" name="command" value="register">
+                    <input type="submit" name="save" value="Register">
+                    <a href="" class="close-popup">or cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
