@@ -1,13 +1,19 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
+
 <head>
+
     <title>Ремонтное агенство "MAX Service"</title>
     <%@ include file="/WEB-INF/jspf/head.jspf" %>
+
 </head>
 <body>
+
 <div class="wrapper">
 
-    <%@ include file="/WEB-INF/jspf/navbar.jspf" %>
+    <jsp:include page="/WEB-INF/jspf/navbar.jspf" >
 
     <%@ include file="/WEB-INF/jspf/baner.jspf" %>
 
@@ -33,5 +39,6 @@
 
 
 <%@ include file="/WEB-INF/jspf/scripts.jspf" %>
+
 </body>
 </html>

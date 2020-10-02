@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
@@ -10,6 +11,9 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+<!--=================================================================================
+    Controller
+==================================================================================-->
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>ua.epam.finalproject.repairagency.web.Controller</servlet-class>

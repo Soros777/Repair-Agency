@@ -3,7 +3,7 @@ package ua.epam.finalproject.repairagency.web.command;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.Path;
 import ua.epam.finalproject.repairagency.model.Client;
-import ua.epam.finalproject.repairagency.services.ClientService;
+import ua.epam.finalproject.repairagency.service.ClientService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

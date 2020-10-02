@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <div class="navbar navbar-inverse navbar-fixed-top lock-padding" id="header">
     <div class="container">
         <div class="navbar-header">
