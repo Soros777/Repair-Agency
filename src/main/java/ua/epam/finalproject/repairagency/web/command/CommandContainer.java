@@ -13,16 +13,16 @@ public class CommandContainer {
         // common commands
         actionCommands.put("register", new RegisterCommand());
         actionCommands.put("login", new LoginCommand());
-//        commands.put("logout", new LogoutCommand());
-//        commands.put("noCommand", new NoCommand());
-//        commands.put("viewSettings", new ViewSettingsCommand());
-//        commands.put("updateSettings", new UpdateSettingsCommand());
+        actionCommands.put("logout", new LogoutCommand());
+//        actionCommands.put("noCommand", new NoCommand());
+//        actionCommands.put("viewSettings", new ViewSettingsCommand());
+//        actionCommands.put("updateSettings", new UpdateSettingsCommand());
 //
 //        // client commands
-//        commands.put("listMenu", new ListMenuCommand());
+//        actionCommands.put("listMenu", new ListMenuCommand());
 //
 //        //admin commands
-//        commands.put("listOrders", new ListOrdersCommand());
+//        actionCommands.put("listOrders", new ListOrdersCommand());
 
         Log.debug("Command container was successfully initialized");
         Log.trace("Number of commands --> " + actionCommands.size());

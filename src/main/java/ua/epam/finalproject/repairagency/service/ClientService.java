@@ -2,6 +2,7 @@ package ua.epam.finalproject.repairagency.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import ua.epam.finalproject.repairagency.Util;
 import ua.epam.finalproject.repairagency.database.ConnectionPool;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
@@ -72,27 +73,17 @@ public class ClientService {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "INSERT INTO clients (email, password, client_name) VALUES (?, ?, ?)"))
-            {
-                int k = 1;
-                preparedStatement.setString(k++, client.getEmail());
-                preparedStatement.setString(k++, client.getPassword());
-                preparedStatement.setString(k, client.getClientName());
+        {
+            int k = 1;
+            preparedStatement.setString(k++, client.getEmail());
+            preparedStatement.setString(k++, client.getPassword());
+            preparedStatement.setString(k, client.getClientName());
 
-                // get aii email from db
-                Statement statement = connection.createStatement();
-                final ResultSet resultSet = statement.executeQuery("SELECT email FROM clients");
-                System.out.println("e-mails in DB:");
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString(1));
-                }
-                System.out.println("End e-mails");
-
-
-                return preparedStatement.executeUpdate() == 1;
-            } catch (SQLException | NamingException e) {
-                Log.error(e);
+            return preparedStatement.executeUpdate() == 1;
+        } catch (SQLException | NamingException e) {
+                Log.error("Can't put new Client to DB" + e);
                 throw new AppException(e.getMessage());
-            }
+        }
     }
 
     public static void setSessionAttributes(HttpServletRequest request, ClientTo clientTo) {
@@ -105,5 +96,6 @@ public class ClientService {
         Log.trace("Set session attribute \"role\" : client");
         session.setAttribute("userName", clientTo.getClientName());
         Log.trace("Set session attribute \"userName\" : " + clientTo.getClientName());
+        Log.debug("ID session is: " + session.getId());
     }
 }

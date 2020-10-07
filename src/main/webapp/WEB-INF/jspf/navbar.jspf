@@ -15,8 +15,9 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#">Домой</a></li>
-                <li><a href="#">Про нас</a></li>
-                <li><a href="#">Сервисы</a></li>
+                <li><a href="#">
+                    Про нас
+                </a></li>
                 <li><a href="#">Работы</a></li>
                 <li  class="userField">
 

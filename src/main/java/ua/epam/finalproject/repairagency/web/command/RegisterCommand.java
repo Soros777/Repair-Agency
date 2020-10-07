@@ -39,6 +39,7 @@ public class RegisterCommand extends ActionCommand {
         newClient.setClientName(clientName);
 
         Log.debug("Start to put new Client to DB");
+
         if(ClientService.addClient(newClient)) {
             Log.debug("New Client is in DB");
             // obtain clientTo
@@ -47,10 +48,10 @@ public class RegisterCommand extends ActionCommand {
             // put new Client to the session
             ClientService.setSessionAttributes(request, clientTo);
 
-            Log.debug("Command finished");
+            Log.debug("Command are about to finish with forwardPage " + Path.PAGE_SUCCESS_REGISTRATION);
             return Path.PAGE_SUCCESS_REGISTRATION;
         }
-
+        Log.debug("Command are about to finish with forwardPage " + Path.PAGE_ERROR_REGISTRATION);
         return Path.PAGE_ERROR_REGISTRATION;
     }
 }

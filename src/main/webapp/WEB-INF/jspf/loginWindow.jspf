@@ -7,7 +7,6 @@
                     <h1>Login</h1>
                     <input type="text" name="email" placeholder="User Email" class="log">
                     <input type="password" name="password" placeholder="Password" class="pass">
-<%--                    <input type="hidden" name="command" value="login">--%>
                     <input type="submit" name="login" value="Login" class="login-btn">
                     <p class="msg-fal-log none">
                         Такой пользователь не зарегистрирован<br/>или введены неверные данные

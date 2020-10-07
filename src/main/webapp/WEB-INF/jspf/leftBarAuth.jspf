@@ -25,8 +25,12 @@
         <a href="createOrder.jsp?p=create" class="list-group-item waves-effect">
             <i class="fa fa-map mr-3"></i>Orders
         </a>
-        <a href="#" class="list-group-item waves-effect">
-            <i class="fa fa-sign-out mr-3"></i>Sign Out
-        </a>
+        <form action="controller" method="POST">
+            <input type="hidden" name="command" value="logout">
+            <a href="#" class="list-group-item waves-effect" onclick="document.forms[0].submit()">
+                <i class="fa fa-sign-out mr-3"></i>Sign Out
+            </a>
+        </form>
+
     </div>
 </div>

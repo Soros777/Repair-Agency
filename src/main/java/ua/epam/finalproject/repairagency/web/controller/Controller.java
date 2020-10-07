@@ -2,6 +2,7 @@ package ua.epam.finalproject.repairagency.web.controller;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
+import ua.epam.finalproject.repairagency.service.ClientService;
 import ua.epam.finalproject.repairagency.web.command.ActionCommand;
 import ua.epam.finalproject.repairagency.web.command.CommandContainer;
 
@@ -27,7 +28,9 @@ public class Controller extends HttpServlet {
             throws IOException, ServletException
     {
         // todo команд в запросе быть не должно
-        
+
+        Log.debug("Controller starts " + request.getMethod());
+
         String forward = request.getParameter("p");
         if(forward == null) {
             forward = "index.jsp";
@@ -35,11 +38,10 @@ public class Controller extends HttpServlet {
             switch (forward) {
                 case "clientMain" :
                 case "create" :
-                    forward = "authorized/clientMain.jsp";
+                    forward = "WEB-INF/authorizedPages/clientMain.jsp";
                     Log.debug("Value of session attribute \"userName\" is : " + request.getSession().getAttribute("userName"));
                     break;
             }
-
         }
 
         request.getRequestDispatcher(forward).forward(request, response);
@@ -49,8 +51,7 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                         throws IOException, ServletException
     {
-        Log.debug("Controller starts");
-
+        Log.debug("Controller starts " + request.getMethod());
         // extract command name from the request
         String commandName = request.getParameter("command");
         Log.trace("Request parameter: command --> " + commandName);
@@ -60,20 +61,15 @@ public class Controller extends HttpServlet {
         Log.trace("Obtained command --> " + command);
 
         // execute command and get forward address
-        String forward = null;
-        try {
-            forward = command.execute(request, response);
-        } catch (AppException e) {
-            // todo go to the error page
-        }
+        String forward = command.execute(request, response);
+
         Log.trace("Forward address --> " + forward);
 
         Log.debug("Controller finished, now go to forward address --> ... ");
 
         // if the forward address is not null go to the address
         if(forward != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher(forward).forward(request, response);
         }
     }
 }
