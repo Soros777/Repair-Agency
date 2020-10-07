@@ -1,5 +1,7 @@
 package ua.epam.finalproject.repairagency.to;
 
+import ua.epam.finalproject.repairagency.model.Client;
+
 import java.time.LocalDate;
 import java.util.Locale;
 
@@ -93,6 +95,18 @@ public class ClientTo {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public static ClientTo getFromBean(Client client) {
+        ClientTo clientTo = new ClientTo();
+        clientTo.clientName = client.getClientName();
+        clientTo.id = client.getId();
+        clientTo.email = client.getEmail();
+        clientTo.contactPhone = client.getContactPhone();
+        clientTo.locale = client.getLocale();
+        clientTo.registrationDate = client.getRegistrationDate();
+        clientTo.walletCount = client.getWalletCount();
+        return clientTo;
     }
 
     @Override

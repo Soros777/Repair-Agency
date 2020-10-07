@@ -9,17 +9,16 @@ import ua.epam.finalproject.repairagency.to.ClientTo;
 import ua.epam.finalproject.repairagency.web.controller.Controller;
 
 import javax.naming.NamingException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class ClientService {
 
-    private static final Logger Log = Logger.getLogger(Controller.class);
+    private static final Logger Log = Logger.getLogger(ClientService.class);
 
     public static ClientTo findClient(String email, String password) throws AppException {
         Log.info("finding client");
@@ -78,11 +77,33 @@ public class ClientService {
                 preparedStatement.setString(k++, client.getEmail());
                 preparedStatement.setString(k++, client.getPassword());
                 preparedStatement.setString(k, client.getClientName());
+
+                // get aii email from db
+                Statement statement = connection.createStatement();
+                final ResultSet resultSet = statement.executeQuery("SELECT email FROM clients");
+                System.out.println("e-mails in DB:");
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getString(1));
+                }
+                System.out.println("End e-mails");
+
+
                 return preparedStatement.executeUpdate() == 1;
             } catch (SQLException | NamingException e) {
-                e.printStackTrace();
+                Log.error(e);
+                throw new AppException(e.getMessage());
             }
+    }
 
-        return false;
+    public static void setSessionAttributes(HttpServletRequest request, ClientTo clientTo) {
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute("user", clientTo);
+        Log.trace("Set session attribute \"user\" : " + clientTo);
+        session.setAttribute("role", "client");
+        Log.trace("Set session attribute \"role\" : client");
+        session.setAttribute("userName", clientTo.getClientName());
+        Log.trace("Set session attribute \"userName\" : " + clientTo.getClientName());
     }
 }

@@ -4,7 +4,7 @@
     <!--    Card content-->
     <div class="card-body d-sm-flex justify-content-between">
         <h4 class="mb-2 mb-sm-0 pt-1">
-            <a href="/repairagency/index.jsp">Home page</a>
+            <a href="controller">Home page</a>
             <span> / </span>
             <span>
                 <c:choose>

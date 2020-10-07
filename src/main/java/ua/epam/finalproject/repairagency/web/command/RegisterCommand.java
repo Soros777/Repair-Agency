@@ -2,37 +2,50 @@ package ua.epam.finalproject.repairagency.web.command;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.Path;
+import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.service.ClientService;
+import ua.epam.finalproject.repairagency.service.HashPassword;
+import ua.epam.finalproject.repairagency.to.ClientTo;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 
 public class RegisterCommand extends ActionCommand {
 
     private static final Logger Log = Logger.getLogger(RegisterCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         Log.debug("Command starts");
 
         String clientEmail = request.getParameter("email");
         String clientPassword = request.getParameter("password");
-        String clientName = request.getParameter("client");
+        String clientName = request.getParameter("clientName");
+
+        Log.debug("Gotten params ==> ClientName: " + clientName + "; email: " + clientEmail);
 
         Client newClient = new Client();
+        try {
+            newClient.setPassword(HashPassword.getHash(clientPassword));
+        } catch (NoSuchAlgorithmException e) {
+            Log.error(e);
+            throw new AppException(e.getMessage());
+        }
         newClient.setEmail(clientEmail);
-        newClient.setPassword(clientPassword);
         newClient.setClientName(clientName);
 
-        // put new Client to DB
+        Log.debug("Start to put new Client to DB");
         if(ClientService.addClient(newClient)) {
-            // put new Client to the request
-            request.setAttribute("client", newClient);
-            Log.trace("Set the request attribute: client --> " + newClient);
+            Log.debug("New Client is in DB");
+            // obtain clientTo
+            ClientTo clientTo = ClientTo.getFromBean(newClient);
+
+            // put new Client to the session
+            ClientService.setSessionAttributes(request, clientTo);
 
             Log.debug("Command finished");
             return Path.PAGE_SUCCESS_REGISTRATION;

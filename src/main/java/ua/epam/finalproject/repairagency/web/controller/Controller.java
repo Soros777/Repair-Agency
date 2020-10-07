@@ -1,6 +1,7 @@
 package ua.epam.finalproject.repairagency.web.controller;
 
 import org.apache.log4j.Logger;
+import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.web.command.ActionCommand;
 import ua.epam.finalproject.repairagency.web.command.CommandContainer;
 
@@ -59,7 +60,12 @@ public class Controller extends HttpServlet {
         Log.trace("Obtained command --> " + command);
 
         // execute command and get forward address
-        String forward = command.execute(request, response);
+        String forward = null;
+        try {
+            forward = command.execute(request, response);
+        } catch (AppException e) {
+            // todo go to the error page
+        }
         Log.trace("Forward address --> " + forward);
 
         Log.debug("Controller finished, now go to forward address --> ... ");

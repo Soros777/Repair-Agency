@@ -5,9 +5,10 @@
             <div>
                 <form action="controller" method="post" class="box">
                     <h1>Register</h1>
-                    <input type="text" name="client" placeholder="Username">
+                    <input type="text" name="clientName" placeholder="Username">
                     <input type="text" name="email" placeholder="email">
                     <input type="password" name="password" placeholder="Passsword">
+                    <input type="password" name="passwordRep" placeholder="Repeat Passsword">
                     <input type="hidden" name="command" value="register">
                     <input type="submit" name="save" value="Register">
                     <a href="" class="close-popup">or cancel</a>

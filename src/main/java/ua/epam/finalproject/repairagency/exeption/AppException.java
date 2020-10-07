@@ -1,6 +1,6 @@
 package ua.epam.finalproject.repairagency.exeption;
 
-public class AppException extends Exception {
+public class AppException extends RuntimeException {
 
     public AppException() {
         super();
