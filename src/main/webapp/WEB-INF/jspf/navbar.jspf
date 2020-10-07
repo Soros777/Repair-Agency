@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div class="navbar navbar-inverse navbar-fixed-top lock-padding" id="header">
     <div class="container">
         <div class="navbar-header">
@@ -16,8 +18,24 @@
                 <li><a href="#">Про нас</a></li>
                 <li><a href="#">Сервисы</a></li>
                 <li><a href="#">Работы</a></li>
-                <li>
-                    <a href="#popup_login" class="popup-link">Sign In</a> / <a href="#popup_register" class="popup-link">Register</a>
+                <li  class="userField">
+
+                    <c:if test="${empty userName}">
+
+                        <a href="#popup_login" class="popup-link">
+                            Sign In
+                        </a>
+                        /
+                        <a href="#popup_register" class="popup-link" onclick="roll()">
+                            Register
+                        </a>
+                    </c:if>
+
+                    <c:if test="${not empty userName}">
+                        <a href="authorizedPages/client/main.jsp" class="userName">
+                                ${userName}
+                        </a>
+                    </c:if>
                 </li>
             </ul>
         </div>

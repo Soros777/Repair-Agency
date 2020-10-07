@@ -1,9 +1,12 @@
 package ua.epam.finalproject.repairagency.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.database.ConnectionPool;
+import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
-import ua.epam.finalproject.repairagency.web.Controller;
+import ua.epam.finalproject.repairagency.to.ClientTo;
+import ua.epam.finalproject.repairagency.web.controller.Controller;
 
 import javax.naming.NamingException;
 import java.sql.Connection;
@@ -18,10 +21,10 @@ public class ClientService {
 
     private static final Logger Log = Logger.getLogger(Controller.class);
 
-    public static Client findClient(String email) {
+    public static ClientTo findClient(String email, String password) throws AppException {
         Log.info("finding client");
-        if(email == null || "".equals(email)) {
-            return null;
+        if(StringUtils.isEmpty(email) | StringUtils.isEmpty(password)) {
+            throw new AppException("Incorrect login / password");
         }
 
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -29,23 +32,33 @@ public class ClientService {
             {
                 preparedStatement.setString(1, email);
                 ResultSet resultSet = preparedStatement.executeQuery();
+
                 if(resultSet.next()) {
+                    String passFromBD = resultSet.getString("password");
+                    if(!password.equals(passFromBD)) {
+                        throw new AppException("Incorrect login / password");
+                    }
                     Locale userLocale = Locale.forLanguageTag(resultSet.getString("locale"));
                     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDate userRegistrationDate = LocalDate.parse(resultSet.getString("registration_date"), dateTimeFormatter);
-                    Client client = Client.getClientWithInitParams(
-                            resultSet.getInt("id"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password"),
-                            resultSet.getString("client_name"),
-                            Double.parseDouble(resultSet.getString("wallet_count")),
-                            resultSet.getString("contact_phone"),
+                    int id = resultSet.getInt("id");
+                    String email1 = resultSet.getString("email");
+                    String client_name = resultSet.getString("client_name");
+                    double wallet_count = Double.parseDouble(resultSet.getString("wallet_count"));
+                    String contact_phone = resultSet.getString("contact_phone");
+
+                    ClientTo clientTo = ClientTo.getClientToWithInitParams(
+                            id,
+                            email1,
+                            client_name,
+                            wallet_count,
+                            contact_phone,
                             userLocale,
                             userRegistrationDate);
-                    return client;
+                    return clientTo;
                 }
             } catch (SQLException | NamingException e) {
-                e.printStackTrace();
+                throw new AppException("Can't obtain Client from DB", e);
             }
 
         return null;

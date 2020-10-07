@@ -16,7 +16,7 @@
 ==================================================================================-->
     <servlet>
         <servlet-name>Controller</servlet-name>
-        <servlet-class>ua.epam.finalproject.repairagency.web.Controller</servlet-class>
+        <servlet-class>ua.epam.finalproject.repairagency.web.controller.Controller</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>

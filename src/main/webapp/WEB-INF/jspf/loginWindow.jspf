@@ -1,15 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <div id="popup_login" class="w_popup">
     <div class="popup_body">
-        <div class="popup_content">
-            <div>
-                <form action="controller" method="post" class="box">
+        <div class="popup_content welcome">
+            <div class="success-message">
+                <form class="box">
                     <h1>Login</h1>
-                    <input type="text" name="email" placeholder="User Email">
-                    <input type="password" name="password" placeholder="Passsword">
-                    <input type="hidden" name="command" value="login">
-                    <input type="submit" name="login" value="Login">
-                    <a href="#popup_register" class="popup-link">or Register</a>
+                    <input type="text" name="email" placeholder="User Email" class="log">
+                    <input type="password" name="password" placeholder="Password" class="pass">
+<%--                    <input type="hidden" name="command" value="login">--%>
+                    <input type="submit" name="login" value="Login" class="login-btn">
+                    <p class="msg-fal-log none">
+                        Такой пользователь не зарегистрирован<br/>или введены неверные данные
+                    </p>
+                    <a href="#popup_register" class="popup-link form-pop-link" onclick="goBack()">or Register</a>
+                    <br/>
                 </form>
             </div>
         </div>

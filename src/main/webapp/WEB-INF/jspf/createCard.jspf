@@ -1,0 +1,39 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+
+<div class="row wow fadeIn">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <form action="action_page.php">
+                    <div class="row mr-auto ml-auto">
+                        <div class="col-25">
+                            <label for="country">Укажите Ваш девайс</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="country" name="device">
+                                <option value="noValue">Выберите из списка ...</option>
+                                <option value="computer">Компьютер</option>
+                                <option value="notebook">Ноутбук</option>
+                                <option value="phone">Моб. телефон</option>
+                                <option value="laptop">Планшет</option>
+                                <option value="elBook">Эл. книга</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mr-auto ml-auto">
+                        <div class="col-25">
+                            <label for="subject">Опишите проблему</label>
+                        </div>
+                        <div class="col-75">
+                            <textarea id="subject" name="subject" placeholder="Что не работает?" style="height:200px"></textarea>
+                        </div>
+                    </div>
+                    <div class="row  mr-auto ml-auto">
+                        <input type="submit" value="Создать заявку">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

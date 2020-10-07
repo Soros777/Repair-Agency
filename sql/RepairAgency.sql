@@ -96,6 +96,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `repairagency`.`orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `device` VARCHAR(45) NOT NULL,
   `description` VARCHAR(1000) NOT NULL,
   `master_id` INT NOT NULL,
   `manager_id` INT NOT NULL,

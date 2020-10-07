@@ -1,19 +1,43 @@
-package ua.epam.finalproject.repairagency.model;
+package ua.epam.finalproject.repairagency.to;
 
 import java.time.LocalDate;
 import java.util.Locale;
 
-public class Client {
-
+public class ClientTo {
     private int id;
     private String email;
-    private String password;
     private String clientName;
     private double walletCount;
     private String contactPhone;
     private Locale locale;
     private LocalDate registrationDate;
 
+    /**
+     * Creates Client object with initiated specific fields without password
+     *
+     * @param id
+     * @param email
+     * @param clientName
+     * @param walletCount
+     * @param contactPhone
+     * @param locale
+     * @param registrationDate
+     * @return Client object with fully settings
+     */
+    public static ClientTo getClientToWithInitParams(
+            int id, String email, String clientName, double walletCount,
+            String contactPhone, Locale locale, LocalDate registrationDate)
+    {
+        ClientTo clientTo = new ClientTo();
+        clientTo.id = id;
+        clientTo.email = email;
+        clientTo.clientName = clientName;
+        clientTo.walletCount = walletCount;
+        clientTo.contactPhone = contactPhone;
+        clientTo.locale = locale;
+        clientTo.registrationDate = registrationDate;
+        return clientTo;
+    }
 
     public int getId() {
         return id;
@@ -29,14 +53,6 @@ public class Client {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getClientName() {
@@ -81,10 +97,9 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "ClientTo{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", clientName='" + clientName + '\'' +
                 ", walletCount=" + walletCount +
                 ", contactPhone='" + contactPhone + '\'' +

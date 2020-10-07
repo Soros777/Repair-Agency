@@ -117,3 +117,34 @@ a.close-popup {
 	text-decoration: none;
 	color: #7b7b7b;
 }
+
+.none {
+	display: none;
+}
+
+.msg-fal-log {
+	color: orange;
+}
+
+.m-2 {
+	margin: 2rem !important;
+}
+
+.userName {
+	text-shadow: -1px -1px #FFF;
+	color: steelblue;
+	transition: all 1s;
+	font-family: Georgia;
+	font-size: large;
+	font-weight: normal;
+}
+
+.welcome {
+	background-color: rgba(0,0,0,0.6);
+}
+
+.welcome h1 {
+	color: white;
+	text-shadow: 2px 8px 6px rgba(0,0,0,0.2),
+	0px -5px 35px rgba(255,255,255,0.3);
+}

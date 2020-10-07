@@ -1,0 +1,32 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+
+<div class="sidebar-fixed position-fixed">
+    <a href="#" class="logo-wripper waves-effect">
+        <img src="${url}/img/userIcon.png" alt="" class="img-fluid">
+    </a>
+
+    <div class="clientName">
+        ${userName}
+    </div>
+
+    <div class="list-group list-group-flush">
+        <a href="main.jsp?p=main" class="list-group-item waves-effect <c:if test="${p.equals('main')}"> <c:out value="active"/></c:if>">
+            <i class="fa fa-pie-chart mr-3"></i>Dashboard
+        </a>
+        <a href="#" class="list-group-item waves-effect">
+            <i class="fa fa-user mr-3"></i>Profile
+        </a>
+        <a href="createOrder.jsp?p=create" class="list-group-item waves-effect <c:if test="${p.equals('create')}"> <c:out value="active"/></c:if>">
+            <i class="fa fa-table mr-3"></i>Create order
+        </a>
+        <a href="#" class="list-group-item waves-effect">
+            <i class="fa fa-money mr-3"></i>My count
+        </a>
+        <a href="createOrder.jsp?p=create" class="list-group-item waves-effect">
+            <i class="fa fa-map mr-3"></i>Orders
+        </a>
+        <a href="#" class="list-group-item waves-effect">
+            <i class="fa fa-sign-out mr-3"></i>Sign Out
+        </a>
+    </div>
+</div>

@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.TreeMap;
 public class CommandContainer {
 
-    private static Map<String, Command> commands = new TreeMap<>();
+    private static Map<String, ActionCommand> actionCommands = new TreeMap<>();
     private static final Logger Log = Logger.getLogger(CommandContainer.class);
 
     static {
         // common commands
-        commands.put("register", new RegisterCommand());
-        commands.put("login", new LoginCommand());
+        actionCommands.put("register", new RegisterCommand());
+        actionCommands.put("login", new LoginCommand());
 //        commands.put("logout", new LogoutCommand());
 //        commands.put("noCommand", new NoCommand());
 //        commands.put("viewSettings", new ViewSettingsCommand());
@@ -25,7 +25,7 @@ public class CommandContainer {
 //        commands.put("listOrders", new ListOrdersCommand());
 
         Log.debug("Command container was successfully initialized");
-        Log.trace("Number of commands --> " + commands.size());
+        Log.trace("Number of commands --> " + actionCommands.size());
     }
 
     /**
@@ -35,11 +35,11 @@ public class CommandContainer {
      *              Name of the command.
      * @return Command object
      */
-    public static Command get(String commandName) {
-        if(commandName == null || !commands.containsKey(commandName)) {
+    public static ActionCommand get(String commandName) {
+        if(commandName == null || !actionCommands.containsKey(commandName)) {
             Log.trace("Command not found, name --> " + commandName);
-            return commands.get("noCommand");
+            return actionCommands.get("noCommand");
         }
-        return commands.get(commandName);
+        return actionCommands.get(commandName);
     }
 }
