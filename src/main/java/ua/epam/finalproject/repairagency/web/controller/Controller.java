@@ -33,6 +33,7 @@ public class Controller extends HttpServlet {
         } else {
             switch (forward) {
                 case "clientMain" :
+                case "create" :
                     forward = "authorized/clientMain.jsp";
                     Log.debug("Value of session attribute \"userName\" is : " + request.getSession().getAttribute("userName"));
                     break;

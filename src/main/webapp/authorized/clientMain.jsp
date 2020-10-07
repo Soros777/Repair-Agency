@@ -16,10 +16,16 @@
   </header>
   <main class="pt-5 max-lg-5">
     <div class="container-fluid mt-5">
-      <!--    Heading-->
+
       <%@ include file="/WEB-INF/jspf/searchAuth.jspf"%>
-      <%@ include file="/WEB-INF/jspf/grafics.jspf"%>
-      <%@ include file="/WEB-INF/jspf/card.jspf"%>
+
+      <c:if test="${p eq 'clientMain'}">
+        <%@ include file="/WEB-INF/jspf/grafics.jspf"%>
+      </c:if>
+
+      <c:if test="${p eq 'create'}">
+        <%@ include file="/WEB-INF/jspf/createCard.jspf"%>
+      </c:if>
 
     </div>
   </main>

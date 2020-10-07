@@ -6,7 +6,16 @@
         <h4 class="mb-2 mb-sm-0 pt-1">
             <a href="/repairagency/index.jsp">Home page</a>
             <span> / </span>
-            <span>Dashboard</span>
+            <span>
+                <c:choose>
+                    <c:when test="${p eq 'clientMain'}">
+                        <c:out value="Dashboard"/>
+                    </c:when>
+                    <c:when test="${p eq 'create'}">
+                        <c:out value="Create order"/>
+                    </c:when>
+                </c:choose>
+            </span>
         </h4>
         <form class="d-flex justify-content-center">
             <input type="search" class="form-control" placeholder="Type your query">

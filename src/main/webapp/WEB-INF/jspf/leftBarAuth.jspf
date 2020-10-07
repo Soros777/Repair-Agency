@@ -10,13 +10,13 @@
     </div>
 
     <div class="list-group list-group-flush">
-        <a href="main.jsp?p=main" class="list-group-item waves-effect <c:if test="${p.equals('clientMain')}"> <c:out value="active"/></c:if>">
+        <a href="controller?p=clientMain" class="list-group-item waves-effect <c:if test="${p.equals('clientMain')}"> <c:out value="active"/></c:if>">
             <i class="fa fa-pie-chart mr-3"></i>Dashboard
         </a>
         <a href="#" class="list-group-item waves-effect">
             <i class="fa fa-user mr-3"></i>Profile
         </a>
-        <a href="createOrder.jsp?p=create" class="list-group-item waves-effect <c:if test="${p.equals('create')}"> <c:out value="active"/></c:if>">
+        <a href="controller?p=create" class="list-group-item waves-effect <c:if test="${p.equals('create')}"> <c:out value="active"/></c:if>">
             <i class="fa fa-table mr-3"></i>Create order
         </a>
         <a href="#" class="list-group-item waves-effect">
