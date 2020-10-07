@@ -32,7 +32,7 @@
                     </c:if>
 
                     <c:if test="${not empty userName}">
-                        <a href="authorizedPages/client/main.jsp" class="userName">
+                        <a href="controller?p=clientMain" class="userName">
                                 ${userName}
                         </a>
                     </c:if>

@@ -10,7 +10,7 @@
     </div>
 
     <div class="list-group list-group-flush">
-        <a href="main.jsp?p=main" class="list-group-item waves-effect <c:if test="${p.equals('main')}"> <c:out value="active"/></c:if>">
+        <a href="main.jsp?p=main" class="list-group-item waves-effect <c:if test="${p.equals('clientMain')}"> <c:out value="active"/></c:if>">
             <i class="fa fa-pie-chart mr-3"></i>Dashboard
         </a>
         <a href="#" class="list-group-item waves-effect">
