@@ -148,3 +148,24 @@ a.close-popup {
 	text-shadow: 2px 8px 6px rgba(0,0,0,0.2),
 	0px -5px 35px rgba(255,255,255,0.3);
 }
+
+.msg-fal-name {
+	font-style: italic;
+	color: green;
+}
+
+.msg-fal-email-val, .msg-fal-email-exist, .msg-fal-passwords{
+	color: orange;
+}
+
+.success-registration-message h1 {
+	font-family: Georgia;
+	font-style: italic;
+	text-align: center;
+}
+
+.success-registration-message h3 {
+	font-family: Georgia;
+	font-style: italic;
+	color: white;
+}

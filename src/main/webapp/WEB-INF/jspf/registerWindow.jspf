@@ -1,16 +1,28 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <div id="popup_register" class="w_popup">
     <div class="popup_body">
-        <div class="popup_content">
-            <div>
-                <form action="controller" method="post" class="box">
+        <div class="popup_content welcome">
+            <div class="success-registration-message">
+                <form class="box">
                     <h1>Register</h1>
-                    <input type="text" name="clientName" placeholder="Username">
-                    <input type="text" name="email" placeholder="email">
-                    <input type="password" name="password" placeholder="Passsword">
-                    <input type="password" name="passwordRep" placeholder="Repeat Passsword">
+                    <input type="text" name="registerClientName" placeholder="Username">
+                    <p class="msg-fal-name none">
+                        Представьтесь, пожалуйста
+                    </p>
+                    <input type="text" name="registerEmail" placeholder="email">
+                    <p class="msg-fal-email-val none">
+                        Введите ваш действительный email
+                    </p>
+                    <p class="msg-fal-email-exist none">
+                        Пользователь с этим email уже зарегистрирован
+                    </p>
+                    <input type="password" name="registerPassword" placeholder="Passsword">
+                    <input type="password" name="registerPasswordRepeat" placeholder="Repeat Passsword">
+                    <p class="msg-fal-passwords none">
+                        Пароли не совпадают
+                    </p>
                     <input type="hidden" name="command" value="register">
-                    <input type="submit" name="save" value="Register">
+                    <input type="submit" name="save" value="Register" class="register-btn">
                     <a href="" class="close-popup">or cancel</a>
                 </form>
             </div>

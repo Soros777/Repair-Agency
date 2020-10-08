@@ -111,3 +111,77 @@ function clearForm() {
 	inputF.value = '';
 	passF.value = '';
 }
+
+$('.register-btn').click(function (e) {
+
+	e.preventDefault();
+
+	let clientName = $('input[name="registerClientName"]').val();
+	let email = $('input[name="registerEmail"]').val();
+	let password = $('input[name="registerPassword"]').val();
+	let passwordRepeat = $('input[name="registerPasswordRepeat"]').val();
+
+	closeOldMessages();
+
+	$.ajax({
+		url: 'controller',
+		type: 'POST',
+		dataType: 'text',
+		data: {
+			clientName: clientName,
+			email: email,
+			password: password,
+			passwordRepeat: passwordRepeat,
+			command: 'register'
+		},
+		success (data) {
+			if(data === "introduce yourself") {
+				$('.msg-fal-name').removeClass('none');
+			}
+			if(data === "not valid email") {
+				$('.msg-fal-email-val').removeClass('none');
+			}
+			if(data === "repeated email") {
+				$('.msg-fal-email-exist').removeClass('none');
+			}
+			if(data === "not same passwords") {
+				$('.msg-fal-passwords').removeClass('none');
+			}
+			if(data === "success registration") {
+				console.log("success registration");
+				let successRegistrationHTML = "<h1>" +
+													"Вы успешно зарегистрировались на нашем сайте." +
+											  "</h1>" +
+												"<h3>" +
+													"Теперь Вы можете авторизироваться, введя логин и пароль" +
+												"</h3>";
+
+				$('.success-registration-message').html(successRegistrationHTML);
+			}
+		}
+	});
+});
+
+function closeOldMessages() {
+	let one = $('.msg-fal-name');
+	if(!one.hasClass('none')) {
+		one.addClass('none');
+		// let input = document.querySelector('.log');
+		// input.value = '';
+	}
+
+	let two = $('.msg-fal-email-val');
+	if(!two.hasClass('none')) {
+		two.addClass('none');
+	}
+
+	let three = $('.msg-fal-email-exist');
+	if(!three.hasClass('none')) {
+		three.addClass('none');
+	}
+
+	let four = $('.msg-fal-passwords');
+	if(!four.hasClass('none')) {
+		four.addClass('none');
+	}
+}

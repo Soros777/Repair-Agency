@@ -15,7 +15,11 @@ import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClientService {
 
@@ -97,5 +101,46 @@ public class ClientService {
         session.setAttribute("userName", clientTo.getClientName());
         Log.trace("Set session attribute \"userName\" : " + clientTo.getClientName());
         Log.debug("ID session is: " + session.getId());
+    }
+
+    public static boolean validEmail(String emailStr) {
+        Log.trace("Start check regex email");
+        Pattern emailValidationPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = emailValidationPattern.matcher(emailStr);
+        if(!matcher.find()) {
+            return false;
+        }
+        Log.trace("Email regex is OK");
+        return true;
+    }
+
+    public static boolean dontRepeatEmail(String emailStr) {
+        Log.trace("Start check email for not existing in DB");
+        List<String> emailFromDB = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             Statement statement = connection.createStatement())
+        {
+            ResultSet resultSet = statement.executeQuery("SELECT email FROM clients");
+            while (resultSet.next()) {
+                emailFromDB.add(resultSet.getString(1));
+            }
+            if(emailFromDB.contains(emailStr)) {
+                return false;
+            }
+        } catch (SQLException | NamingException e) {
+            Log.error("Can't get emails from DB" + e);
+            throw new AppException(e.getMessage());
+        }
+        Log.trace("New email is OK");
+        return true;
+    }
+
+    public static boolean checkPasswords(String pass, String passRep) {
+        Log.trace("Start check passwords to be the same");
+        if(!StringUtils.isEmpty(pass) && !StringUtils.isEmpty(passRep) && pass.equals(passRep)) {
+            Log.trace("Passwords are OK");
+            return true;
+        }
+        return false;
     }
 }

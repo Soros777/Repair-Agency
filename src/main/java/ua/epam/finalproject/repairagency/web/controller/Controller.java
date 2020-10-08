@@ -24,6 +24,12 @@ public class Controller extends HttpServlet {
     private static final Logger Log = Logger.getLogger(Controller.class);
 
     @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        super.service(req, resp);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException
     {
@@ -65,10 +71,11 @@ public class Controller extends HttpServlet {
 
         Log.trace("Forward address --> " + forward);
 
-        Log.debug("Controller finished, now go to forward address --> ... ");
+        Log.debug("Controller finished, now go to forward address --> " + forward);
 
         // if the forward address is not null go to the address
         if(forward != null) {
+            Log.trace("forwarding to " + forward);
             request.getRequestDispatcher(forward).forward(request, response);
         }
     }
