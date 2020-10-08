@@ -2,7 +2,7 @@
 
 <div class="sidebar-fixed position-fixed">
     <a href="#" class="logo-wripper waves-effect">
-        <img src="${url}/img/userIcon.png" alt="" class="img-fluid">
+        <img src="${user.photoPath}" alt="" class="img-fluid">
     </a>
 
     <div class="clientName">

@@ -73,10 +73,12 @@ $('.login-btn').click(function (e) {
 		success (data) {
 
 			let welcomeHtml = "<h1>" +
-				"Добро пожаловать, " + data + "!" +
-				"</h1>" +
-				"<a class='btn btn-success btn-lg m-2' href='controller'>На сайт</a>" +
-				"<a class='btn btn-primary btn-lg m-2' href='controller?p=clientMain'>В личный кабинет</a>";
+									"Добро пожаловать, " + data + "!" +
+							  "</h1>" +
+							  "<span>" +
+									"<a class='btn btn-success btn-lg m-2' href='controller'>На сайт</a>" +
+									"<a class='btn btn-primary btn-lg m-2' href='controller?p=clientMain'>В личный кабинет</a>" +
+							  "</span>";
 			let userField = "<a href='controller?p=clientMain' class='userName'>" + data + "</a>";
 
 			if(data === "Something wrong") {

@@ -26,8 +26,9 @@ CREATE TABLE IF NOT EXISTS `repairagency`.`clients` (
   `password` VARCHAR(45) NOT NULL,
   `client_name` VARCHAR(100) NOT NULL,
   `wallet_count` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `photo` VARCHAR(50) NOT NULL DEFAULT 'img/clients/clientIcon',
   `contact_phone` VARCHAR(45) NULL,
-  `locale` ENUM('en', 'ua', 'ru') NOT NULL,
+  `locale` ENUM('en', 'ua', 'us', 'ru') NOT NULL,
   `registration_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`email` ASC) VISIBLE)

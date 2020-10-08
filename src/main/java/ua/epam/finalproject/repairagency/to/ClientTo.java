@@ -10,6 +10,7 @@ public class ClientTo {
     private String email;
     private String clientName;
     private double walletCount;
+    private String photoPath;
     private String contactPhone;
     private Locale locale;
     private LocalDate registrationDate;
@@ -27,7 +28,7 @@ public class ClientTo {
      * @return Client object with fully settings
      */
     public static ClientTo getClientToWithInitParams(
-            int id, String email, String clientName, double walletCount,
+            int id, String email, String clientName, double walletCount, String photoPath,
             String contactPhone, Locale locale, LocalDate registrationDate)
     {
         ClientTo clientTo = new ClientTo();
@@ -35,6 +36,7 @@ public class ClientTo {
         clientTo.email = email;
         clientTo.clientName = clientName;
         clientTo.walletCount = walletCount;
+        clientTo.photoPath = photoPath;
         clientTo.contactPhone = contactPhone;
         clientTo.locale = locale;
         clientTo.registrationDate = registrationDate;
@@ -73,6 +75,14 @@ public class ClientTo {
         this.walletCount = walletCount;
     }
 
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
     public String getContactPhone() {
         return contactPhone;
     }
@@ -97,18 +107,6 @@ public class ClientTo {
         this.registrationDate = registrationDate;
     }
 
-    public static ClientTo getFromBean(Client client) {
-        ClientTo clientTo = new ClientTo();
-        clientTo.clientName = client.getClientName();
-        clientTo.id = client.getId();
-        clientTo.email = client.getEmail();
-        clientTo.contactPhone = client.getContactPhone();
-        clientTo.locale = client.getLocale();
-        clientTo.registrationDate = client.getRegistrationDate();
-        clientTo.walletCount = client.getWalletCount();
-        return clientTo;
-    }
-
     @Override
     public String toString() {
         return "ClientTo{" +
@@ -116,6 +114,7 @@ public class ClientTo {
                 ", email='" + email + '\'' +
                 ", clientName='" + clientName + '\'' +
                 ", walletCount=" + walletCount +
+                ", photoPath='" + photoPath + '\'' +
                 ", contactPhone='" + contactPhone + '\'' +
                 ", locale=" + locale +
                 ", registrationDate=" + registrationDate +

@@ -10,18 +10,27 @@
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a href="#" class="nav-link waves-effect">Home</a>
+                <li class="nav-item <c:if test="${p.equals('clientMain')}"> <c:out value="active"/></c:if>">
+                    <a href="controller?p=clientMain" class="nav-link waves-effect">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link waves-effect">About us</a>
+                    <a href="#" class="nav-link waves-effect">Profile</a>
+                </li>
+                <li class="nav-item <c:if test="${p.equals('create')}"> <c:out value="active"/></c:if>">
+                    <a href="controller?p=create" class="nav-link waves-effect">Create order</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link waves-effect">News</a>
+                    <a href="#" class="nav-link waves-effect">My count</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link waves-effect">Contacts</a>
+                    <a href="#" class="nav-link waves-effect">Orders</a>
                 </li>
+                <form action="controller" method="POST">
+                    <input type="hidden" name="command" value="logout">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link waves-effect" onclick="document.forms[0].submit()">Sign out</a>
+                    </li>
+                </form>
             </ul>
             <ul class="navbar-nav nav-flex-icons">
                 <li class="nav-item mr-2">

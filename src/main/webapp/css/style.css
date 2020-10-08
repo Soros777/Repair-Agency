@@ -154,7 +154,7 @@ a.close-popup {
 	color: green;
 }
 
-.msg-fal-email-val, .msg-fal-email-exist, .msg-fal-passwords{
+.msg-fal-email-val, .msg-fal-email-exist, .msg-fal-passwords {
 	color: orange;
 }
 
@@ -168,4 +168,8 @@ a.close-popup {
 	font-family: Georgia;
 	font-style: italic;
 	color: white;
+}
+
+.success-message {
+	text-align: center;
 }

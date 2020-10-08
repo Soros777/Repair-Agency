@@ -10,10 +10,10 @@ public class Client {
     private String password;
     private String clientName;
     private double walletCount;
+    private String photoPath;
     private String contactPhone;
     private Locale locale;
     private LocalDate registrationDate;
-
 
     public int getId() {
         return id;
@@ -55,6 +55,14 @@ public class Client {
         this.walletCount = walletCount;
     }
 
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
     public String getContactPhone() {
         return contactPhone;
     }
@@ -87,6 +95,7 @@ public class Client {
                 ", password='" + password + '\'' +
                 ", clientName='" + clientName + '\'' +
                 ", walletCount=" + walletCount +
+                ", photoPath='" + photoPath + '\'' +
                 ", contactPhone='" + contactPhone + '\'' +
                 ", locale=" + locale +
                 ", registrationDate=" + registrationDate +

@@ -26,8 +26,9 @@ public class ClientService {
     private static final Logger Log = Logger.getLogger(ClientService.class);
 
     public static ClientTo findClient(String email, String password) throws AppException {
-        Log.info("finding client");
+        Log.info("Start finding client");
         if(StringUtils.isEmpty(email) | StringUtils.isEmpty(password)) {
+            Log.error("Incorrect login / password");
             throw new AppException("Incorrect login / password");
         }
 
@@ -35,12 +36,14 @@ public class ClientService {
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM clients WHERE email=?"))
             {
                 preparedStatement.setString(1, email);
+                Log.debug("go to BD");
                 ResultSet resultSet = preparedStatement.executeQuery();
-
+                Log.debug("query executed");
                 if(resultSet.next()) {
                     String passFromBD = resultSet.getString("password");
                     if(!password.equals(passFromBD)) {
-                        throw new AppException("Incorrect login / password");
+                        Log.trace("Entered incorrect password");
+                        return null;
                     }
                     Locale userLocale = Locale.forLanguageTag(resultSet.getString("locale"));
                     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -49,6 +52,7 @@ public class ClientService {
                     String email1 = resultSet.getString("email");
                     String client_name = resultSet.getString("client_name");
                     double wallet_count = Double.parseDouble(resultSet.getString("wallet_count"));
+                    String photoPath = resultSet.getString("photo");
                     String contact_phone = resultSet.getString("contact_phone");
 
                     ClientTo clientTo = ClientTo.getClientToWithInitParams(
@@ -56,12 +60,15 @@ public class ClientService {
                             email1,
                             client_name,
                             wallet_count,
+                            photoPath,
                             contact_phone,
                             userLocale,
                             userRegistrationDate);
+                    Log.debug("return ClientTo");
                     return clientTo;
                 }
             } catch (SQLException | NamingException e) {
+                Log.error("Can't obtain Client from DB");
                 throw new AppException("Can't obtain Client from DB", e);
             }
 

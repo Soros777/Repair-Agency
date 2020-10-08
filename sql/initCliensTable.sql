@@ -1,8 +1,8 @@
-INSERT INTO `repairagency`.`clients` (`email`, `password`, `client_name`, `contact_phone`, `locale`)
-	VALUES ('mail1@mail.com', 'password1', 'Client One', '111-11-11', 'ua');
+INSERT INTO `repairagency`.`clients` (`email`, `password`, `client_name`, `photo`, `locale`)
+	VALUES ('arni@gmail.com', 'я„›ъЎXѕ3щЋѕЄ''#жп;', 'Arnold Schwarzenegger', 'img/clients/Arnold.jpg', 'us');
 
-INSERT INTO `repairagency`.`clients` (`email`, `password`, `client_name`, `contact_phone`, `locale`)
-	VALUES ('mail2@mail.com', 'password2', 'Thecond Client', '222-22-22', 'en');
+INSERT INTO `repairagency`.`clients` (`email`, `password`, `client_name`, `photo`, `locale`)
+	VALUES ('bond007@gmail.com', 'ЫГЕ;/кZ„Йъ%›БыGBј*w', 'James Bond', 'img/clients/JamesBond.jpg','en');
     
-INSERT INTO `repairagency`.`clients` (`email`, `password`, `client_name`, `contact_phone`, `locale`)
-	VALUES ('mail3@mail.com', 'password3', 'Third Client', '333-33-33', 'ru');
+INSERT INTO `repairagency`.`clients` (`email`, `password`, `client_name`, `photo`,`locale`)
+	VALUES ('jolie@gmail.com', '*yџд9OweЙє№A­©Л"m', 'Angelina Jolie', 'img/clients/Angelina-Jolie.jpg','us');

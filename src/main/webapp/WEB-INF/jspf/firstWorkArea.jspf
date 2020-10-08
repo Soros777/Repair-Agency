@@ -3,14 +3,24 @@
     <br><br>
     <div class="col-lg-4">
         <i class="fa fa-heart"></i>
-        <h4>Дизайн</h4>
+        <h4>Клиенты</h4>
         <p>
-            <a href="testJsp/successLogin.jsp">To jsp include dinamic</a>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-            ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.
+            Здесь приведена информация о зарегистрированных на сайте клиентах:
+        </p>
+        <p>
+            Arnold Schwarzenegger<br/>
+            arni@gmail.com<br/>
+            trewas01
+        </p>
+        <p>
+            James Bond<br/>
+            bond007@gmail.com<br/>
+            trewas07
+        </p>
+        <p>
+            Angelina Jolie<br/>
+            jolie@gmail.com<br/>
+            trewas03
         </p>
     </div>
     <div class="col-lg-4">
