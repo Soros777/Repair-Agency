@@ -21,7 +21,7 @@
                 <li><a href="#">Работы</a></li>
                 <li  class="userField">
 
-                    <c:if test="${empty userName}">
+                    <c:if test="${empty user.personName}">
 
                         <a href="#popup_login" class="popup-link">
                             Sign In
@@ -32,9 +32,9 @@
                         </a>
                     </c:if>
 
-                    <c:if test="${not empty userName}">
+                    <c:if test="${not empty user.personName}">
                         <a href="controller?p=clientMain" class="userName">
-                                ${userName}
+                                ${user.personName}
                         </a>
                     </c:if>
                 </li>

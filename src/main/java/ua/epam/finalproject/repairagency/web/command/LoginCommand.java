@@ -2,19 +2,15 @@ package ua.epam.finalproject.repairagency.web.command;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
-import ua.epam.finalproject.repairagency.service.ClientService;
-import ua.epam.finalproject.repairagency.service.HashPassword;
-import ua.epam.finalproject.repairagency.to.ClientTo;
+import ua.epam.finalproject.repairagency.model.User;
+import ua.epam.finalproject.repairagency.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 public class LoginCommand extends ActionCommand {
 
-    private static final String PARAM_NAME_EMAIL = "email";
-    private static final String PARAM_NAME_PASSWORD = "password";
     private static final Logger Log = Logger.getLogger(LoginCommand.class);
 
     @Override
@@ -22,22 +18,20 @@ public class LoginCommand extends ActionCommand {
 
         Log.debug("Command starts");
 
-        String email = request.getParameter(PARAM_NAME_EMAIL);
-        String password = request.getParameter(PARAM_NAME_PASSWORD);
+        User registeredUser = UserService.getRegisteredUser(request);
+        Log.debug("Found User ==> " + registeredUser);
 
-        ClientTo clientTo;
         try {
-            password = HashPassword.getHash(password);
-            clientTo = ClientService.findClient(email, password);
-            Log.debug("Found in DB: clientTo --> " + clientTo);
-            if(clientTo != null) {
-                ClientService.setSessionAttributes(request, clientTo);
-                response.getWriter().write(clientTo.getClientName()); // for javascript
+            response.setCharacterEncoding("utf-8");
+            if(registeredUser != null) {
+                response.getWriter().write(registeredUser.getPersonName()); // for javascript
+                Log.debug("For javascript: " + registeredUser.getPersonName());
             } else {
                 response.getWriter().write("Something wrong"); // for javascript
+                Log.debug("Something wrong");
             }
-        } catch (NoSuchAlgorithmException | IOException e) {
-            Log.error(e);
+        } catch (IOException e) {
+            Log.error("Can't get Writer to response: " + e);
             throw new AppException(e.getMessage());
         }
 

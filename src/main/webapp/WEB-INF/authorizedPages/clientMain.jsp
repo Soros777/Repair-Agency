@@ -24,7 +24,7 @@
       </c:if>
 
       <c:if test="${p eq 'create'}">
-        <%@ include file="/WEB-INF/jspf/createCard.jspf"%>
+        <%@ include file="/WEB-INF/jspf/createOrderCard.jspf"%>
       </c:if>
 
     </div>

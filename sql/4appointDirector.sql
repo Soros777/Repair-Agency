@@ -1,0 +1,2 @@
+INSERT INTO users (`email`, `password`, `person_name`, `role_id`, `photo_path`, `locale_id`)
+					VALUES ('boss@gmail.com', 'ѕ*йїEп:Ю%УNбЄЭ Ъ–�', 'Александр Васильевич', '1', 'img/users/boss.jpg', '1');

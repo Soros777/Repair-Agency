@@ -19,4 +19,9 @@ public class HashPassword {
         Log.trace("hash is gotten");
         return new String(bytes);
     }
+
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        String pass = "point777";
+        System.out.println(getHash(pass));
+    }
 }

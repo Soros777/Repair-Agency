@@ -8,7 +8,7 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>
     <c:choose>
-        <c:when test="${role eq 'client'}">
+        <c:when test="${role eq 'Client'}">
             <c:out value="Личный"/>
         </c:when>
         <c:otherwise>

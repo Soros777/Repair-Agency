@@ -1,12 +1,9 @@
 package ua.epam.finalproject.repairagency.web.controller;
 
 import org.apache.log4j.Logger;
-import ua.epam.finalproject.repairagency.exeption.AppException;
-import ua.epam.finalproject.repairagency.service.ClientService;
 import ua.epam.finalproject.repairagency.web.command.ActionCommand;
 import ua.epam.finalproject.repairagency.web.command.CommandContainer;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

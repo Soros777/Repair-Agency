@@ -1,0 +1,1 @@
+INSERT INTO `repairagency`.`administration` (`email`, `password`, `person_name`, `role`, `locale`) VALUES ('bigboss@gmail.com', 'ѕ*йїEп:Ю%УNбЄЭ Ъ–�', 'Александр Васильевич', 'DIRECTOR', 'ua');

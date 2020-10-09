@@ -14,7 +14,7 @@
                                 <option value="noValue">Выберите из списка ...</option>
                                 <option value="computer">Компьютер</option>
                                 <option value="notebook">Ноутбук</option>
-                                <option value="phone">Моб. телефон</option>
+                                <option value="phone">Смартфон</option>
                                 <option value="laptop">Планшет</option>
                                 <option value="elBook">Эл. книга</option>
                             </select>
