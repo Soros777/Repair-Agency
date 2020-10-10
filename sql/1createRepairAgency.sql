@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS `repairagency`.`clients` (
   CONSTRAINT `fk_parent`
     FOREIGN KEY (`parent`)
     REFERENCES `repairagency`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

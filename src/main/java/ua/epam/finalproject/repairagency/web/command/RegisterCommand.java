@@ -2,14 +2,12 @@ package ua.epam.finalproject.repairagency.web.command;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
-import ua.epam.finalproject.repairagency.model.Client;
-import ua.epam.finalproject.repairagency.service.HashPassword;
 import ua.epam.finalproject.repairagency.service.UserService;
+import ua.epam.finalproject.repairagency.service.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 public class RegisterCommand extends ActionCommand {
 
@@ -26,7 +24,7 @@ public class RegisterCommand extends ActionCommand {
         String clientName = request.getParameter("registerClientName");
         Log.debug("Gotten params ==> ClientName: " + clientName + "; email: " + clientEmail);
 
-        if(!UserService.validateEnteredData(clientName, clientEmail, clientPassword, clientPasswordRepeat, response)) {
+        if(!UserUtil.validateEnteredData(clientName, clientEmail, clientPassword, clientPasswordRepeat, response)) {
            return null;
         }
 

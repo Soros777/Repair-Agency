@@ -1,4 +1,4 @@
-package ua.epam.finalproject.repairagency.database;
+package ua.epam.finalproject.repairagency.dao;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -10,10 +10,12 @@ import java.sql.SQLException;
 public class ConnectionPool {
 
     private static ConnectionPool instance;
+    private Context context = new InitialContext();
+    private DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/repairAgency");
 
-    private ConnectionPool() {}
+    private ConnectionPool() throws NamingException {}
 
-    public static ConnectionPool getInstance() {
+    public static ConnectionPool getInstance() throws NamingException {
         if(instance == null) {
             synchronized (ConnectionPool.class) {
                 if(instance == null) {
@@ -24,9 +26,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    public Connection getConnection() throws NamingException, SQLException {
-        Context context = new InitialContext();
-        DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/repairAgency");
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 }
