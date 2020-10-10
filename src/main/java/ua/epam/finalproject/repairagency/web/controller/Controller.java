@@ -63,6 +63,7 @@ public class Controller extends HttpServlet {
         ActionCommand command = CommandContainer.get(commandName);
         Log.trace("Obtained command --> " + command);
 
+        Log.debug("go to the command.execute");
         // execute command and get forward address
         String forward = command.execute(request, response);
 

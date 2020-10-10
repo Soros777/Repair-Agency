@@ -44,7 +44,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `repairagency`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(130) NOT NULL,
   `password` VARCHAR(25) NOT NULL,
   `person_name` VARCHAR(45) NOT NULL,
   `role_id` INT NOT NULL,
