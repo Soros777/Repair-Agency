@@ -19,9 +19,9 @@ public class UserDao {
 
     private final static Logger Log = Logger.getLogger(UserDao.class);
 
-    public static User getRegisteredUser(String email, String password, Role role) {
+    public static User getRegisteredUser(Connection connection, String email, String password, Role role) {
         User registeredUser = null;
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
+        try (
              // todo : joinquery
              PreparedStatement mainPreparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
              PreparedStatement localePreparedStatement = connection.prepareStatement("SELECT value FROM locales WHERE id=?");
@@ -86,7 +86,7 @@ public class UserDao {
                 ((Client) registeredUser).setWalletCount(walletCount);
 
             }
-        } catch (NamingException | SQLException | NoSuchAlgorithmException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             Log.error("Can't obtain User from DB : " + e);
             throw new AppException("Can't obtain User from DB.", e);
         }
@@ -109,30 +109,30 @@ public class UserDao {
         throw new AppException("Can't obtain client wallet count");
     }
 
-    public static boolean addClient(Client client) {
+    public static boolean addClient(Connection connection, Client client) throws SQLException {
         Log.info("adding client");
 
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement mainPreparedStatement = connection.prepareStatement(
-                     "INSERT INTO users (email, password, person_name, role_id, locale_id) VALUES (?, ?, ?, 2, ?)", Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement walletPreparedStatement = connection.prepareStatement(
-                     "INSERT INTO clients (parent) VALUES (?)");
-        )
-        {
+        PreparedStatement mainPreparedStatement = null;
+        PreparedStatement walletPreparedStatement = null;
+        PreparedStatement localePreparedStatement = null;
+        ResultSet genKeys = null;
 
-            Log.info("================  connection.getAutoCommit() : " + connection.getAutoCommit());
-//            connection.setAutoCommit(false);
-            Log.info("================  connection.getAutoCommit() : " + connection.getAutoCommit());
-
+        try {
+            mainPreparedStatement = connection.prepareStatement(
+                    "INSERT INTO users (email, password, person_name, role_id, locale_id) VALUES (?, ?, ?, 2, ?)", Statement.RETURN_GENERATED_KEYS);
+            walletPreparedStatement = connection.prepareStatement(
+                    "INSERT INTO clients (parent) VALUES (?)");
+            localePreparedStatement = connection.prepareStatement(
+                    "SELECT id FROM locales WHERE value=?");
             int k = 1;
             mainPreparedStatement.setString(k++, client.getEmail());
             mainPreparedStatement.setString(k++, client.getPassword());
             mainPreparedStatement.setString(k++, client.getPersonName());
-            mainPreparedStatement.setInt(k, getIdFromLocale(client.getLocale()));
+            mainPreparedStatement.setInt(k, getIdFromLocale(localePreparedStatement, client.getLocale()));
 
-            Log.debug("go to mainPreparedStatement.getGeneratedKeys() : " + mainPreparedStatement);
             mainPreparedStatement.execute();
-            ResultSet genKeys = mainPreparedStatement.getGeneratedKeys();
+            Log.debug("go to mainPreparedStatement.getGeneratedKeys() : " + mainPreparedStatement);
+            genKeys = mainPreparedStatement.getGeneratedKeys();
             Log.debug("Gotten ResultSet");
             if(genKeys.next()) {
                 Log.debug("Success added new client to users table");
@@ -143,33 +143,34 @@ public class UserDao {
                     return walletPreparedStatement.executeUpdate() == 1;
                 }
             }
-
-//            connection.commit(); // < ===== don't work
-
-        } catch (SQLException | NamingException e) {
-            Log.error("Can't put new Client to DB : " + e);
-            throw new AppException("Can't put new Client to DB", e);
+        }catch (SQLException e) {
+            if(genKeys != null) {
+                genKeys.close();
+            }
+            if(walletPreparedStatement != null) {
+                walletPreparedStatement.close();
+            }
+            if(mainPreparedStatement != null) {
+                mainPreparedStatement.close();
+            }
+            if(localePreparedStatement != null) {
+                localePreparedStatement.close();
+            }
+            Log.error("Falling during adding client to DB");
+            throw new SQLException(e);
         }
-        Log.error("Falling during adding a new client");
-        throw new AppException("Falling during adding a new client");
+
+        Log.error("Falling during adding a new client to DB");
+        throw new AppException("Falling during adding a new client to DB");
     }
 
-    private static int getIdFromLocale(Locale locale) {
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(
-                     "SELECT id FROM locales WHERE value=?");
-        )
-        {
-            preparedStatement.setString(1, locale.getCountry());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                int id = resultSet.getInt(1);
-                Log.debug("Success for getting locale id from DB: " + id);
-                return id;
-            }
-        } catch (SQLException | NamingException e) {
-            Log.error("Can't get locale id from DB :" + e);
-            throw new AppException("Can't get locale id from DB", e);
+    private static int getIdFromLocale(PreparedStatement localePreparedStatement, Locale locale) throws SQLException {
+        localePreparedStatement.setString(1, locale.getCountry());
+        ResultSet resultSet = localePreparedStatement.executeQuery();
+        if(resultSet.next()) {
+            int id = resultSet.getInt(1);
+            Log.debug("Success for getting locale id from DB: " + id);
+            return id;
         }
         Log.trace("Define default locale EN");
         return 3;

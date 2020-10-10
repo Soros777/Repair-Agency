@@ -8,10 +8,8 @@
                 password="root"
                 driverClassName="com.mysql.jdbc.Driver"
                 url="jdbc:mysql://localhost:3306/repairagency?autoReconnect=true&amp;serverTimezone=UTC"
+                defaultAutoCommit="false"
                 validationQuery="select 1"
                 maxActive="10"
                 maxIdle="4"/>
-
-
 </Context>
-<!--        defaultAutoCommit="false"-->
