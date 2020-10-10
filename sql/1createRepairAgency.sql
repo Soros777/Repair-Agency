@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `repairagency`.`locales` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `value` ENUM('ua', 'us', 'en', 'ru') NOT NULL,
+  `value` ENUM('UA', 'US', 'EN', 'RU') NOT NULL,
   `description` VARCHAR(1000) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `repairagency`.`users` (
   `password` VARCHAR(25) NOT NULL,
   `person_name` VARCHAR(45) NOT NULL,
   `role_id` INT NOT NULL,
-  `photo_path` VARCHAR(45) NULL,
-  `contact_phone` VARCHAR(45) NOT NULL DEFAULT 'img/users/userIcon.png',
+  `photo_path` VARCHAR(45) NOT NULL DEFAULT 'img/users/userIcon.png',
+  `contact_phone` VARCHAR(45) NULL,
   `locale_id` INT NOT NULL,
   `registration_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -73,7 +73,7 @@ ENGINE = InnoDB;
 -- Table `repairagency`.`clients`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `repairagency`.`clients` (
-  `parent` INT NOT NULL AUTO_INCREMENT,
+  `parent` INT NOT NULL,
   `wallet_count` DECIMAL(10,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`parent`),
   CONSTRAINT `fk_parent`

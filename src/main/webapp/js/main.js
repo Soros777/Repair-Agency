@@ -118,10 +118,10 @@ $('.register-btn').click(function (e) {
 
 	e.preventDefault();
 
-	let clientName = $('input[name="registerClientName"]').val();
-	let email = $('input[name="registerEmail"]').val();
-	let password = $('input[name="registerPassword"]').val();
-	let passwordRepeat = $('input[name="registerPasswordRepeat"]').val();
+	let registerClientName = $('input[name="registerClientName"]').val();
+	let registerEmail = $('input[name="registerEmail"]').val();
+	let registerPassword = $('input[name="registerPassword"]').val();
+	let registerPasswordRepeat = $('input[name="registerPasswordRepeat"]').val();
 
 	closeOldMessages();
 
@@ -130,10 +130,10 @@ $('.register-btn').click(function (e) {
 		type: 'POST',
 		dataType: 'text',
 		data: {
-			clientName: clientName,
-			email: email,
-			password: password,
-			passwordRepeat: passwordRepeat,
+			registerClientName: registerClientName,
+			registerEmail: registerEmail,
+			registerPassword: registerPassword,
+			registerPasswordRepeat: registerPasswordRepeat,
 			command: 'register'
 		},
 		success (data) {

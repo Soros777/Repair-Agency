@@ -8,6 +8,7 @@ import ua.epam.finalproject.repairagency.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 public class RegisterCommand extends ActionCommand {
@@ -19,46 +20,29 @@ public class RegisterCommand extends ActionCommand {
 
         Log.debug("Command starts");
 
-        String clientEmail = request.getParameter("email");
-        String clientPassword = request.getParameter("password");
-        String clientPasswordRepeat = request.getParameter("passwordRepeat");
-        String clientName = request.getParameter("clientName");
+        String clientEmail = request.getParameter("registerEmail");
+        String clientPassword = request.getParameter("registerPassword");
+        String clientPasswordRepeat = request.getParameter("registerPasswordRepeat");
+        String clientName = request.getParameter("registerClientName");
         Log.debug("Gotten params ==> ClientName: " + clientName + "; email: " + clientEmail);
 
         if(!UserService.validateEnteredData(clientName, clientEmail, clientPassword, clientPasswordRepeat, response)) {
            return null;
         }
 
-
-        Client newClient = new Client();
-        try {
-            newClient.setPassword(HashPassword.getHash(clientPassword));
-        } catch (NoSuchAlgorithmException e) {
-            Log.error("Can't get hash from password");
-            throw new AppException("Can't get hash from password", e);
-        }
-        newClient.setEmail(clientEmail);
-        newClient.setPersonName(clientName);
-
-        Log.debug("Start to put new Client to DB");
-
-        if(UserService.addClient(newClient)) {
-            Log.debug("New Client is in DB");
-
+        Log.debug("go to add a new client to DB");
+        boolean added = UserService.addNewClient(clientEmail, clientPassword, clientName, request.getLocale());
+        Log.debug("new client is added to DB");
+        if(added) {
             try {
                 response.getWriter().write("success registration");
             } catch (IOException e) {
                 Log.error("Can't get request writer");
-                throw new AppException(e.getMessage());
+                throw new AppException("Can't get request writer", e);
             }
-            Log.debug("success registration");
+            Log.debug("Well done! Success registration!");
             return null;
-//
-//
-//            // Вопрос: Почему в дальнейшем не происходит forward из класса Controller на страницу WEB-INF/authorizedPages/clientMain.jsp?p=clientMain
-//            Log.debug("Command are about to finish with forwardPage " + Path.PAGE_SUCCESS_RESULT_REGISTRATION);
-//            return Path.PAGE_SUCCESS_RESULT_REGISTRATION;
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        }
         Log.debug("Can't register a new user");
         throw new AppException("Can't register a new user");
     }

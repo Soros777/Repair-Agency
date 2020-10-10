@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Main servlet controller
@@ -22,7 +23,7 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("UTF-8"); // may be in listener, may be not
         super.service(req, resp);
     }
 
@@ -42,7 +43,6 @@ public class Controller extends HttpServlet {
                 case "clientMain" :
                 case "create" :
                     forward = "WEB-INF/authorizedPages/clientMain.jsp";
-                    Log.debug("Value of session attribute \"userName\" is : " + request.getSession().getAttribute("userName"));
                     break;
             }
         }
@@ -56,6 +56,7 @@ public class Controller extends HttpServlet {
     {
         Log.debug("Controller starts " + request.getMethod());
         // extract command name from the request
+
         String commandName = request.getParameter("command");
         Log.trace("Request parameter: command --> " + commandName);
 

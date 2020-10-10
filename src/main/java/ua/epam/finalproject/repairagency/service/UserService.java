@@ -152,7 +152,7 @@ public class UserService {
             return registeredUser;
 
         } catch (NamingException | SQLException | NoSuchAlgorithmException e) {
-            Log.error("Can't obtain User from DB");
+            Log.error("Can't obtain User from DB : " + e);
             throw new AppException("Can't obtain User from DB.", e);
         }
     }
@@ -233,6 +233,7 @@ public class UserService {
             Log.trace("Passwords are OK");
             return true;
         }
+        Log.trace("Password is not correct");
         return false;
     }
 
@@ -244,7 +245,7 @@ public class UserService {
             try {
                 response.getWriter().write("introduce yourself");
             } catch (IOException e) {
-                Log.error("Can't get request writer");
+                Log.error("Can't get request writer : " + e);
                 throw new AppException("Can't get request writer", e);
             }
             Log.debug("Client name is empty");
@@ -255,7 +256,7 @@ public class UserService {
             try {
                 response.getWriter().write("not valid email");
             } catch (IOException e) {
-                Log.error("Can't get request writer");
+                Log.error("Can't get request writer : " + e);
                 throw new AppException("Can't get request writer", e);
             }
             Log.debug("Email is not valid according to regex");
@@ -266,18 +267,18 @@ public class UserService {
             try {
                 response.getWriter().write("repeated email");
             } catch (IOException e) {
-                Log.error("Can't get request writer");
+                Log.error("Can't get request writer : " + e);
                 throw new AppException("Can't get request writer", e);
             }
             Log.debug("Email is repeated");
             return false;
         }
 
-        if(checkPasswords(clientPassword, clientPasswordRepeat)) {
+        if(!checkPasswords(clientPassword, clientPasswordRepeat)) {
             try {
                 response.getWriter().write("not same passwords");
             } catch (IOException e) {
-                Log.error("Can't get request writer");
+                Log.error("Can't get request writer : " + e);
                 throw new AppException("Can't get request writer", e);
             }
             Log.debug("Password is not the same");
@@ -285,5 +286,79 @@ public class UserService {
         }
 
         return true;
+    }
+
+    public static boolean addNewClient(String clientEmail, String clientPassword, String clientName, Locale locale) {
+        Log.debug("Start to add a new client to DB");
+
+        Client client = new Client();
+        try {
+            client.setPassword(HashPassword.getHash(clientPassword));
+        } catch (NoSuchAlgorithmException e) {
+            Log.error("Can't get hash cos : " + e);
+            throw new AppException("Can't get hash cos : ", e);
+        }
+        client.setEmail(clientEmail);
+        client.setPersonName(clientName);
+        client.setLocale(locale);
+        return addClient(client);
+    }
+
+    private static boolean addClient(Client client) {
+        Log.info("adding client");
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement mainPreparedStatement = connection.prepareStatement(
+                     "INSERT INTO users (email, password, person_name, role_id, locale_id) VALUES (?, ?, ?, 2, ?)", Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement walletPreparedStatement = connection.prepareStatement(
+                     "INSERT INTO clients (parent) VALUES (?)");
+        )
+        {
+            int k = 1;
+            mainPreparedStatement.setString(k++, client.getEmail());
+            mainPreparedStatement.setString(k++, client.getPassword());
+            mainPreparedStatement.setString(k++, client.getPersonName());
+            mainPreparedStatement.setInt(k, getIdFromLocale(client.getLocale()));
+
+            Log.debug("go to mainPreparedStatement.getGeneratedKeys() : " + mainPreparedStatement);
+            mainPreparedStatement.execute();
+            ResultSet genKeys = mainPreparedStatement.getGeneratedKeys();
+            Log.debug("Gotten ResultSet");
+            if(genKeys.next()) {
+                Log.debug("Success added new client to users table");
+                int id = genKeys.getInt(1);
+                if(id > 0) {
+                    walletPreparedStatement.setInt(1, id);
+                    Log.debug("go to add client wallet_count");
+                    return walletPreparedStatement.executeUpdate() == 1;
+                }
+            }
+        } catch (SQLException | NamingException e) {
+            Log.error("Can't put new Client to DB : " + e);
+            throw new AppException("Can't put new Client to DB", e);
+        }
+        Log.error("Falling during adding a new client");
+        throw new AppException("Falling during adding a new client");
+    }
+
+    private static int getIdFromLocale(Locale locale) {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT id FROM locales WHERE value=?");
+        )
+        {
+            preparedStatement.setString(1, locale.getCountry());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                int id = resultSet.getInt(1);
+                Log.debug("Success for getting locale id from DB: " + id);
+                return id;
+            }
+        } catch (SQLException | NamingException e) {
+            Log.error("Can't get locale id from DB :" + e);
+            throw new AppException("Can't get locale id from DB", e);
+        }
+        Log.trace("Define default locale EN");
+        return 3;
     }
 }
