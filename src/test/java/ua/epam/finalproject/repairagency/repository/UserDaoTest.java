@@ -43,6 +43,12 @@ public class UserDaoTest {
     }
 
     @Test
+    public void getRegisteredUser_NullUser() {
+        Client actual = (Client) userDao.getRegisteredUser(null, "nothing@gmail.com", HashPassword.getHash("something"), Role.CLIENT);
+        assertNull(actual);
+    }
+
+    @Test
     public void addClient() throws SQLException {
         int countUsersBefore = userDao.findAllUsers(null).size();
         Client client = Client.getClientWithInitParams(100, "ki@li.da", HashPassword.getHash("123"), "Брюс Ли",
