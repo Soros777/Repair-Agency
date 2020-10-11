@@ -1,2 +1,2 @@
 INSERT INTO users (`email`, `password`, `person_name`, `role_id`, `photo_path`, `locale_id`)
-					VALUES ('boss@gmail.com', 'ѕ*йїEп:Ю%УNбЄЭ Ъ–�', 'Александр Васильевич', '1', 'img/users/boss.jpg', '1');
+					VALUES ('boss@gmail.com', '534529C7BC541D7FC695138173B204A28E3A3AB6B232FB4529B316403D37E13A', 'Александр Васильевич', '1', 'img/users/boss.jpg', '1');

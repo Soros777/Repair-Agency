@@ -11,7 +11,12 @@ import java.io.IOException;
 
 public class RegisterCommand extends ActionCommand {
 
+    private final UserService userService;
     private static final Logger Log = Logger.getLogger(RegisterCommand.class);
+
+    public RegisterCommand (UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -29,7 +34,7 @@ public class RegisterCommand extends ActionCommand {
         }
 
         Log.debug("go to add a new client to DB");
-        boolean added = UserService.addNewClient(clientEmail, clientPassword, clientName, request.getLocale());
+        boolean added = userService.addNewClient(clientEmail, clientPassword, clientName, request.getLocale());
         Log.debug("new client is added to DB");
         if(added) {
             try {

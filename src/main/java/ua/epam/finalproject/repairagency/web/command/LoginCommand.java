@@ -11,14 +11,19 @@ import java.io.IOException;
 
 public class LoginCommand extends ActionCommand {
 
+    private final UserService userService;
     private static final Logger Log = Logger.getLogger(LoginCommand.class);
+
+    public LoginCommand(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         Log.debug("Command starts");
 
-        User registeredUser = UserService.getRegisteredUser(request);
+        User registeredUser = userService.getRegisteredUser(request);
         Log.debug("Found User ==> " + registeredUser);
 
         try {

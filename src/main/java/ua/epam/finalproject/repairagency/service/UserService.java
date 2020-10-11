@@ -22,17 +22,22 @@ public class UserService {
 
     public static final String PARAM_NAME_EMAIL = "email";
     private static final String PARAM_NAME_PASSWORD = "password";
-    private static final UserDao userDao = new UserDaoDB();
+    private final UserDao userDao;
 
     private static final Logger Log = Logger.getLogger(UserService.class);
 
-    public static User getRegisteredUser(HttpServletRequest request) {
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public User getRegisteredUser(HttpServletRequest request) {
         Log.debug("Start getting user");
         Role role = UserUtil.determineRole(request);
 
         String email = request.getParameter(PARAM_NAME_EMAIL);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
 
+        password = HashPassword.getHash(password);
         if(!role.valueEqualsTo("Client")) {
             email = email.substring(1);
         }
@@ -42,13 +47,14 @@ public class UserService {
             return null;
         }
 
-        User registeredUser = null;
+        User registeredUser;
         Log.debug("go to DB");
         try {
             Connection connection = ConnectionPool.getInstance().getConnection();
             registeredUser = userDao.getRegisteredUser(connection, email, password, role);
         } catch (SQLException | NamingException e) {
-            e.printStackTrace();
+            Log.error("Can't get Registered user cause : " + e);
+            throw new AppException("Can't get Registered user cause.", e);
         }
 
         HttpSession session = request.getSession();
@@ -59,16 +65,11 @@ public class UserService {
         return registeredUser;
     }
 
-    public static boolean addNewClient(String clientEmail, String clientPassword, String clientName, Locale locale) {
+    public boolean addNewClient(String clientEmail, String clientPassword, String clientName, Locale locale) {
         Log.debug("Start to add a new client to DB");
 
         Client client = new Client();
-        try {
-            client.setPassword(HashPassword.getHash(clientPassword));
-        } catch (NoSuchAlgorithmException e) {
-            Log.error("Can't get hash cos : " + e);
-            throw new AppException("Can't get hash cos : ", e);
-        }
+        client.setPassword(HashPassword.getHash(clientPassword));
         client.setEmail(clientEmail);
         client.setPersonName(clientName);
         client.setLocale(locale);

@@ -1,6 +1,8 @@
 package ua.epam.finalproject.repairagency.web.command;
 
 import org.apache.log4j.Logger;
+import ua.epam.finalproject.repairagency.repository.UserDaoDB;
+import ua.epam.finalproject.repairagency.service.UserService;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,8 +13,9 @@ public class CommandContainer {
 
     static {
         // common commands
-        actionCommands.put("register", new RegisterCommand());
-        actionCommands.put("login", new LoginCommand());
+        UserService userService = new UserService(new UserDaoDB());
+        actionCommands.put("register", new RegisterCommand(userService));
+        actionCommands.put("login", new LoginCommand(userService));
         actionCommands.put("logout", new LogoutCommand());
 //        actionCommands.put("noCommand", new NoCommand());
 //        actionCommands.put("viewSettings", new ViewSettingsCommand());

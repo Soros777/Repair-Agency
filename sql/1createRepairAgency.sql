@@ -14,6 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema repairagency
 -- -----------------------------------------------------
+DROP DATABASE IF EXISTS `repairagency`;
 CREATE SCHEMA IF NOT EXISTS `repairagency` DEFAULT CHARACTER SET utf8 ;
 USE `repairagency` ;
 
@@ -45,7 +46,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `repairagency`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(130) NOT NULL,
-  `password` VARCHAR(25) NOT NULL,
+  `password` VARCHAR(70) NOT NULL,
   `person_name` VARCHAR(45) NOT NULL,
   `role_id` INT NOT NULL,
   `photo_path` VARCHAR(45) NOT NULL DEFAULT 'img/users/userIcon.png',

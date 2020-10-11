@@ -30,7 +30,6 @@ public class UserDaoDB implements UserDao {
         )
         {
             Log.debug("Connections and preparedStatements are obtained");
-            password = HashPassword.getHash(password); //just for catch exception
 
             mainPreparedStatement.setString(1, email);
 
@@ -86,7 +85,7 @@ public class UserDaoDB implements UserDao {
                     ((Client) registeredUser).setWalletCount(walletCount);
                 }
             }
-        } catch (SQLException | NoSuchAlgorithmException e) {
+        } catch (SQLException e) {
             Log.error("Can't obtain User from DB : " + e);
             throw new AppException("Can't obtain User from DB.", e);
         }
