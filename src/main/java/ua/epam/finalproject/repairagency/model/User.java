@@ -2,6 +2,7 @@ package ua.epam.finalproject.repairagency.model;
 
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Objects;
 
 public class User {
     protected int id;
@@ -100,6 +101,27 @@ public class User {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(personName, user.personName) &&
+                role == user.role &&
+                Objects.equals(photoPath, user.photoPath) &&
+                Objects.equals(contactPhone, user.contactPhone) &&
+                Objects.equals(locale, user.locale) &&
+                Objects.equals(registrationDate, user.registrationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password, personName, role, photoPath, contactPhone, locale, registrationDate);
     }
 
     @Override

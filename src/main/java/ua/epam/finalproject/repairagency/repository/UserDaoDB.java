@@ -12,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 public class UserDaoDB implements UserDao {
@@ -162,6 +163,11 @@ public class UserDaoDB implements UserDao {
 
         Log.error("Falling during adding a new client to DB");
         throw new AppException("Falling during adding a new client to DB");
+    }
+
+    @Override
+    public List<User> findAllUsers(Connection connection) {
+        return null;
     }
 
     private static int getIdFromLocale(PreparedStatement localePreparedStatement, Locale locale) throws SQLException {

@@ -2,6 +2,7 @@ package ua.epam.finalproject.repairagency.model;
 
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Client extends User {
 
@@ -10,9 +11,17 @@ public class Client extends User {
     public static Client getClientWithInitParams(int id, String email, String password, String personName,
                               Role role, double walletCount, String photoPath, String contactPhone, Locale locale, LocalDate registrationDate)
     {
-        User user = getUserWithInitParams(id, email, password, personName, role, photoPath, contactPhone, locale, registrationDate);
-        Client client = (Client) user;
+        Client client = new Client();
+        client.id = id;
+        client.email = email;
+        client.password = password;
+        client.personName = personName;
+        client.role = role;
         client.walletCount = walletCount;
+        client.photoPath = photoPath;
+        client.contactPhone = contactPhone;
+        client.locale = locale;
+        client.registrationDate = registrationDate;
         return client;
     }
 
@@ -22,6 +31,20 @@ public class Client extends User {
 
     public void setWalletCount(double walletCount) {
         this.walletCount = walletCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Client client = (Client) o;
+        return Double.compare(client.walletCount, walletCount) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), walletCount);
     }
 
     @Override

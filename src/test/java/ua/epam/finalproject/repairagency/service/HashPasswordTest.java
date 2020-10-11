@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class HashPasswordTest {
 
-    private String expected = "ѕ*йїEп:Ю%\u0016УNбЄ\u000FЭ Ъ–�";
+    private String expected = "534529C7BC541D7FC695138173B204A28E3A3AB6B232FB4529B316403D37E13A";
 
     @Before
     public void setUp() throws Exception {
