@@ -2,8 +2,9 @@ package ua.epam.finalproject.repairagency.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ua.epam.finalproject.repairagency.dao.ConnectionPool;
-import ua.epam.finalproject.repairagency.dao.UserDao;
+import ua.epam.finalproject.repairagency.repository.ConnectionPool;
+import ua.epam.finalproject.repairagency.repository.UserDao;
+import ua.epam.finalproject.repairagency.repository.UserDaoDB;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
@@ -21,6 +22,7 @@ public class UserService {
 
     public static final String PARAM_NAME_EMAIL = "email";
     private static final String PARAM_NAME_PASSWORD = "password";
+    private static final UserDao userDao = new UserDaoDB();
 
     private static final Logger Log = Logger.getLogger(UserService.class);
 
@@ -44,7 +46,7 @@ public class UserService {
         Log.debug("go to DB");
         try {
             Connection connection = ConnectionPool.getInstance().getConnection();
-            registeredUser = UserDao.getRegisteredUser(connection, email, password, role);
+            registeredUser = userDao.getRegisteredUser(connection, email, password, role);
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
@@ -75,7 +77,7 @@ public class UserService {
         try {
             connection = ConnectionPool.getInstance().getConnection();
 
-            if(UserDao.addClient(connection, client)) {
+            if(userDao.addClient(connection, client)) {
                 connection.commit();
                 Log.debug("Success! New Client is in DB.");
                 return true;
@@ -84,7 +86,7 @@ public class UserService {
             if(connection != null) {
                 try {
                     connection.rollback();
-                } catch (SQLException ex) { }
+                } catch (SQLException ex) { } // just about close connection
             }
         } catch (NamingException e) {
             Log.error("Can't get instance of Connection Pool cause : " + e);

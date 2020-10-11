@@ -2,7 +2,7 @@ package ua.epam.finalproject.repairagency.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ua.epam.finalproject.repairagency.dao.ConnectionPool;
+import ua.epam.finalproject.repairagency.repository.ConnectionPool;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Role;
 

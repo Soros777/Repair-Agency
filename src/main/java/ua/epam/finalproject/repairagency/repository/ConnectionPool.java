@@ -1,4 +1,4 @@
-package ua.epam.finalproject.repairagency.dao;
+package ua.epam.finalproject.repairagency.repository;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

@@ -1,4 +1,4 @@
-package ua.epam.finalproject.repairagency.dao;
+package ua.epam.finalproject.repairagency.repository;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
@@ -8,18 +8,18 @@ import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.HashPassword;
 import ua.epam.finalproject.repairagency.service.UserUtil;
 
-import javax.naming.NamingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class UserDao {
+public class UserDaoDB implements UserDao {
 
-    private final static Logger Log = Logger.getLogger(UserDao.class);
+    private final static Logger Log = Logger.getLogger(UserDaoDB.class);
 
-    public static User getRegisteredUser(Connection connection, String email, String password, Role role) {
+    @Override
+    public User getRegisteredUser(Connection connection, String email, String password, Role role) {
         User registeredUser = null;
         try (
              // todo : joinquery
@@ -82,9 +82,9 @@ public class UserDao {
             if(registeredUser != null && role.valueEqualsTo("Client")) {
                 Log.trace("It is a client");
                 double walletCount = getWalletCount(walletCountPreparedStatement, registeredUser.getId());
-                assert registeredUser instanceof Client;
-                ((Client) registeredUser).setWalletCount(walletCount);
-
+                if(registeredUser instanceof Client) {
+                    ((Client) registeredUser).setWalletCount(walletCount);
+                }
             }
         } catch (SQLException | NoSuchAlgorithmException e) {
             Log.error("Can't obtain User from DB : " + e);
@@ -109,7 +109,8 @@ public class UserDao {
         throw new AppException("Can't obtain client wallet count");
     }
 
-    public static boolean addClient(Connection connection, Client client) throws SQLException {
+    @Override
+    public boolean addClient(Connection connection, Client client) throws SQLException {
         Log.info("adding client");
 
         PreparedStatement mainPreparedStatement = null;
@@ -143,7 +144,7 @@ public class UserDao {
                     return walletPreparedStatement.executeUpdate() == 1;
                 }
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             if(genKeys != null) {
                 genKeys.close();
             }

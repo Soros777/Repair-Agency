@@ -14,6 +14,22 @@ public class User {
     protected Locale locale;
     protected LocalDate registrationDate;
 
+    public static User getUserWithInitParams(int id, String email, String password, String personName,
+                           Role role, String photoPath, String contactPhone, Locale locale, LocalDate registrationDate)
+    {
+        User user = new User();
+        user.id = id;
+        user.email = email;
+        user.password = password;
+        user.personName = personName;
+        user.role = role;
+        user.photoPath = photoPath;
+        user.contactPhone = contactPhone;
+        user.locale = locale;
+        user.registrationDate = registrationDate;
+        return user;
+    }
+
     public int getId() {
         return id;
     }
