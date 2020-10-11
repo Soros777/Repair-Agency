@@ -14,7 +14,7 @@ public class LogoutCommand extends ActionCommand{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 //        String page = ConfigurationManager.getProperty("path.page.index");
-        String page = "/index.jsp";
+        String page = "controller";
         // destroy session
         HttpSession session = request.getSession();
         String id = session.getId();

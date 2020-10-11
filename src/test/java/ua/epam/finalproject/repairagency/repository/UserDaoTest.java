@@ -2,6 +2,7 @@ package ua.epam.finalproject.repairagency.repository;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
@@ -15,11 +16,15 @@ import static org.junit.Assert.*;
 
 public class UserDaoTest {
 
-    private UserDao userDao;
+    private static UserDao userDao;
+
+    @BeforeClass
+    public static void setup() {
+        userDao = new UserDaoMoc();
+    }
 
     @Before
     public void setUp() throws Exception {
-        userDao = new UserDaoMoc();
     }
 
     @After

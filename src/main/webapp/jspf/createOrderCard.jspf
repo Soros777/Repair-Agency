@@ -4,10 +4,10 @@
     <div class="col-md-12 mb-4">
         <div class="card">
             <div class="card-body">
-                <form action="action_page.php">
+                <form action="controller">
                     <div class="row mr-auto ml-auto">
                         <div class="col-25">
-                            <label for="country">Укажите Ваш девайс</label>
+                            <label for="country">Что нужно отремонтировать:</label>
                         </div>
                         <div class="col-75">
                             <select id="country" name="device">
@@ -29,10 +29,10 @@
                         </div>
                     </div>
                     <div class="row  mr-auto ml-auto">
+                        <input type="hidden" name="command" value="createOrder">
                         <input type="submit" value="Создать заявку">
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

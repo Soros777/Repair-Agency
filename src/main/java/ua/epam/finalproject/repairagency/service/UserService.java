@@ -2,18 +2,16 @@ package ua.epam.finalproject.repairagency.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ua.epam.finalproject.repairagency.repository.ConnectionPool;
-import ua.epam.finalproject.repairagency.repository.UserDao;
-import ua.epam.finalproject.repairagency.repository.UserDaoDB;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
+import ua.epam.finalproject.repairagency.repository.ConnectionPool;
+import ua.epam.finalproject.repairagency.repository.UserDao;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -50,11 +48,12 @@ public class UserService {
         User registeredUser;
         Log.debug("go to DB");
         try {
-            Connection connection = ConnectionPool.getInstance().getConnection();
+            ConnectionPool connectionPool = ConnectionPool.getInstance();
+            Connection connection = connectionPool.getConnection();
             registeredUser = userDao.getRegisteredUser(connection, email, password, role);
         } catch (SQLException | NamingException e) {
             Log.error("Can't get Registered user cause : " + e);
-            throw new AppException("Can't get Registered user cause.", e);
+            throw new AppException("Can't get Registered user", e);
         }
 
         HttpSession session = request.getSession();

@@ -5,32 +5,32 @@
 <!DOCTYPE html>
 
 <head>
-  <%@ include file="/WEB-INF/jspf/headAuthorized.jspf"%>
+  <%@ include file="/jspf/headAuthorized.jspf"%>
 </head>
 <body class="grey lighten-3">
   <header>
-    <%@ include file="/WEB-INF/jspf/headerAuth.jspf"%>
+    <%@ include file="/jspf/headerAuth.jspf"%>
 
-    <%@ include file="/WEB-INF/jspf/leftBarAuth.jspf"%>
+    <%@ include file="/jspf/leftBarAuth.jspf"%>
 
   </header>
   <main class="pt-5 max-lg-5">
     <div class="container-fluid mt-5">
 
-      <%@ include file="/WEB-INF/jspf/searchAuth.jspf"%>
+      <%@ include file="/jspf/searchAuth.jspf"%>
 
       <c:if test="${p eq 'clientMain'}">
-        <%@ include file="/WEB-INF/jspf/grafics.jspf"%>
+        <%@ include file="/jspf/grafics.jspf"%>
       </c:if>
 
       <c:if test="${p eq 'create'}">
-        <%@ include file="/WEB-INF/jspf/createOrderCard.jspf"%>
+        <%@ include file="/jspf/createOrderCard.jspf"%>
       </c:if>
 
     </div>
   </main>
-  <%@ include file="/WEB-INF/jspf/footerAuth.jspf"%>
+  <%@ include file="/jspf/footerAuth.jspf"%>
 
-  <%@ include file="/WEB-INF/jspf/scriptsAuth.jspf"%>
+  <%@ include file="/jspf/scriptsAuth.jspf"%>
 </body>
 </html>

@@ -42,7 +42,7 @@ public class Controller extends HttpServlet {
             switch (forward) {
                 case "clientMain" :
                 case "create" :
-                    forward = "WEB-INF/authorizedPages/clientMain.jsp";
+                    forward = "authorizedPages/clientMain.jsp";
                     break;
             }
         }
@@ -74,8 +74,8 @@ public class Controller extends HttpServlet {
 
         // if the forward address is not null go to the address
         if(forward != null) {
-            Log.trace("forwarding to " + forward);
-            request.getRequestDispatcher(forward).forward(request, response);
+            Log.trace("sendRedirect to " + forward);
+            response.sendRedirect(forward);
         }
     }
 }

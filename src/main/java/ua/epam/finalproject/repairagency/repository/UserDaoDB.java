@@ -5,10 +5,8 @@ import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
-import ua.epam.finalproject.repairagency.service.HashPassword;
 import ua.epam.finalproject.repairagency.service.UserUtil;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +32,7 @@ public class UserDaoDB implements UserDao {
 
             mainPreparedStatement.setString(1, email);
 
-            Log.debug("start to execute main query");
+            Log.debug("start to execute main query" + mainPreparedStatement);
             ResultSet resultSet = mainPreparedStatement.executeQuery();
             Log.debug("mainQuery executed");
 
