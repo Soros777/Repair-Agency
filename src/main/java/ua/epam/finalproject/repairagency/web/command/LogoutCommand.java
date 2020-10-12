@@ -18,7 +18,6 @@ public class LogoutCommand extends ActionCommand{
         // destroy session
         HttpSession session = request.getSession();
         String id = session.getId();
-
         session.invalidate();
         Log.debug("invalidated session with id : " + id);
 

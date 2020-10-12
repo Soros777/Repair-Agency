@@ -18,12 +18,16 @@
 
       <%@ include file="/jspf/searchAuth.jspf"%>
 
+      <c:if test="${param.tab eq 'main'}">
+        <%@ include file="/jspf/grafics.jspf"%>
+      </c:if>
+
       <c:if test="${param.tab eq 'create'}">
         <%@ include file="/jspf/createOrderCard.jspf"%>
       </c:if>
 
-      <c:if test="${param.tab ne 'create'}">
-        <%@ include file="/jspf/grafics.jspf"%>
+      <c:if test="${param.tab eq 'orders'}">
+        <%@ include file="/jspf/orders.jspf"%>
       </c:if>
 
     </div>

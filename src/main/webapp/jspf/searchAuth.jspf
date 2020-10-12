@@ -9,10 +9,13 @@
             <span>
                 <c:choose>
                     <c:when test="${param.tab eq 'main'}">
-                        <c:out value="Dashboard"/>
+                        Dashboard
                     </c:when>
                     <c:when test="${param.tab eq 'create'}">
-                        <c:out value="Create order"/>
+                        Create order
+                    </c:when>
+                    <c:when test="${param.tab eq 'orders'}">
+                        Orders
                     </c:when>
                 </c:choose>
             </span>

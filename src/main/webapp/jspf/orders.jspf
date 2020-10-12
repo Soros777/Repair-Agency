@@ -1,0 +1,13 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+
+<div class="row wow fadeIn">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+<%--                Start content         --%>
+                Здесь для сотрудников компании отобразим список всех имеющихся заявок
+<%--                End content      --%>
+            </div>
+        </div>
+    </div>
+</div>
