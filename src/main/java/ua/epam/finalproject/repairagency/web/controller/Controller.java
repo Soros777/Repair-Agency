@@ -31,8 +31,6 @@ public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException
     {
-        // todo команд в запросе быть не должно
-
         Log.debug("Controller starts " + request.getMethod());
 
         String forward = request.getParameter("p");
@@ -70,7 +68,7 @@ public class Controller extends HttpServlet {
 
         Log.trace("Forward address --> " + forward);
 
-        Log.debug("Controller finished, now go to forward address --> " + forward);
+        Log.debug("Controller finished, now go to redirect address --> " + forward);
 
         // if the forward address is not null go to the address
         if(forward != null) {

@@ -12,7 +12,7 @@ public class LogoutCommand extends ActionCommand{
     private static final Logger Log = Logger.getLogger(LogoutCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 //        String page = ConfigurationManager.getProperty("path.page.index");
         String page = "controller";
         // destroy session

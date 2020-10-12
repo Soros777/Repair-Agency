@@ -199,3 +199,47 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Fill roles table --
+-- -----------------------------------------------------
+INSERT INTO roles(value, description) 
+				values ('DIRECTOR', 'Can create (register / unregister) an administrator'),
+						('CLIENT', 'Can register yourself, shange its own registration ddata, 
+										make order on repair its gadjet, pay the order from its count, leave a review'),
+						('ADMINISTRATOR', 'Can create (register / unregister) managers and masters'),
+						('MANAGER', 'Can change client count, determine the cost of work,
+											appoint a master for carying out an order, change oarder status to "WHAIT_FOR_PAY", "PAYED" and "CANCELED"'),
+						('MASTER', 'Can choose an order, change order status to "WORKING" and "MADE"');
+                        
+-- -----------------------------------------------------
+-- Fill locales table --
+-- -----------------------------------------------------
+INSERT INTO locales(value, description) 
+					VALUES ('UA', 'Ukrainian'), ('US', 'USA'), ('EN', 'British'), ('RU', 'Russian');
+                    
+-- -----------------------------------------------------
+-- appoint Director --
+-- -----------------------------------------------------
+INSERT INTO users (`email`, `password`, `person_name`, `role_id`, `photo_path`, `locale_id`)
+					VALUES ('boss@gmail.com', 'EA423EB03AFEF7313E584FCECBB629836117EFF53C7364AB1517A3341EC6A337', 'Александр Васильевич', '1', 'img/users/boss.jpg', '1');
+                    
+-- -----------------------------------------------------
+-- add Clients --
+-- -----------------------------------------------------
+INSERT INTO users (`email`, `password`, `person_name`, `role_id`, `photo_path`, `locale_id`)
+					VALUES ('arni@gmail.com', '9ED4EB9FFBE2277A3F7EB84CDA2C05567FE027431D9D4780C0D3C3E9A49B5197', 'Arnold Schwarzenegger', '2', 'img/users/Arnold.jpg', '2'),
+							('bond007@gmail.com', '36304D11D4CB51CD1E3CDCE4085A7ACF03DD369415B0C9942C96643AECC9AF4D', 'James Bond', '2', 'img/users/JamesBond.jpg', '3'),
+                            ('jolie@gmail.com', 'C225D13E678A4E801F42D8CC2FBA73ABC3E54FFD3A10547DAC2634E9F04D9ED2', 'Angelina Jolie', '2', 'img/users/Angelina-Jolie.jpg', '2');
+INSERT INTO clients VALUES (2, 0), (3, 0), (4, 0);
+
+-- -----------------------------------------------------
+-- add devices --
+-- -----------------------------------------------------
+INSERT INTO devices (value, description) 
+				VALUES ('COMPUTER', 'Most people associate a personal computer (PC) with the phrase computer.  A PC is a small and relatively inexpensive computer designed for an individual use.'),
+						('LAPTOP', 'A notebook computer is a battery- or AC-powered personal computer generally smaller than a briefcase that can easily be transported and conveniently used in temporary spaces such as on airplanes, in libraries, temporary offices, and at meetings.'),
+                        ('SMARTPHONE', 'A smartphone is a mobile phone that includes advanced functionality beyond making phone calls and sending text messages. Most smartphones have the capability to display photos, play videos, check and send e-mail, and surf the Web.'),
+                        ('TABLET', 'A tablet computer, commonly shortened to tablet, is a mobile device, typically with a mobile operating system and touchscreen display processing circuitry, and a rechargeable battery in a single, thin and flat package.'),
+                        ('E_READER', 'An e-reader is a device designed as a convenient way to read e-books. It is similar in form factor to a tablet computer, but features electronic paper rather than an LCD screen. ... An e-reader may also download e-books from a computer or read them from a memory card.');
+					                  

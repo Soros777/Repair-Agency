@@ -1,7 +1,10 @@
 package ua.epam.finalproject.repairagency.web.command;
 
 import org.apache.log4j.Logger;
+import ua.epam.finalproject.repairagency.repository.DeviceDao;
+import ua.epam.finalproject.repairagency.repository.OrderDaoDB;
 import ua.epam.finalproject.repairagency.repository.UserDaoDB;
+import ua.epam.finalproject.repairagency.service.OrderService;
 import ua.epam.finalproject.repairagency.service.UserService;
 
 import java.util.Map;
@@ -17,6 +20,8 @@ public class CommandContainer {
         actionCommands.put("register", new RegisterCommand(userService));
         actionCommands.put("login", new LoginCommand(userService));
         actionCommands.put("logout", new LogoutCommand());
+        OrderService orderService = new OrderService(new OrderDaoDB(), new DeviceDao());
+        actionCommands.put("createOrder", new CreateOrderCommand(orderService));
 //        actionCommands.put("noCommand", new NoCommand());
 //        actionCommands.put("viewSettings", new ViewSettingsCommand());
 //        actionCommands.put("updateSettings", new UpdateSettingsCommand());

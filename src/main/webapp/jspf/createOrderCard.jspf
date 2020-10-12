@@ -4,35 +4,15 @@
     <div class="col-md-12 mb-4">
         <div class="card">
             <div class="card-body">
-                <form action="controller">
-                    <div class="row mr-auto ml-auto">
-                        <div class="col-25">
-                            <label for="country">Что нужно отремонтировать:</label>
-                        </div>
-                        <div class="col-75">
-                            <select id="country" name="device">
-                                <option value="noValue">Выберите из списка ...</option>
-                                <option value="computer">Компьютер</option>
-                                <option value="notebook">Ноутбук</option>
-                                <option value="phone">Смартфон</option>
-                                <option value="laptop">Планшет</option>
-                                <option value="elBook">Эл. книга</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mr-auto ml-auto">
-                        <div class="col-25">
-                            <label for="subject">Опишите проблему</label>
-                        </div>
-                        <div class="col-75">
-                            <textarea id="subject" name="subject" placeholder="Что не работает?" style="height:200px"></textarea>
-                        </div>
-                    </div>
-                    <div class="row  mr-auto ml-auto">
-                        <input type="hidden" name="command" value="createOrder">
-                        <input type="submit" value="Создать заявку">
-                    </div>
-                </form>
+<%--                Start content         --%>
+                <c:if test="${param.conf ne 'thanks'}">
+                    <%@ include file="/jspf/form.jspf"%>
+                </c:if>
+
+                <c:if test="${param.conf eq 'thanks'}">
+                    <%@ include file="/jspf/answer.jspf"%>
+                </c:if>
+<%--                End content      --%>
             </div>
         </div>
     </div>

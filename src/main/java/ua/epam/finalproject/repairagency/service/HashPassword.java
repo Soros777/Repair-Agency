@@ -22,7 +22,7 @@ public class HashPassword {
             Log.error("Can't get hash cause : " + e);
             throw new AppException("Can't get hash", e);
         }
-        digest.update(LocalDate.now().toString().getBytes());
+        digest.update(password.getBytes());
         byte[] bytes = digest.digest(password.getBytes());
         StringBuilder resultSb = new StringBuilder();
         for (byte b : bytes) {

@@ -22,8 +22,8 @@ public class UserUtil {
 
     private static final Logger Log = Logger.getLogger(UserUtil.class);
 
-    public static Role determineRole(HttpServletRequest request) {
-        Log.trace("Start determine a role");
+    public static Role defineRole(HttpServletRequest request) {
+        Log.trace("Start define a role");
         String email = request.getParameter(UserService.PARAM_NAME_EMAIL);
         Role result;
         char pre = email.charAt(0);
@@ -45,7 +45,7 @@ public class UserUtil {
         }
         HttpSession session = request.getSession();
         session.setAttribute("role", result.value());
-        Log.trace("Determined role is in the session scope with attribute \"role\":" + result.value());
+        Log.trace("Defined role is in the session scope with attribute \"role\":" + result.value());
         return result;
     }
 

@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="p" value="${param.p}"/>
 
 <!DOCTYPE html>
 
@@ -19,12 +18,12 @@
 
       <%@ include file="/jspf/searchAuth.jspf"%>
 
-      <c:if test="${p eq 'clientMain'}">
-        <%@ include file="/jspf/grafics.jspf"%>
+      <c:if test="${param.tab eq 'create'}">
+        <%@ include file="/jspf/createOrderCard.jspf"%>
       </c:if>
 
-      <c:if test="${p eq 'create'}">
-        <%@ include file="/jspf/createOrderCard.jspf"%>
+      <c:if test="${param.tab ne 'create'}">
+        <%@ include file="/jspf/grafics.jspf"%>
       </c:if>
 
     </div>

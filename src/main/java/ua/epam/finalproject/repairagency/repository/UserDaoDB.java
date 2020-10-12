@@ -96,7 +96,7 @@ public class UserDaoDB implements UserDao {
         return registeredUser;
     }
 
-    private static double getWalletCount(PreparedStatement walletCountPreparedStatement, int id) throws SQLException {
+    private double getWalletCount(PreparedStatement walletCountPreparedStatement, int id) throws SQLException {
         Log.debug("Start to obtain client wallet count for client with id : " + id);
         walletCountPreparedStatement.setInt(1, id);
         ResultSet resultSet = walletCountPreparedStatement.executeQuery();
@@ -143,6 +143,7 @@ public class UserDaoDB implements UserDao {
                 }
             }
         } catch (SQLException e) {
+            Log.error("Falling during adding client to DB");
             if(genKeys != null) {
                 genKeys.close();
             }
@@ -155,7 +156,6 @@ public class UserDaoDB implements UserDao {
             if(localePreparedStatement != null) {
                 localePreparedStatement.close();
             }
-            Log.error("Falling during adding client to DB");
             throw new SQLException(e);
         }
 
@@ -168,7 +168,7 @@ public class UserDaoDB implements UserDao {
         return null;
     }
 
-    private static int getIdFromLocale(PreparedStatement localePreparedStatement, Locale locale) throws SQLException {
+    private int getIdFromLocale(PreparedStatement localePreparedStatement, Locale locale) throws SQLException {
         localePreparedStatement.setString(1, locale.getCountry());
         ResultSet resultSet = localePreparedStatement.executeQuery();
         if(resultSet.next()) {

@@ -33,7 +33,7 @@
                     </c:if>
 
                     <c:if test="${not empty user.personName}">
-                        <a href="controller?p=clientMain" class="userName">
+                        <a href="controller?p=clientMain&tab=main" class="userName">
                                 ${user.personName}
                         </a>
                     </c:if>

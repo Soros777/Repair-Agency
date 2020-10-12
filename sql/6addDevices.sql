@@ -1,0 +1,7 @@
+INSERT INTO devices (value, description) 
+				VALUES ('COMPUTER', 'Most people associate a personal computer (PC) with the phrase computer.  A PC is a small and relatively inexpensive computer designed for an individual use.'),
+						('LAPTOP', 'A notebook computer is a battery- or AC-powered personal computer generally smaller than a briefcase that can easily be transported and conveniently used in temporary spaces such as on airplanes, in libraries, temporary offices, and at meetings.'),
+                        ('SMARTPHONE', 'A smartphone is a mobile phone that includes advanced functionality beyond making phone calls and sending text messages. Most smartphones have the capability to display photos, play videos, check and send e-mail, and surf the Web.'),
+                        ('TABLET', 'A tablet computer, commonly shortened to tablet, is a mobile device, typically with a mobile operating system and touchscreen display processing circuitry, and a rechargeable battery in a single, thin and flat package.'),
+                        ('E_READER', 'An e-reader is a device designed as a convenient way to read e-books. It is similar in form factor to a tablet computer, but features electronic paper rather than an LCD screen. ... An e-reader may also download e-books from a computer or read them from a memory card.');
+					

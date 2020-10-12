@@ -30,7 +30,7 @@ public class UserService {
 
     public User getRegisteredUser(HttpServletRequest request) {
         Log.debug("Start getting user");
-        Role role = UserUtil.determineRole(request);
+        Role role = UserUtil.defineRole(request);
 
         String email = request.getParameter(PARAM_NAME_EMAIL);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
@@ -79,7 +79,7 @@ public class UserService {
 
             if(userDao.addClient(connection, client)) {
                 connection.commit();
-                Log.debug("Success! New Client is in DB.");
+                Log.debug("Success! New == Client == is in DB.");
                 return true;
             }
         } catch (SQLException e) {

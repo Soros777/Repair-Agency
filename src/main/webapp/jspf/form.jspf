@@ -1,0 +1,31 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+
+<form action="controller" method="POST">
+    <div class="row mr-auto ml-auto">
+        <div class="col-25">
+            <label for="device">Что нужно отремонтировать:</label>
+        </div>
+        <div class="col-75">
+            <select id="device" name="device">
+                <option value="noValue">Выберите из списка ...</option>
+                <option value="computer">Компьютер</option>
+                <option value="laptop">Ноутбук</option>
+                <option value="smartphone">Смартфон</option>
+                <option value="tablet">Планшет</option>
+                <option value="e_reader">Эл. книга</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mr-auto ml-auto">
+        <div class="col-25">
+            <label for="description">Опишите проблему</label>
+        </div>
+        <div class="col-75">
+            <textarea id="description" name="description" placeholder="Что не работает?" style="height:200px"></textarea>
+        </div>
+    </div>
+    <div class="row  mr-auto ml-auto">
+        <input type="hidden" name="command" value="createOrder">
+        <input type="submit" value="Создать заявку">
+    </div>
+</form>
