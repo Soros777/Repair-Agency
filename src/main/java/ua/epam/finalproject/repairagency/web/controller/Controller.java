@@ -38,9 +38,8 @@ public class Controller extends HttpServlet {
             forward = "index.jsp";
         } else {
             switch (forward) {
-                case "clientMain" :
-                case "create" :
-                    forward = "authorizedPages/clientMain.jsp";
+                case "userMain" :
+                    forward = "authorizedPages/userMain.jsp";
                     break;
             }
         }

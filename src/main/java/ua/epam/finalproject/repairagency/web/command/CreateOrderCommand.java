@@ -36,6 +36,6 @@ public class CreateOrderCommand extends ActionCommand {
             throw new AppException("Can't execute command");
         }
 
-        return "controller?p=clientMain&tab=create&conf=thanks";
+        return "controller?p=userMain&tab=create&conf=thanks";
     }
 }

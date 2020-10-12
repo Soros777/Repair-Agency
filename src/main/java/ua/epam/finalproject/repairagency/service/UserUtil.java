@@ -44,8 +44,8 @@ public class UserUtil {
                 result = Role.CLIENT;
         }
         HttpSession session = request.getSession();
-        session.setAttribute("role", result.value());
-        Log.trace("Defined role is in the session scope with attribute \"role\":" + result.value());
+        session.setAttribute("role", result.getValue());
+        Log.trace("Defined role is in the session scope with attribute \"role\":" + result.getValue());
         return result;
     }
 
@@ -55,8 +55,8 @@ public class UserUtil {
         ResultSet resultSet = rolePreparedStatement.executeQuery();
         if(resultSet.next()) {
             String roleValue = resultSet.getString(1);
-            Log.debug("Roles are ok");
-            return roleValue.equalsIgnoreCase(role.value());
+            Log.debug("Roles if obtained from DB");
+            return roleValue.equalsIgnoreCase(role.getValue());
         }
         Log.error("Failing checking roles");
         return false;

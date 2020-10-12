@@ -18,7 +18,7 @@ public enum Role {
         return value.equals(name);
     }
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 }

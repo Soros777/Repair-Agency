@@ -243,3 +243,8 @@ INSERT INTO devices (value, description)
                         ('TABLET', 'A tablet computer, commonly shortened to tablet, is a mobile device, typically with a mobile operating system and touchscreen display processing circuitry, and a rechargeable battery in a single, thin and flat package.'),
                         ('E_READER', 'An e-reader is a device designed as a convenient way to read e-books. It is similar in form factor to a tablet computer, but features electronic paper rather than an LCD screen. ... An e-reader may also download e-books from a computer or read them from a memory card.');
 					                  
+-- -----------------------------------------------------
+-- add manager --
+-- -----------------------------------------------------
+INSERT INTO users (`email`, `password`, `person_name`, `role_id`, `photo_path`, `locale_id`)
+					VALUES ('manager@gmail.com', '38B7A50805A37780D3D6FEF6A6F3838A21D7017B3237E8390066CB6D84DC3AB4', 'Джордан Белфорт', '4', 'img/users/manager.jpg', '1');

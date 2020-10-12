@@ -46,10 +46,10 @@ public class UserService {
         }
 
         User registeredUser;
-        Log.debug("go to DB");
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
             Connection connection = connectionPool.getConnection();
+            Log.debug("go to DB");
             registeredUser = userDao.getRegisteredUser(connection, email, password, role);
         } catch (SQLException | NamingException e) {
             Log.error("Can't get Registered user cause : " + e);
