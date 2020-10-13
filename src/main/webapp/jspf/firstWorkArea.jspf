@@ -5,23 +5,37 @@
         <i class="fa fa-heart"></i>
         <h4>Клиенты</h4>
         <p>
-            Здесь приведена информация о зарегистрированных на сайте клиентах:
+            Здесь представлена информация о зарегистрированных на сайте клиентах:
         </p>
-        <p>
-            Arnold Schwarzenegger<br/>
-            arni@gmail.com<br/>
-            trewas01
-        </p>
-        <p>
-            James Bond<br/>
-            bond007@gmail.com<br/>
-            trewas07
-        </p>
-        <p>
-            Angelina Jolie<br/>
-            jolie@gmail.com<br/>
-            trewas03
-        </p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>email</th>
+                    <th>password</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Arnold Schwarzenegger</td>
+                    <td>arni@gmail.com</td>
+                    <td>trewas01</td>
+                </tr>
+                <tr>
+                    <td>James Bond</td>
+                    <td>bond@gmail.com</td>
+                    <td>trewas07</td>
+                </tr>
+                <tr>
+                    <td>Angelina Jolie</td>
+                    <td>jolie@gmail.com</td>
+                    <td>trewas03trewas01</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="col-lg-4">
         <i class="fa fa-laptop"></i>

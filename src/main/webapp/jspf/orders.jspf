@@ -5,7 +5,46 @@
         <div class="card">
             <div class="card-body">
 <%--                Start content         --%>
-                Здесь для сотрудников компании отобразим список всех имеющихся заявок
+                <form>
+                    <p>
+                        Свод заказов за
+                        <
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>First</th>
+                                <th>Second</th>
+                                <th>Third</th>
+                                <th>Fourth</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+
 <%--                End content      --%>
             </div>
         </div>

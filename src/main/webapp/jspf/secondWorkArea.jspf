@@ -6,17 +6,17 @@
             <br>
             <div class="col-lg-4">
                 <div class="tilt">
-                    <a href="#"><img src="../../img/p01.png"></a>
+                    <a href="#"><img src="img/p01.png"></a>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="tilt">
-                    <a href="#"><img src="../../img/p02.png"></a>
+                    <a href="#"><img src="img/p02.png"></a>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="tilt">
-                    <a href="#"><img src="../../img/p03.png"></a>
+                    <a href="#"><img src="img/p03.png"></a>
                 </div>
             </div>
         </div>
