@@ -5,13 +5,17 @@ import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
+import ua.epam.finalproject.repairagency.model.User;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,9 +45,7 @@ public class UserUtil {
             default: // CLIENT
                 result = Role.CLIENT;
         }
-        HttpSession session = request.getSession();
-        session.setAttribute("role", result.getValue());
-        Log.trace("Defined role is in the session scope with attribute \"role\":" + result.getValue());
+        Log.trace("Defined role is : " + result.getValue());
         return result;
     }
 
@@ -143,4 +145,45 @@ public class UserUtil {
         client.setRole(Role.CLIENT);
         return client;
     }
+
+    public static User getUserFromParam(int id, String email, String password, String personName, Role role,
+                                        String photoPath, String contactPhone, Locale locale, String dateStr) {
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setPersonName(personName);
+        user.setRole(role);
+        user.setPhotoPath(photoPath);
+        user.setContactPhone(contactPhone);
+        user.setLocale(locale);
+        user.setRegistrationDate(LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        return user;
+    }
+
+    public static Client getClientFromUser(User user, double walletValue) {
+        Client client = new Client();
+        client.setId(user.getId());
+        client.setEmail(user.getEmail());
+        client.setPersonName(user.getPersonName());
+        client.setPassword(user.getPassword());
+        client.setPhotoPath(user.getPhotoPath());
+        client.setRole(user.getRole());
+        client.setWalletCount(walletValue);
+        client.setContactPhone(user.getContactPhone());
+        client.setLocale(user.getLocale());
+        client.setRegistrationDate(user.getRegistrationDate());
+        return client;
+    }
+
+    public static boolean checkUser(User registeredUser, String password, Role roleFromRequest) {
+        if(!registeredUser.getPassword().equals(password)) {
+            return false;
+        }
+        if(registeredUser.getRole() != roleFromRequest) {
+            return false;
+        }
+        return true;
+    }
 }
+

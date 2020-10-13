@@ -8,7 +8,6 @@
     <div class="person">
         <span class="personName">
             ${user.personName}
-<%--                </br>123--%>
         </span>
 
         <c:if test="${user.role.value ne 'Client'}">

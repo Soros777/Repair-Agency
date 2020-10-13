@@ -14,11 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class UserService {
@@ -35,37 +31,61 @@ public class UserService {
 
     public User getRegisteredUser(HttpServletRequest request) {
         Log.debug("Start getting user");
-        Role role = UserUtil.defineRole(request);
+
+        Role roleFromRequest = UserUtil.defineRole(request);
 
         String email = request.getParameter(PARAM_NAME_EMAIL);
         String password = request.getParameter(PARAM_NAME_PASSWORD);
-
         password = HashPassword.getHash(password);
-        if(!role.valueEqualsTo("Client")) {
+        if(!roleFromRequest.valueEqualsTo(Role.CLIENT.getValue())) {
             email = email.substring(1);
         }
+
         Log.debug("Entered email is : " + email);
+
         if(StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
             Log.debug("Incorrect login or password");
             return null;
         }
 
+        Connection connection;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+        } catch (SQLException | NamingException e) {
+            Log.error("Cant obtain connection cause : " + e);
+            throw new AppException("Can't authorise user");
+        }
+
         User registeredUser;
         try {
-            ConnectionPool connectionPool = ConnectionPool.getInstance();
-            Connection connection = connectionPool.getConnection();
-            Log.debug("go to DB");
-            registeredUser = userDao.getRegisteredUser(connection, email, password, role);
-        } catch (SQLException | NamingException e) {
-            Log.error("Can't get Registered user cause : " + e);
-            throw new AppException("Can't get Registered user", e);
+            registeredUser = userDao.getUserByEmail(connection, email);
+
+            if(registeredUser != null && registeredUser.getRole() == Role.CLIENT) {
+                Log.debug("It is a client");
+                double walletValue = userDao.getWalletValue(connection, registeredUser.getId());
+                registeredUser = UserUtil.getClientFromUser(registeredUser, walletValue);
+            }
+        } catch (SQLException e) {
+            Log.error("Can't get user from db cause : " + e);
+            throw new AppException("Can't authorise user");
+        } finally {
+            if(connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    Log.error("Can't close connection");
+                }
+            }
+        }
+
+        if(!UserUtil.checkUser(registeredUser, password, roleFromRequest)) {
+            registeredUser = null;
         }
 
         HttpSession session = request.getSession();
         session.setAttribute("user", registeredUser);
-        Log.trace("The attribute \"user\" is placed in the session scope");
+        Log.trace("The attribute \"user\" is placed in the session scope " + registeredUser);
 
-        Log.debug("Return registered user : " + registeredUser);
         return registeredUser;
     }
 

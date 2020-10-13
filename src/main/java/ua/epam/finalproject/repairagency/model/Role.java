@@ -21,4 +21,13 @@ public enum Role {
     public String getValue() {
         return value;
     }
+
+    public static Role fromString(String roleStr) {
+        for (Role role : values()) {
+            if(role.value.equalsIgnoreCase(roleStr)) {
+                return role;
+            }
+        }
+        return null;
+    }
 }

@@ -37,7 +37,7 @@ public class LoginCommand extends ActionCommand {
             }
         } catch (IOException e) {
             Log.error("Can't get Writer to response: " + e);
-            throw new AppException(e.getMessage());
+            throw new AppException("Can't authorise user");
         }
 
         Log.debug("Command finished");

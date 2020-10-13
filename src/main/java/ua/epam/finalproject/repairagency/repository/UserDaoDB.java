@@ -26,7 +26,18 @@ public class UserDaoDB implements UserDao {
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
-                //todo create user
+                user = UserUtil.getUserFromParam(
+                        resultSet.getInt("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("person_name"),
+                        getRoleById(connection, resultSet.getInt("role_id")),
+                        resultSet.getString("photo_path"),
+                        resultSet.getString("contact_phone"),
+                        getLocaleById(connection, resultSet.getInt("locale_id")),
+                        resultSet.getString("registration_date")
+                );
+                Log.debug("User successfully obtained from db");
             }
         } catch (SQLException e) {
             Log.error("Can't get user by email cause : " + e);
@@ -39,6 +50,64 @@ public class UserDaoDB implements UserDao {
             throw new SQLException(e);
         }
         return user;
+    }
+
+    private Locale getLocaleById(Connection connection, int locale_id) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Locale result = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT value FROM locales WHERE id=?");
+            preparedStatement.setInt(1, locale_id);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                result = Locale.forLanguageTag(resultSet.getString(1));
+            }
+            if(result != null) {
+                Log.debug("Obtained locale : " + result);
+                return result;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't obtain locale value cause : " + e);
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
+        }
+        Log.error("Can't obtain locale from id");
+        throw new AppException("Cant authorise user");
+    }
+
+    private Role getRoleById(Connection connection, int role_id) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Role result = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT value FROM roles WHERE id=?");
+            preparedStatement.setInt(1, role_id);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                result = Role.fromString(resultSet.getString(1));
+            }
+            if(result != null) {
+                Log.debug("Defined role : " + result);
+                return result;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't obtain role value cause : " + e);
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
+        }
+        Log.error("Can't obtain role from id");
+        throw new AppException("Cant authorise user");
     }
 
     @Override
@@ -253,5 +322,35 @@ public class UserDaoDB implements UserDao {
             }
             throw new SQLException(e);
         }
+    }
+
+    @Override
+    public double getWalletValue(Connection connection, int id) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        double result = -1;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT wallet_count FROM clients WHERE parent=?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                result = resultSet.getDouble(1);
+            }
+            if(result != -1) {
+                Log.debug("Successfully obtained wallet count");
+                return result;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't obtain wallet count cause : " + e);
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
+        }
+        Log.error("Can't obtain wallet count");
+        throw new AppException("Can't authorise user");
     }
 }

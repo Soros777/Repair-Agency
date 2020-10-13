@@ -63,4 +63,9 @@ public class UserDaoMoc implements UserDao {
     public void addClientWallet(Connection connection, int userId) throws SQLException {
 
     }
+
+    @Override
+    public double getWalletValue(Connection connection, int id) throws SQLException {
+        return 0;
+    }
 }
