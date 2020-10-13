@@ -7,12 +7,21 @@ import ua.epam.finalproject.repairagency.model.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 public interface UserDao {
 
-    User getRegisteredUser(Connection connection, String email, String password, Role role);
+    User getRegisteredUser(Connection connection, String email, String password, Role role); //todo remove this method
 
-    boolean addClient(Connection connection, Client client) throws SQLException;
+    User getUserByEmail(Connection connection, String email) throws SQLException;
+
+    int addUser(Connection connection, User user, int locale_id, int role_id) throws SQLException;
 
     List<User> findAllUsers(Connection connection);
+
+    int getIdFromLocale(Connection connection, Locale locale) throws SQLException;
+
+    int getIdFromRole(Connection connection, Role role) throws SQLException;
+
+    void addClientWallet(Connection connection, int userId) throws SQLException;
 }

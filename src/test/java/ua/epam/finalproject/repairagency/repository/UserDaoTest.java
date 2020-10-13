@@ -52,13 +52,4 @@ public class UserDaoTest {
         Client actual = (Client) userDao.getRegisteredUser(null, "nothing@gmail.com", HashPassword.getHash("something"), Role.CLIENT);
         assertNull(actual);
     }
-
-    @Test
-    public void addClient() throws SQLException {
-        int countUsersBefore = userDao.findAllUsers(null).size();
-        Client client = Client.getClientWithInitParams(100, "ki@li.da", HashPassword.getHash("123"), "Брюс Ли",
-                Role.CLIENT, 0, "img/users/userIcon.png", null, Locale.CHINA, null);
-        userDao.addClient(null, client);
-        assertEquals(countUsersBefore + 1, userDao.findAllUsers(null).size());
-    }
 }

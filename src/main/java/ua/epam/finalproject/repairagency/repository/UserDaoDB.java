@@ -6,7 +6,6 @@ import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.UserUtil;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +15,31 @@ import java.util.Locale;
 public class UserDaoDB implements UserDao {
 
     private final static Logger Log = Logger.getLogger(UserDaoDB.class);
+
+    @Override
+    public User getUserByEmail(Connection connection, String email) throws SQLException {
+        User user = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
+            preparedStatement.setString(1, email);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                //todo create user
+            }
+        } catch (SQLException e) {
+            Log.error("Can't get user by email cause : " + e);
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
+        }
+        return user;
+    }
 
     @Override
     public User getRegisteredUser(Connection connection, String email, String password, Role role) {
@@ -96,6 +120,7 @@ public class UserDaoDB implements UserDao {
         return registeredUser;
     }
 
+
     private double getWalletCount(PreparedStatement walletCountPreparedStatement, int id) throws SQLException {
         Log.debug("Start to obtain client wallet count for client with id : " + id);
         walletCountPreparedStatement.setInt(1, id);
@@ -108,59 +133,39 @@ public class UserDaoDB implements UserDao {
     }
 
     @Override
-    public boolean addClient(Connection connection, Client client) throws SQLException {
-        Log.info("adding client");
-
-        PreparedStatement mainPreparedStatement = null;
-        PreparedStatement walletPreparedStatement = null;
-        PreparedStatement localePreparedStatement = null;
-        ResultSet genKeys = null;
-
+    public int addUser(Connection connection, User user, int locale_id, int role_id) throws SQLException {
+        Log.debug("Start adding new user : " + user);
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
-            mainPreparedStatement = connection.prepareStatement(
-                    "INSERT INTO users (email, password, person_name, role_id, locale_id) VALUES (?, ?, ?, 2, ?)", Statement.RETURN_GENERATED_KEYS);
-            walletPreparedStatement = connection.prepareStatement(
-                    "INSERT INTO clients (parent) VALUES (?)");
-            localePreparedStatement = connection.prepareStatement(
-                    "SELECT id FROM locales WHERE value=?");
+            preparedStatement = connection.prepareStatement("INSERT INTO users (email, password, person_name, role_id, locale_id) " +
+                                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             int k = 1;
-            mainPreparedStatement.setString(k++, client.getEmail());
-            mainPreparedStatement.setString(k++, client.getPassword());
-            mainPreparedStatement.setString(k++, client.getPersonName());
-            mainPreparedStatement.setInt(k, getIdFromLocale(localePreparedStatement, client.getLocale()));
-
-            mainPreparedStatement.execute();
-            Log.debug("go to mainPreparedStatement.getGeneratedKeys() : " + mainPreparedStatement);
-            genKeys = mainPreparedStatement.getGeneratedKeys();
-            Log.debug("Gotten ResultSet");
-            if(genKeys.next()) {
-                Log.debug("Success added new client to users table");
-                int id = genKeys.getInt(1);
-                if(id > 0) {
-                    walletPreparedStatement.setInt(1, id);
-                    Log.debug("go to add client wallet_count");
-                    return walletPreparedStatement.executeUpdate() == 1;
-                }
+            preparedStatement.setString(k++, user.getEmail());
+            preparedStatement.setString(k++, user.getPassword());
+            preparedStatement.setString(k++, user.getPersonName());
+            preparedStatement.setInt(k++, role_id);
+            preparedStatement.setInt(k, locale_id);
+            Log.debug("do execute the preparedstatement " + preparedStatement);
+            preparedStatement.execute();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if(resultSet.next()) {
+                int userId = resultSet.getInt(1);
+                Log.debug("The user is added successfully. It's id is : " + userId);
+                return userId;
             }
         } catch (SQLException e) {
-            Log.error("Falling during adding client to DB");
-            if(genKeys != null) {
-                genKeys.close();
+            Log.error("Can't add user cause : " + e);
+            if(resultSet != null) {
+                resultSet.close();
             }
-            if(walletPreparedStatement != null) {
-                walletPreparedStatement.close();
-            }
-            if(mainPreparedStatement != null) {
-                mainPreparedStatement.close();
-            }
-            if(localePreparedStatement != null) {
-                localePreparedStatement.close();
+            if(preparedStatement != null) {
+                preparedStatement.close();
             }
             throw new SQLException(e);
         }
-
-        Log.error("Falling during adding a new client to DB");
-        throw new AppException("Falling during adding a new client to DB");
+        Log.debug("Can't add new user");
+        throw new AppException("Can't add new user");
     }
 
     @Override
@@ -168,15 +173,85 @@ public class UserDaoDB implements UserDao {
         return null;
     }
 
-    private int getIdFromLocale(PreparedStatement localePreparedStatement, Locale locale) throws SQLException {
-        localePreparedStatement.setString(1, locale.getCountry());
-        ResultSet resultSet = localePreparedStatement.executeQuery();
-        if(resultSet.next()) {
-            int id = resultSet.getInt(1);
-            Log.debug("Success for getting locale id from DB: " + id);
-            return id;
+    @Override
+    public int getIdFromLocale(Connection connection, Locale locale) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int result;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT id FROM locales WHERE value=?");
+            preparedStatement.setString(1, locale.getCountry());
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                result = resultSet.getInt(1);
+                Log.debug("Success obtained locale id : " + result);
+                return result;
+            }
+            // is there is not such locale in the db. Can I use the resultSet and preparedStatement twice?
+            preparedStatement.setString(1, "EN");
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                result = resultSet.getInt(1);
+                Log.debug("Obtained default locale \"EN\"");
+                return result;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't obtain locale id");
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
         }
-        Log.trace("Define default locale EN");
-        return 3;
+        Log.error("Can't define locale id");
+        throw new AppException("Can't add new user");
+    }
+
+    @Override
+    public int getIdFromRole(Connection connection, Role role) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int result = -1;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT id FROM roles WHERE value=?");
+            preparedStatement.setString(1, role.toString());
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                result = resultSet.getInt(1);
+                Log.debug("Success obtained role id : " + result);
+                return result;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't obtain role id");
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
+        }
+        Log.error("Can't define role id");
+        throw new AppException("Can't add new user");
+    }
+
+    @Override
+    public void addClientWallet(Connection connection, int userId) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO clients (parent) VALUES (?)");
+            preparedStatement.setInt(1, userId);
+            if(preparedStatement.executeUpdate() != 1) {
+                throw new AppException("Can't register new client");
+            }
+        } catch (SQLException e) {
+            Log.error("Can't add client wallet");
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
+        }
     }
 }

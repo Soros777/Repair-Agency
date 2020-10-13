@@ -60,20 +60,20 @@ public class UserServiceTest {
     public void tearDown() throws Exception {
     }
 
-//    @Test
-//    public void getRegisteredUser_Should_Return_Boss() throws SQLException, NamingException {
-//        given(userDao.getRegisteredUser(null, "$boss@gmail.com", HashPassword.getHash("point777"), Role.DIRECTOR))
-//                .willReturn(User.getUserWithInitParams(1, "boss@gmail.com", HashPassword.getHash("point777"),
-//                        "Александр Васильевич", Role.DIRECTOR, "img/users/boss.jpg", null, Locale.ENGLISH, null));
-//        when(request.getParameter("email")).thenReturn("$boss@gmail.com");
-//        when(request.getParameter("password")).thenReturn("point777");
-//        when(request.getSession()).thenReturn(session);
-//        when(connectionPool.getInstance()).thenReturn(connectionPool);
-//        when(connectionPool.getConnection()).thenReturn(connection);
-//
-//        User user = userService.getRegisteredUser(request);
-//        assertNotNull(user);
-//    }
+    @Test
+    public void getRegisteredUser_Should_Return_Boss() throws SQLException, NamingException {
+        given(userDao.getRegisteredUser(null, "$boss@gmail.com", HashPassword.getHash("point777"), Role.DIRECTOR))
+                .willReturn(User.getUserWithInitParams(1, "boss@gmail.com", HashPassword.getHash("point777"),
+                        "Александр Васильевич", Role.DIRECTOR, "img/users/boss.jpg", null, Locale.ENGLISH, null));
+        when(request.getParameter("email")).thenReturn("$boss@gmail.com");
+        when(request.getParameter("password")).thenReturn("point777");
+        when(request.getSession()).thenReturn(session);
+        when(connectionPool.getInstance()).thenReturn(connectionPool);
+        when(connectionPool.getConnection()).thenReturn(connection);
+
+        User user = userService.getRegisteredUser(request);
+        assertNotNull(user);
+    }
 
     @Test
     public void addNewClient() {

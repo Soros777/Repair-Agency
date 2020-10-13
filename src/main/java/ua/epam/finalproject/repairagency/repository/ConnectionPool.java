@@ -10,13 +10,9 @@ import java.sql.SQLException;
 public class ConnectionPool {
 
     private static ConnectionPool instance;
-
-    /* Just for testing. After that need return
-
+    private static String SOURCE_NAME = "java:comp/env/jdbc/repairAgency";
     private Context context = new InitialContext();
-    private DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/repairAgency");
-
-     */
+    private DataSource dataSource = (DataSource) context.lookup(SOURCE_NAME);
 
     private ConnectionPool() throws NamingException {}
 
@@ -32,18 +28,6 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() throws SQLException {
-
-  //////// After testing need to be deleted
-        Context context;
-        DataSource dataSource = null;
-        try {
-            context = new InitialContext();
-            dataSource = (DataSource) context.lookup("java:comp/env/jdbc/repairAgency");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-  ///////////////////////////////////
-
         return dataSource.getConnection();
     }
 }

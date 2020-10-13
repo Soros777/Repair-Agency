@@ -20,12 +20,12 @@
 
     <div class="list-group list-group-flush">
 
-        <a href="controller?p=userMain&tab=main" class="list-group-item waves-effect <c:if test="${param.tab eq 'main'}"> active </c:if>">
+        <a href="controller?p=authorizedPage&tab=main" class="list-group-item waves-effect <c:if test="${param.tab eq 'main'}"> active </c:if>">
             <i class="fa fa-pie-chart mr-3"></i>Dashboard
         </a>
 
         <c:if test="${user.role.value ne 'Client'}">
-            <a href="controller?p=userMain&tab=orders" class="list-group-item waves-effect <c:if test="${param.tab eq 'orders'}"> active </c:if>">
+            <a href="controller?p=authorizedPage&tab=orders" class="list-group-item waves-effect <c:if test="${param.tab eq 'orders'}"> active </c:if>">
                 <i class="fa fa-map mr-3"></i>Orders
             </a>
         </c:if>
@@ -35,7 +35,7 @@
         </a>
 
         <c:if test="${user.role.value eq 'Client'}">
-            <a href="controller?p=userMain&tab=create" class="list-group-item waves-effect <c:if test="${param.tab eq 'create'}"> active </c:if>">
+            <a href="controller?p=authorizedPage&tab=create" class="list-group-item waves-effect <c:if test="${param.tab eq 'create'}"> active </c:if>">
                 <i class="fa fa-table mr-3"></i>Create order
             </a>
         </c:if>

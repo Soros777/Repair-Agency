@@ -2,18 +2,16 @@ package ua.epam.finalproject.repairagency.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ua.epam.finalproject.repairagency.repository.ConnectionPool;
 import ua.epam.finalproject.repairagency.exeption.AppException;
+import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
-
-import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,37 +76,25 @@ public class UserUtil {
     public static boolean validateEnteredData(String clientName, String clientEmail, String clientPassword,
                                               String clientPasswordRepeat, HttpServletResponse response)
     {
-
         if(StringUtils.isEmpty(clientName)) {
             try {
                 response.getWriter().write("introduce yourself");
             } catch (IOException e) {
                 Log.error("Can't get request writer : " + e);
-                throw new AppException("Can't get request writer", e);
+                return false;
             }
             Log.debug("Client name is empty");
             return false;
         }
 
-        if(!UserUtil.validEmail(clientEmail)) {
+        if(!validEmail(clientEmail)) {
             try {
                 response.getWriter().write("not valid email");
             } catch (IOException e) {
                 Log.error("Can't get request writer : " + e);
-                throw new AppException("Can't get request writer", e);
+                return false;
             }
             Log.debug("Email is not valid according to regex");
-            return false;
-        }
-
-        if(!dontRepeatEmail(clientEmail)) {
-            try {
-                response.getWriter().write("repeated email");
-            } catch (IOException e) {
-                Log.error("Can't get request writer : " + e);
-                throw new AppException("Can't get request writer", e);
-            }
-            Log.debug("Email is repeated");
             return false;
         }
 
@@ -117,7 +103,7 @@ public class UserUtil {
                 response.getWriter().write("not same passwords");
             } catch (IOException e) {
                 Log.error("Can't get request writer : " + e);
-                throw new AppException("Can't get request writer", e);
+                return false;
             }
             Log.debug("Password is not the same");
             return false;
@@ -138,27 +124,6 @@ public class UserUtil {
         return true;
     }
 
-    private static boolean dontRepeatEmail(String emailStr) {
-        Log.trace("Start check email for not existing in DB");
-        List<String> emailFromDB = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             Statement statement = connection.createStatement())
-        {
-            ResultSet resultSet = statement.executeQuery("SELECT email FROM users");
-            while (resultSet.next()) {
-                emailFromDB.add(resultSet.getString(1));
-            }
-            if(emailFromDB.contains(emailStr)) {
-                return false;
-            }
-        } catch (SQLException | NamingException e) {
-            Log.error("Can't get emails from DB" + e);
-            throw new AppException("Can't get emails from DB", e);
-        }
-        Log.trace("New email is OK");
-        return true;
-    }
-
     private static boolean checkPasswords(String pass, String passRep) {
         Log.trace("Start check passwords to be the same");
         if(!StringUtils.isEmpty(pass) && !StringUtils.isEmpty(passRep) && pass.equals(passRep)) {
@@ -167,5 +132,15 @@ public class UserUtil {
         }
         Log.trace("Password is not correct");
         return false;
+    }
+
+    public static Client getClientFromParam(String clientEmail, String personName, String clientPassword, Locale locale) {
+        Client client = new Client();
+        client.setEmail(clientEmail);
+        client.setPersonName(personName);
+        client.setPassword(HashPassword.getHash(clientPassword));
+        client.setLocale(locale);
+        client.setRole(Role.CLIENT);
+        return client;
     }
 }

@@ -8,6 +8,7 @@ import ua.epam.finalproject.repairagency.service.UserUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 public class RegisterCommand extends ActionCommand {
 
@@ -27,26 +28,24 @@ public class RegisterCommand extends ActionCommand {
         String clientPassword = request.getParameter("registerPassword");
         String clientPasswordRepeat = request.getParameter("registerPasswordRepeat");
         String clientName = request.getParameter("registerClientName");
-        Log.debug("Gotten params ==> ClientName: " + clientName + "; email: " + clientEmail);
+        Locale locale = request.getLocale();
+        Log.debug("Gotten params ==> ClientName: " + clientName + "; email: " + clientEmail + "; locale: " + locale);
 
-        if(!UserUtil.validateEnteredData(clientName, clientEmail, clientPassword, clientPasswordRepeat, response)) {
-           return null;
-        }
+        Log.debug("pass to service");
+        boolean added = userService.addNewClient(clientEmail, clientPassword, clientPasswordRepeat, clientName, locale, response);
 
-        Log.debug("go to add a new client to DB");
-        boolean added = userService.addNewClient(clientEmail, clientPassword, clientName, request.getLocale());
-        Log.debug("new client is added to DB");
         if(added) {
+            Log.debug("new client is added to DB");
             try {
                 response.getWriter().write("success registration");
             } catch (IOException e) {
-                Log.error("Can't get request writer");
-                throw new AppException("Can't get request writer", e);
+                Log.error("Can't get request writer cause : " + e);
+                return null;
             }
             Log.debug("Well done! Success registration!");
             return null;
         }
         Log.debug("Can't register a new user");
-        throw new AppException("Can't register a new user");
+        return null;
     }
 }

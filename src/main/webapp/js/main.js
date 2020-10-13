@@ -77,9 +77,9 @@ $('.login-btn').click(function (e) {
 							  "</h1>" +
 							  "<span>" +
 									"<a class='btn btn-success btn-lg m-2' href='controller'>На сайт</a>" +
-									"<a class='btn btn-primary btn-lg m-2' href='controller?p=userMain&tab=main'>В личный кабинет</a>" +
+									"<a class='btn btn-primary btn-lg m-2' href='controller?p=authorizedPage&tab=main'>В личный кабинет</a>" +
 							  "</span>";
-			let userField = "<a href='controller?p=userMain' class='userName'>" + data + "</a>";
+			let userField = "<a href='controller?p=authorizedPage&tab=main' class='userName'>" + data + "</a>";
 
 			if(data === "Something wrong") {
 				$('.msg-fal-log').removeClass('none');

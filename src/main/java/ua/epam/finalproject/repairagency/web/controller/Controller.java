@@ -35,14 +35,9 @@ public class Controller extends HttpServlet {
 
         String forward = request.getParameter("p");
         if(forward == null) {
-            forward = "index.jsp";
-        } else {
-            switch (forward) {
-                case "userMain" :
-                    forward = "authorizedPages/userMain.jsp";
-                    break;
-            }
+            forward = "index";
         }
+        forward = forward + ".jsp";
 
         request.getRequestDispatcher(forward).forward(request, response);
     }

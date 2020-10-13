@@ -3,7 +3,6 @@ package ua.epam.finalproject.repairagency.repository;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,25 +28,39 @@ public class UserDaoMoc implements UserDao {
         userList.add(jolie);
     }
 
+
     @Override
     public User getRegisteredUser(Connection connection, String email, String password, Role role) {
-        if(role != Role.CLIENT) {
-            email = email.substring(1);
-        }
-        String finalEmail = email;
-        return userList.stream().filter(u -> u.getEmail().equals(finalEmail)
-                                        && u.getPassword().equals(password)
-                                        && u.getRole().equals(role)).findAny().orElse(null);
+        return null;
     }
 
     @Override
-    public boolean addClient(Connection connection, Client client) throws SQLException {
-        userList.add(client);
-        return true;
+    public User getUserByEmail(Connection connection, String email) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public int addUser(Connection connection, User user, int locale_id, int role_id) throws SQLException {
+        return 0;
     }
 
     @Override
     public List<User> findAllUsers(Connection connection) {
-        return userList;
+        return null;
+    }
+
+    @Override
+    public int getIdFromLocale(Connection connection, Locale locale) throws SQLException {
+        return 0;
+    }
+
+    @Override
+    public int getIdFromRole(Connection connection, Role role) throws SQLException {
+        return 0;
+    }
+
+    @Override
+    public void addClientWallet(Connection connection, int userId) throws SQLException {
+
     }
 }

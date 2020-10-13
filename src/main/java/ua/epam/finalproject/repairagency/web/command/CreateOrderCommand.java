@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.service.OrderService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -36,6 +35,6 @@ public class CreateOrderCommand extends ActionCommand {
             throw new AppException("Can't execute command");
         }
 
-        return "controller?p=userMain&tab=create&conf=thanks";
+        return "controller?p=authorizedPage&tab=create&conf=thanks";
     }
 }
