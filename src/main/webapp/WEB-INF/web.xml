@@ -39,7 +39,7 @@
         <init-param>
             <param-name>manager</param-name>
             <param-value>
-                appointMaster defineWorkCost changeWaitPayStatus changePayedStatus changeCanceledStatus topUpClientAccount
+                listOrders appointMaster defineWorkCost changeWaitPayStatus changePayedStatus changeCanceledStatus topUpClientAccount
             </param-value>
         </init-param>
         <init-param>

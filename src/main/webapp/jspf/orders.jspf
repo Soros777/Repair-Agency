@@ -8,16 +8,22 @@
                 <form>
                     <p>
                         Свод заказов за
-                        <
+                        <input type="text" name="period" value="current month">
+                        с <input type="date" name="from" value="Start of this month (must be changed)">
+                        по <input type="date" name="to" value="Current date (must be changed)">
                     </p>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>First</th>
-                                <th>Second</th>
-                                <th>Third</th>
-                                <th>Fourth</th>
+                                <th>Всего заказов</th>
+                                <th>Новых</th>
+                                <th>Не обработанных</th>
+                                <th>Ожидают оплату</th>
+                                <th>Оплаченные</th>
+                                <th>В работе</th>
+                                <th>Готовые</th>
+                                <th>Отменённые</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -26,14 +32,6 @@
                                 <td>2</td>
                                 <td>3</td>
                                 <td>4</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                            </tr>
-                            <tr>
                                 <td>1</td>
                                 <td>2</td>
                                 <td>3</td>

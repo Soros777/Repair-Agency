@@ -20,17 +20,17 @@ public class CommandContainer {
         actionCommands.put("register", new RegisterCommand(userService));
         actionCommands.put("login", new LoginCommand(userService));
         actionCommands.put("logout", new LogoutCommand());
-        OrderService orderService = new OrderService(new OrderDaoDB(), new DeviceDao());
-        actionCommands.put("createOrder", new CreateOrderCommand(orderService));
 //        actionCommands.put("noCommand", new NoCommand());
 //        actionCommands.put("viewSettings", new ViewSettingsCommand());
 //        actionCommands.put("updateSettings", new UpdateSettingsCommand());
 //
-//        // client commands
+        // client commands
+        OrderService orderService = new OrderService(new OrderDaoDB(), new DeviceDao());
+        actionCommands.put("createOrder", new CreateOrderCommand(orderService));
 //        actionCommands.put("listMenu", new ListMenuCommand());
 //
-//        //admin commands
-//        actionCommands.put("listOrders", new ListOrdersCommand());
+        //manager commands
+        actionCommands.put("listOrders", new ListOrdersCommand(orderService));
 
         Log.debug("Command container was successfully initialized");
         Log.trace("Number of commands --> " + actionCommands.size());
