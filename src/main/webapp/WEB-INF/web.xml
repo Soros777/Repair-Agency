@@ -25,6 +25,51 @@
 
 
 <!--============================================================
+	Security filter.
+	1) admin: admin commands
+	2) client: client commands
+	3) commons: commands for all roles
+	4) out-of-control: commands without access control
+	Delimiter - space/tab
+=============================================================-->
+
+    <filter>
+        <filter-name>CommandAccessFilter</filter-name>
+        <filter-class>ua.epam.finalproject.repairagency.web.filter.CommandAccessFilter</filter-class>
+        <init-param>
+            <param-name>manager</param-name>
+            <param-value>
+                appointMaster defineWorkCost changeWaitPayStatus changePayedStatus changeCanceledStatus topUpClientAccount
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>client</param-name>
+            <param-value>
+                createOrder payOrder giveFeedback
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>master</param-name>
+            <param-value>
+                changeWorkingStatus changeDoneStatus
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>common</param-name>
+            <param-value>logout noCommand</param-value>
+        </init-param>
+        <init-param>
+            <param-name>out-of-control</param-name>
+            <param-value>login</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CommandAccessFilter</filter-name>
+        <servlet-name>Controller</servlet-name>
+    </filter-mapping>
+
+<!--============================================================
 	Error page
 =============================================================-->
     <error-page>

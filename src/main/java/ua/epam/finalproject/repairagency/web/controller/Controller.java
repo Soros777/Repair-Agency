@@ -22,12 +22,6 @@ public class Controller extends HttpServlet {
     private static final Logger Log = Logger.getLogger(Controller.class);
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8"); // may be in listener, may be not
-        super.service(req, resp);
-    }
-
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException
     {
