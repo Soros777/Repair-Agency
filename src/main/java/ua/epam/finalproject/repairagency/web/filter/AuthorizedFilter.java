@@ -1,7 +1,6 @@
 package ua.epam.finalproject.repairagency.web.filter;
 
 import org.apache.log4j.Logger;
-import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
 
 import javax.servlet.*;
@@ -14,10 +13,10 @@ import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/authorizedPage.jsp"},
         initParams = {@WebInitParam(name="INDEX_PATH", value = "/index.jsp")})
-public class AuthorizeFilter implements Filter {
+public class AuthorizedFilter implements Filter {
 
     private String indexPath;
-    private static final Logger Log = Logger.getLogger(AuthorizeFilter.class);
+    private static final Logger Log = Logger.getLogger(AuthorizedFilter.class);
 
     @Override
     public void init(FilterConfig fConfig) throws ServletException {

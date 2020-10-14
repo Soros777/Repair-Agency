@@ -27,8 +27,9 @@ public class CommandAccessFilter implements Filter {
         indexPath = fConfig.getInitParameter("INDEX_PATH");
 
         // roles
-        accessMap.put(Role.MANAGER, asList(fConfig.getInitParameter("manager")));
         accessMap.put(Role.CLIENT, asList(fConfig.getInitParameter("client")));
+        accessMap.put(Role.DIRECTOR, asList(fConfig.getInitParameter("manager")));
+        accessMap.put(Role.MANAGER, asList(fConfig.getInitParameter("manager")));
         accessMap.put(Role.MASTER, asList(fConfig.getInitParameter("master")));
         Log.trace("Access map --> " + accessMap);
 
@@ -66,8 +67,9 @@ public class CommandAccessFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
         String commandName = request.getParameter("command");
+        Log.debug("Checking command : == " + commandName);
         if (StringUtils.isEmpty(commandName)) {
-            return false;
+            return true; // why false
         }
 
         if (outOfControl.contains(commandName)) {
@@ -84,6 +86,7 @@ public class CommandAccessFilter implements Filter {
             return false;
         }
         Role role = user.getRole();
+        Log.debug("... for role : " + role);
 
         return accessMap.get(role).contains(commandName)
                 || commons.contains(commandName);

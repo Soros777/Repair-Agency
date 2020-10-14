@@ -28,7 +28,7 @@ public class EncodingFilter implements Filter {
         String codeRequest = request.getCharacterEncoding();
         if(encoding != null && !encoding.equalsIgnoreCase(codeRequest)) {
             request.setCharacterEncoding(encoding);
-            response.setCharacterEncoding(encoding);
+//            response.setCharacterEncoding(encoding);
             Log.trace("The encoding of request and response set as : " + encoding);
         }
         fChain.doFilter(request, response);
