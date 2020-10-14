@@ -14,7 +14,7 @@ import java.util.*;
 public class CommandAccessFilter implements Filter {
 
     private String indexPath;
-    private static final Logger Log = Logger.getLogger(AuthorizeFilter.class);
+    private static final Logger Log = Logger.getLogger(CommandAccessFilter.class);
 
     // commands access
     private Map<Role, List<String>> accessMap = new HashMap<Role, List<String>>();
