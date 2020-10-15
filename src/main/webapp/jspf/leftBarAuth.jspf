@@ -26,7 +26,7 @@
         <c:if test="${user.role.value ne 'Client'}">
             <form action="controller" method="POST">
                 <input type="hidden" name="command" value="listOrders">
-                <a onclick="document.forms[0].submit()" href="#"
+                <a onclick="document.forms[1].submit()" href="#"
                             class="list-group-item waves-effect <c:if test="${param.tab eq 'orders'}"> active </c:if>">
                     <i class="fa fa-map mr-3"></i>Orders
                 </a>
@@ -52,7 +52,7 @@
 
         <form action="controller" method="POST">
             <input type="hidden" name="command" value="logout">
-            <a href="#" class="list-group-item waves-effect" onclick="document.forms[1].submit()">
+            <a href="#" class="list-group-item waves-effect" onclick="document.forms[0].submit()">
                 <i class="fa fa-sign-out mr-3"></i>Sign Out
             </a>
         </form>

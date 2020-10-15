@@ -9,7 +9,6 @@ import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.HashPassword;
 
-import java.sql.SQLException;
 import java.util.Locale;
 
 import static org.junit.Assert.*;
@@ -41,7 +40,7 @@ public class UserDaoTest {
 
     @Test
     public void getRegisteredUser_should_Return_Arni() {
-        Client expected = Client.getClientWithInitParams(2, "arni@gmail.com", HashPassword.getHash("trewas01"), "Arnold Schwarzenegger",
+        Client expected = Client.getWithInitParams(2, "arni@gmail.com", HashPassword.getHash("trewas01"), "Arnold Schwarzenegger",
                 Role.CLIENT, 0, "img/users/Arnold.jpg", null, Locale.US, null);
         Client actual = (Client) userDao.getRegisteredUser(null, "arni@gmail.com", HashPassword.getHash("trewas01"), Role.CLIENT);
         assertEquals(expected, actual);

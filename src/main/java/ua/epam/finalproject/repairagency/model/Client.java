@@ -8,8 +8,8 @@ public class Client extends User {
 
     private double walletCount;
 
-    public static Client getClientWithInitParams(int id, String email, String password, String personName,
-                              Role role, double walletCount, String photoPath, String contactPhone, Locale locale, LocalDate registrationDate)
+    public static Client getWithInitParams(int id, String email, String password, String personName,
+                                           Role role, double walletCount, String photoPath, String contactPhone, Locale locale, LocalDate registrationDate)
     {
         Client client = new Client();
         client.id = id;

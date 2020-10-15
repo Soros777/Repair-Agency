@@ -7,9 +7,9 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 
 @WebListener
-public class SessionListenerImpl implements HttpSessionAttributeListener {
+public class SimpleSessionListener implements HttpSessionAttributeListener {
 
-    private static final Logger Log = Logger.getLogger(SessionListenerImpl.class);
+    private static final Logger Log = Logger.getLogger(SimpleSessionListener.class);
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {

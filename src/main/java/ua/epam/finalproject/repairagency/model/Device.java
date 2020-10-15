@@ -6,7 +6,7 @@ public enum Device {
     LAPTOP("Laptop"),
     SMARTPHONE("Smartphone"),
     TABLET("Tablet"),
-    E_READER("E-reader");
+    E_READER("E_reader");
 
     private String value;
 
@@ -20,5 +20,14 @@ public enum Device {
 
     public String value() {
         return value;
+    }
+
+    public static Device fromString(String deviceStr) {
+        for (Device device : values()) {
+            if(device.value.equalsIgnoreCase(deviceStr)) {
+                return device;
+            }
+        }
+        return null;
     }
 }
