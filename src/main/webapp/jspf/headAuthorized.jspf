@@ -30,4 +30,6 @@
 <link rel="stylesheet" href="${url}/css/mdb.min.css">
 <!-- Your custom styles (optional) -->
 <link rel="stylesheet" href="${url}/css/styleAuth.css">
-<%--  <link href="css/style.css" rel="stylesheet">--%>
+
+<%--for datetimepicker--%>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

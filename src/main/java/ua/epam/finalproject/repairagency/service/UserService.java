@@ -111,13 +111,13 @@ public class UserService {
 
         Client client = UserUtil.getClientFromParam(clientEmail, personName, clientPassword, locale);
 
-        int locale_id;
-        int role_id;
+        int localeId;
+        int roleId;
 
         try {
-            locale_id = userDao.getIdFromLocale(connection, locale);
-            role_id = userDao.getIdFromRole(connection, client.getRole());
-            int userId = userDao.addUser(connection, client, locale_id, role_id);
+            localeId = userDao.getIdFromLocale(connection, locale);
+            roleId = userDao.getIdFromRole(connection, client.getRole());
+            int userId = userDao.addUser(connection, client, localeId, roleId);
             client.setId(userId);
             userDao.addClientWallet(connection, userId);
 
@@ -125,12 +125,12 @@ public class UserService {
             Log.debug("Success! New == Client == is in DB.");
             return true;
         } catch (SQLException e) {
-            Log.error("Cant obtain id for locale or role");
+            Log.error("Cant obtain id for locale or role" + e);
             if(connection != null) {
                 try {
                     connection.rollback();
                 } catch (SQLException ex) {
-                    Log.error("Can't close connection");
+                    Log.error("Can't close connection"  + e);
                 }
             }
             throw new AppException("Can't add new user");

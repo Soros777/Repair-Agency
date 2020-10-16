@@ -1,50 +1,154 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="ctg" uri="customtags" %>
 
 <div class="row wow fadeIn">
     <div class="col-md-12 mb-4">
         <div class="card">
             <div class="card-body">
-<%--                Start content         --%>
+                <%--                Start content         --%>
                 <form>
-                    <p>
-                        Свод заказов за
-                        <input type="text" name="period" value="current month">
-                        с <input type="date" name="from" value="Start of this month (must be changed)">
-                        по <input type="date" name="to" value="Current date (must be changed)">
-                    </p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Всего заказов</th>
-                                <th>Новых</th>
-                                <th>Не обработанных</th>
-                                <th>Ожидают оплату</th>
-                                <th>Оплаченные</th>
-                                <th>В работе</th>
-                                <th>Готовые</th>
-                                <th>Отменённые</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>${orders.size()}</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="form-row">
+                        <label for="period" class="col-2 col-form-label">Свод заказов за </label>
+                        <div class="col-2">
+                            <select class="form-control f-c-p" id="period">
+                                <option>current week</option>
+                                <option>current month</option>
+                                <option>choose period</option>
+                            </select>
+                        </div>
+                        <label for="pickerFrom" class="col-1 col-form-label">from</label>
+                        <div class="col-2">
+                            <input type="text" class="form-control f-c-p" id="pickerFrom"
+                                   value="<ctg:info-date needDate="weekStart"/>">
+                        </div>
+                        <label for="pickerTo" class="col-1 col-form-label">to</label>
+                        <div class="col-2">
+                            <input type="text" class="form-control f-c-p" id="pickerTo"
+                                   value="<ctg:info-date needDate="now"/>">
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary">Show</button>
+                        </div>
                     </div>
                 </form>
-
-
-<%--                End content      --%>
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <a href="#all" class="nav-link active" role="tab" data-toggle="pill">
+                            Всего заказов<br/><ctg:orders-info needInfo="all"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#new" class="nav-link" role="tab" data-toggle="pill">
+                            Новых<br/><ctg:orders-info needInfo="new"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#wait" class="nav-link" role="tab" data-toggle="pill">
+                            Ожидают оплату<br/><ctg:orders-info needInfo="Wait_For_Pay"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#payed" role="tab" class="nav-link" data-toggle="pill">
+                            Оплаченные<br/><ctg:orders-info needInfo="Payed"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#work" class="nav-link" role="tab" data-toggle="pill">
+                            В работе<br/><ctg:orders-info needInfo="Working"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#done" class="nav-link" role="tab" data-toggle="pill">
+                            Готовые<br/><ctg:orders-info needInfo="Made"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#canceled" class="nav-link" role="tab" data-toggle="pill">
+                            Отменённые<br/><ctg:orders-info needInfo="Canceled"/>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content p-3">
+                    <div role="tabpanel" class="tab-pane active fade show in" id="all">
+                        All orders
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="new">
+                        Only new
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="wait">
+                        Waiting for pay
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="payed">
+                        Payed orders
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="work">
+                        Orders in work
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="done">
+                        Done orders
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="canceled">
+                        Canceled orders
+                    </div>
+                </div>
+                <%--                End content      --%>
             </div>
         </div>
     </div>
 </div>
+
+
+<%--                    <div class="table-responsive mt-3">--%>
+<%--                        <table class="table table-bordered">--%>
+<%--                            <thead>--%>
+<%--                            <tr>--%>
+<%--                                <th>Всего заказов<br/>(за этот период)</th>--%>
+<%--                                <th>Новых</th>--%>
+<%--                                <th>Ожидают оплату</th>--%>
+<%--                                <th>Оплаченные</th>--%>
+<%--                                <th>В работе</th>--%>
+<%--                                <th>Готовые</th>--%>
+<%--                                <th>Отменённые</th>--%>
+<%--                            </tr>--%>
+<%--                            </thead>--%>
+<%--                            <tbody>--%>
+<%--                            <tr>--%>
+<%--                                <td>--%>
+<%--                                    <a href="#">--%>
+<%--                                        <ctg:orders-info needInfo="all"/>--%>
+<%--                                    </a>--%>
+<%--                                </td>--%>
+<%--                                <td>--%>
+<%--                                    <a href="#">--%>
+<%--                                        <ctg:orders-info needInfo="new"/>--%>
+<%--                                    </a>--%>
+<%--                                </td>--%>
+<%--                                <td>--%>
+<%--                                    <a href="#">--%>
+<%--                                        <ctg:orders-info needInfo="Wait_For_Pay"/>--%>
+<%--                                    </a>--%>
+<%--                                </td>--%>
+<%--                                <td>--%>
+<%--                                    <a href="#">--%>
+<%--                                        <ctg:orders-info needInfo="Payed"/>--%>
+<%--                                    </a>--%>
+<%--                                </td>--%>
+<%--                                <td>--%>
+<%--                                    <a href="#">--%>
+<%--                                        <ctg:orders-info needInfo="Working"/>--%>
+<%--                                    </a>--%>
+<%--                                </td>--%>
+<%--                                <td>--%>
+<%--                                    <a href="#">--%>
+<%--                                        <ctg:orders-info needInfo="Made"/>--%>
+<%--                                    </a>--%>
+<%--                                </td>--%>
+<%--                                <td>--%>
+<%--                                    <a href="#">--%>
+<%--                                        <ctg:orders-info needInfo="Canceled"/>--%>
+<%--                                    </a>--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
+<%--                            </tbody>--%>
+<%--                        </table>--%>
+<%--                    </div>--%>

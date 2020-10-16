@@ -111,6 +111,21 @@ input[type=submit] {
 
 }
 
+.f-c-p {
+    padding: 0 0 !important;
+    border: solid transparent !important;
+    border-width: 1px 0 !important;
+    background-color: #fff !important;
+}
+
+.ui-draggable, .ui-droppable {
+    background-position: top;
+}
+
+li.nav-item {
+    text-align: center;
+}
+
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
     .col-25, .col-75, input[type=submit] {

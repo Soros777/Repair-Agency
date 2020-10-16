@@ -3,7 +3,7 @@ package ua.epam.finalproject.repairagency.model;
 public enum Status {
 
     NEW("New"),
-    WAIT_FOR_PAY("WaitForPay"),
+    WAIT_FOR_PAY("Wait_For_Pay"),
     PAYED("Payed"),
     CANCELED("Canceled"),
     WORKING("Working"),
