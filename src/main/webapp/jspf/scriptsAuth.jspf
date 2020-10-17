@@ -16,11 +16,17 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $( function() {
-        $( "#pickerFrom" ).datepicker({dateFormat: 'd MM, yy'});
+        if(!$("#pickerFrom").hasAttribute('readonly')) {
+            $( "#pickerFrom" ).datepicker({dateFormat: 'd MM, yy'});
+        }
     } );
     $( function() {
         $( "#pickerTo" ).datepicker({dateFormat: 'd MM, yy'});
     } );
+
+    function OnSelectionChange (select) {
+
+    }
 </script>
 
 <script>

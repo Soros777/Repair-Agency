@@ -65,6 +65,9 @@ public class UserService {
                 double walletValue = userDao.getWalletValue(connection, registeredUser.getId());
                 registeredUser = UserUtil.getClientFromUser(registeredUser, walletValue);
             }
+            if(registeredUser == null) {
+                return null;
+            }
         } catch (SQLException e) {
             Log.error("Can't get user from db cause : " + e);
             throw new AppException("Can't authorise user");
