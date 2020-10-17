@@ -40,7 +40,7 @@ public class HashPassword {
     }
 
     public static void main(String[] args) {
-        String pass = "@person";
+        String pass = "#person";
         String hash = getHash(pass);
         System.out.println(hash.length());
         System.out.println(hash);
