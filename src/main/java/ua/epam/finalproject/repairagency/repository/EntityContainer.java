@@ -122,7 +122,7 @@ public class EntityContainer {
                 Client client = UserUtil.getClientFromUser(user, walletCount);
                 clients.put(resultSet.getInt("id"), client);
             }
-            Log.trace("Client container is : " + clients);
+            Log.trace("Client container size is : " + clients.size());
         } catch (SQLException e) {
             Log.error("Can't fill client container");
             RepositoryUtil.closeAndThrow(e, resultSet, preparedStatement);

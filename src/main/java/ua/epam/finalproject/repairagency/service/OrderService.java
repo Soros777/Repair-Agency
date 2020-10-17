@@ -97,10 +97,6 @@ public class OrderService {
     public List<Order> findForPeriod(String from, String to) {
         Log.debug("Start find for period");
 
-        // преобразовать для БД
-        from = OrderUtil.format(from);
-        to = OrderUtil.format(to);
-
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();

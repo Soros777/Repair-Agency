@@ -31,13 +31,10 @@ public class OrdersInfoTag extends TagSupport {
         orders = (List<Order>) pageContext.getSession().getAttribute("orders");
         String dateFromStr = (String) pageContext.getSession().getAttribute("from");
         String dateToStr = (String) pageContext.getSession().getAttribute("to");
-        if(dateFromStr.equals("1 August, 2020")) {
-            dateFromStr = "1 августа, 2020";
-        }
         Log.debug("========== dateFromStr : " + dateFromStr);
         Log.debug("========== dateToStr : " + dateToStr);
-        dateFrom = LocalDate.parse(dateFromStr, DateTimeFormatter.ofPattern("d MMMM, yyyy"));
-        dateTo = LocalDate.parse(dateToStr, DateTimeFormatter.ofPattern("d MMMM, yyyy"));
+        dateFrom = LocalDate.parse(dateFromStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        dateTo = LocalDate.parse(dateToStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         Log.debug("===========================================================================================================");
         Log.trace("Params are : orders (size) : " + orders.size() + "; dateFrom : " + dateFrom + "; dateTo : " + dateTo);
 

@@ -58,23 +58,4 @@ public class OrderUtil {
         }
         return formatter.format(needDate);
     }
-
-    public static String format(String dataStr) {
-        //from = 17 октября, 2020
-        //need return: 2020-10-17
-        if(dataStr.equals("17 октября, 2020")) {
-            dataStr = "2020-10-17";
-        }
-        if(dataStr.equals("1 октября, 2020")) {
-            dataStr = "2020-10-1";
-        }
-        if(dataStr.equals("12 октября, 2020")) {
-            dataStr = "2020-10-12";
-        }
-        if(dataStr.equals("1 August, 2020")) {
-            dataStr = "2020-07-01";
-        }
-
-        return dataStr;
-    }
 }

@@ -26,28 +26,19 @@ public class ListOrdersCommand extends ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Log.trace("Command starts execute");
 
-        String from = request.getParameter("fromDate");
-        String to = request.getParameter("toDate");
-        Log.debug("!!!!========= params are: fromDate : " + from + "  and  toDate : " + to);
+        HttpSession session = request.getSession();
+        String from = (String) session.getAttribute("from");
+        String to = (String) session.getAttribute("to");
 
-        List<Order> orderList = null;
+        List<Order> orderList;
         if(StringUtils.isEmpty(from) && StringUtils.isEmpty(to)) {
             Log.debug("Parameters from and to are empty");
             orderList = orderService.findAllOrders();
-            from = OrderUtil.getFromDate("weekStart");
-            to = OrderUtil.getFromDate("now");
         } else {
             orderList = orderService.findForPeriod(from, to);
         }
 
-
-        HttpSession session = request.getSession();
         session.setAttribute("orders", orderList);
-
-        Log.debug("!!!!==one==!!! from : " + from);
-        session.setAttribute("from", from);
-        Log.debug("!!!!==two==!!! from : " + from);
-        session.setAttribute("to", to);
 
         Log.trace("Command finishes");
         return "controller?p=authorizedPage&tab=orders";
