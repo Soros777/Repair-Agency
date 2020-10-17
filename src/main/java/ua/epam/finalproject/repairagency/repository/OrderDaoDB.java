@@ -6,6 +6,7 @@ import ua.epam.finalproject.repairagency.model.Order;
 import ua.epam.finalproject.repairagency.service.OrderUtil;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,34 @@ public class OrderDaoDB implements OrderDao {
             Log.error("Can't save order cause " + e);
             RepositoryUtil.closeAndThrow(e, resultSet, statement);
         }
-        Log.trace("Order list is : " + orders);
+        Log.trace("Order list size is : " + orders.size());
+        return orders;
+    }
+
+    @Override
+    public List<Order> findForPeriod(Connection connection, String from, String to) throws SQLException {
+        Log.debug("Start find orders");
+        List<Order> orders = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM orders WHERE created_date BETWEEN ? and ?");
+            preparedStatement.setString(1, from);
+            preparedStatement.setString(2, to);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Order order = OrderUtil.getFromData(resultSet.getInt("id"),
+                        resultSet.getInt("created_by_client_id"), resultSet.getInt("device_id"),
+                        resultSet.getString("description"), resultSet.getInt("master_id"),
+                        resultSet.getInt("manager_id"), resultSet.getDouble("cost"),
+                        resultSet.getString("status"), resultSet.getString("created_date"));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            Log.error("Can't save order cause " + e);
+            RepositoryUtil.closeAndThrow(e, resultSet, preparedStatement);
+        }
+        Log.trace("Order list size is : " + orders.size());
         return orders;
     }
 }

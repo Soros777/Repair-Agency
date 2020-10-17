@@ -3,7 +3,6 @@ package ua.epam.finalproject.repairagency.customTag;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -17,7 +16,6 @@ public class InfoTimeTag extends TagSupport {
 
     private static String DATE_FORMAT = "d MMMM, yyyy";
     private String needDate;
-    private HttpServletRequest request;
     private static final Logger Log = Logger.getLogger(InfoTimeTag.class);
 
     public void setNeedDate(String needDate) {
@@ -26,22 +24,18 @@ public class InfoTimeTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        request = (HttpServletRequest) pageContext.getRequest();
         LocalDate outDate = null;
         LocalDate localDateNow = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         switch (needDate) {
             case "now":
                 outDate = localDateNow;
-                request.setAttribute("filterOrderTo", outDate);
                 break;
             case "monthStart":
                 outDate = localDateNow.with(TemporalAdjusters.firstDayOfMonth());
-                request.setAttribute("filterOrderFrom", outDate);
                 break;
             case "weekStart":
                 outDate = localDateNow.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-                request.setAttribute("filterOrderFrom", outDate);
                 break;
             default:
                 Log.error("Not valid value in tag info-date");

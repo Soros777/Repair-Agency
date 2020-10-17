@@ -6,8 +6,6 @@ import ua.epam.finalproject.repairagency.model.Order;
 import ua.epam.finalproject.repairagency.repository.ConnectionPool;
 import ua.epam.finalproject.repairagency.repository.DeviceDao;
 import ua.epam.finalproject.repairagency.repository.OrderDao;
-import ua.epam.finalproject.repairagency.repository.OrderDaoDB;
-import ua.epam.finalproject.repairagency.web.command.RegisterCommand;
 
 import javax.naming.NamingException;
 import java.sql.Connection;
@@ -93,6 +91,41 @@ public class OrderService {
             }
         }
         Log.error("Can't find all orders");
+        throw new AppException("Can't find orders");
+    }
+
+    public List<Order> findForPeriod(String from, String to) {
+        Log.debug("Start find for period");
+
+        // преобразовать для БД
+        from = OrderUtil.format(from);
+        to = OrderUtil.format(to);
+
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            return orderDao.findForPeriod(connection, from, to);
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    Log.error("Can't rollback connection");
+                }
+            }
+        } catch (NamingException e) {
+            Log.error("Can't get instance of Connection Pool cause : " + e);
+            throw new AppException("Can't get instance of Connection Pool", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Log.error("Can't close connection");
+                }
+            }
+        }
+        Log.error("Can't find orders from period");
         throw new AppException("Can't find orders");
     }
 }

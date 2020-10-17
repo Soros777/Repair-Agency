@@ -6,27 +6,28 @@
         <div class="card">
             <div class="card-body">
                 <%--                Start content         --%>
-                <form>
+                <form action="controller" method="POST">
                     <div class="form-row">
                         <label for="period" class="col-2 col-form-label">Свод заказов за </label>
                         <div class="col-2">
                             <select class="form-control f-c-p" id="period" onchange="OnSelectionChange (this)">
                                 <option>current week</option>
                                 <option>current month</option>
-                                <option>choose period</option>
+                                <option>chosen period</option>
                             </select>
                         </div>
                         <label for="pickerFrom" class="col-1 col-form-label">from</label>
                         <div class="col-2">
-                            <input type="text" readonly class="form-control f-c-p" id="pickerFrom"
-                                   value="<ctg:info-date needDate="weekStart"/>">
+                            <input type="text" class="form-control f-c-p" id="pickerFrom" name="from"
+                                   value="<c:out value="${from}"/>">
                         </div>
                         <label for="pickerTo" class="col-1 col-form-label">to</label>
                         <div class="col-2">
-                            <input type="text" readonly class="form-control f-c-p" id="pickerTo"
-                                   value="<ctg:info-date needDate="now"/>">
+                            <input type="text" class="form-control f-c-p" id="pickerTo" name="to"
+                                   value="<c:out value="${to}"/>">
                         </div>
                         <div class="col-2">
+                            <input type="hidden" name="command" value="listOrders">
                             <button type="submit" class="btn btn-primary">Show</button>
                         </div>
                     </div>
