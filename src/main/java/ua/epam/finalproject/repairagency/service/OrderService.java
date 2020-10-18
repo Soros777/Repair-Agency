@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderService {
 
@@ -85,5 +86,9 @@ public class OrderService {
         }
         Log.error("Can't find orders from period");
         throw new AppException("Can't find orders");
+    }
+
+    public List<Order> filterMaster(List<Order> orderList, String forMasterId) {
+        return orderList.stream().filter(o -> o.getMaster().getId() == Integer.parseInt(forMasterId)).collect(Collectors.toList());
     }
 }
