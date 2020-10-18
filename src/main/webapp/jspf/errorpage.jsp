@@ -9,7 +9,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error page ${code}</title>
-    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">
+<%--    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css">--%>
 </head>
 <body class="err-page">
 <header class="err-container">
@@ -22,12 +22,12 @@
                 ${message}
             </h4>
         </c:if>
-        <c:if test="${not empty exception}">
-            <h4>${exception}</h4>
-        </c:if>
-        <c:if test="${not empty requestScope.errorMessage}">
-            <h4>${requestScope.errorMessage}</h4>
-        </c:if>
+<%--        <c:if test="${not empty exception}">--%>
+<%--            <h4>${exception}</h4>--%>
+<%--        </c:if>--%>
+<%--        <c:if test="${not empty requestScope.errorMessage}">--%>
+<%--            <h4>${requestScope.errorMessage}</h4>--%>
+<%--        </c:if>--%>
     </section>
 </header>
 

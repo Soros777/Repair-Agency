@@ -25,7 +25,7 @@
 <!-- Material Design Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.10/css/mdb.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href=${url}/css/bootstrap.min.css">
+<link rel="stylesheet" href="${url}/css/bootstrap.min.css">
 <!-- Material Design Bootstrap -->
 <link rel="stylesheet" href="${url}/css/mdb.min.css">
 <!-- Your custom styles (optional) -->

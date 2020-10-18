@@ -24,9 +24,9 @@ public class InfoTimeTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        LocalDate outDate = null;
+        Log.trace("Start do tag");
         LocalDate localDateNow = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        LocalDate outDate;
         switch (needDate) {
             case "now":
                 outDate = localDateNow;
@@ -38,10 +38,9 @@ public class InfoTimeTag extends TagSupport {
                 outDate = localDateNow.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
                 break;
             default:
-                Log.error("Not valid value in tag info-date");
-                return SKIP_BODY;
+                outDate = LocalDate.parse(needDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         String outStr = formatter.format(outDate);
         try {
             JspWriter out = pageContext.getOut();

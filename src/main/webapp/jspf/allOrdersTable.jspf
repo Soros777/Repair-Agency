@@ -1,0 +1,34 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Заказ №</th>
+            <th>Заказчик</th>
+            <th>Девайс</th>
+            <th>Описание проблемы</th>
+            <th>Операционист<br/>(Менеджер)</th>
+            <th>Мастер</th>
+            <th>Стоимость заказа</th>
+            <th>Статус заказа</th>
+            <th>Дата создания</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="order" items="${allOrders}">
+            <tr>
+                <td><c:out value="${order.id}"/></td>
+                <td><ctg:user-name user="${order.createdByClient}"/></td>
+                <td><c:out value="${order.device}"/></td>
+                <td><c:out value="${order.description}"/></td>
+                <td><ctg:user-name user="${order.master}"/></td>
+                <td><ctg:user-name user="${order.manager}"/></td>
+                <td><c:out value="${order.cost}"/></td>
+                <td><c:out value="${order.status}"/></td>
+                <td><c:out value="${order.createdDate}"/></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>

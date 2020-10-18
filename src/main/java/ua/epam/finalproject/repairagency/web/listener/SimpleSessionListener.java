@@ -1,7 +1,6 @@
 package ua.epam.finalproject.repairagency.web.listener;
 
 import org.apache.log4j.Logger;
-import ua.epam.finalproject.repairagency.model.Order;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionAttributeListener;
@@ -15,33 +14,26 @@ public class SimpleSessionListener implements HttpSessionAttributeListener {
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
-        if(event.getName().equals("orders")) {
-            List<Order> orderList = (List<Order>) event.getValue();
-            Log.trace("add: " + event.getClass().getSimpleName() + " : " +
-                    event.getName());
-            Log.trace("orders.size is : " + orderList.size());
+        if(event.getValue() instanceof List<?>) {
+            Log.trace("Add : " + event.getClass().getSimpleName() + " : " + event.getName() +
+                    " with size : " + ((List<?>) event.getValue()).size());
         } else {
-            Log.trace("add: " + event.getClass().getSimpleName() + " : " +
-                    event.getName() + " : " + event.getValue());
+            Log.trace("Add : " + event.getClass().getSimpleName() + " : " + event.getName() + " : " + event.getValue());
         }
-    }
-
-    @Override
-    public void attributeRemoved(HttpSessionBindingEvent event) {
-        Log.trace("remove: " + event.getClass().getSimpleName() + " : " +
-                event.getName() + " : " + event.getValue());
     }
 
     @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
-        if(event.getName().equals("orders")) {
-            List<Order> orderList = (List<Order>) event.getValue();
-            Log.trace("add: " + event.getClass().getSimpleName() + " : " +
-                    event.getName());
-            Log.trace("orders.size is : " + orderList.size());
+        if(event.getValue() instanceof List<?>) {
+            Log.trace("Replace : " + event.getClass().getSimpleName() + " : " + event.getName() +
+                    " with size : " + ((List<?>) event.getValue()).size());
         } else {
-            Log.trace("add: " + event.getClass().getSimpleName() + " : " +
-                    event.getName() + " : " + event.getValue());
+            Log.trace("Replace : " + event.getClass().getSimpleName() + " : " + event.getName() + " : " + event.getValue());
         }
     }
+
+    @Override
+    public void attributeRemoved(HttpSessionBindingEvent event) {  }
+
+
 }

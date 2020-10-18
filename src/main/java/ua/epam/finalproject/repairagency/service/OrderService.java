@@ -40,24 +40,12 @@ public class OrderService {
                 return true;
             }
         } catch (SQLException e) {
-            if(connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    Log.error("Can't rollback connection");
-                }
-            }
+            ServiceUtil.rollback(connection);
         } catch (NamingException e) {
             Log.error("Can't get instance of Connection Pool cause : " + e);
             throw new AppException("Can't get instance of Connection Pool", e);
         } finally {
-            if(connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Log.error("Can't close connection");
-                }
-            }
+            ServiceUtil.close(connection);
         }
         Log.error("Can't create order");
         throw new AppException("Can't create order");
@@ -65,30 +53,17 @@ public class OrderService {
 
     public List<Order> findAllOrders() {
         Log.trace("Start find all orders");
-
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             return orderDao.findAllOrders(connection);
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    Log.error("Can't rollback connection");
-                }
-            }
+            ServiceUtil.rollback(connection);
         } catch (NamingException e) {
             Log.error("Can't get instance of Connection Pool cause : " + e);
             throw new AppException("Can't get instance of Connection Pool", e);
         } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Log.error("Can't close connection");
-                }
-            }
+            ServiceUtil.close(connection);
         }
         Log.error("Can't find all orders");
         throw new AppException("Can't find orders");
@@ -96,30 +71,17 @@ public class OrderService {
 
     public List<Order> findForPeriod(String from, String to) {
         Log.debug("Start find for period");
-
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             return orderDao.findForPeriod(connection, from, to);
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    Log.error("Can't rollback connection");
-                }
-            }
+            ServiceUtil.rollback(connection);
         } catch (NamingException e) {
             Log.error("Can't get instance of Connection Pool cause : " + e);
-            throw new AppException("Can't get instance of Connection Pool", e);
+            throw new AppException("Internal server error");
         } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Log.error("Can't close connection");
-                }
-            }
+            ServiceUtil.close(connection);
         }
         Log.error("Can't find orders from period");
         throw new AppException("Can't find orders");

@@ -30,13 +30,7 @@ public class ListOrdersCommand extends ActionCommand {
         String from = (String) session.getAttribute("from");
         String to = (String) session.getAttribute("to");
 
-        List<Order> orderList;
-        if(StringUtils.isEmpty(from) && StringUtils.isEmpty(to)) {
-            Log.debug("Parameters from and to are empty");
-            orderList = orderService.findAllOrders();
-        } else {
-            orderList = orderService.findForPeriod(from, to);
-        }
+        List<Order> orderList = orderService.findForPeriod(from, to);
 
         session.setAttribute("orders", orderList);
 

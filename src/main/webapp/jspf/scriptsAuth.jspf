@@ -9,7 +9,7 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.10/js/mdb.min.js"></script>
 
-<script type="text/javascript" src="${url}/mdbootstrap/js/mdb.min.js"></script>
+<script type="text/javascript" src="${url}/js/mdb.min.js"></script>
 
 <%--for datepicker--%>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -24,38 +24,21 @@
 
     function OnSelectionChange (select) {
         const selectedOption = select.options[select.selectedIndex];
-        console.log("selectedOption.value : " + selectedOption.value);
         let newValue = '';
         if(selectedOption.value === 'current month') {
             newValue = '<ctg:info-date needDate="monthStart"/>';
-            let one = document.getElementById("pickerFrom");
-            one.value = newValue;
         }
         if(selectedOption.value === 'current week') {
             newValue = '<ctg:info-date needDate="weekStart"/>';
-            let one = document.getElementById("pickerFrom");
-            one.value = newValue;
         }
-        if(selectedOption.value === 'chosen period') {
-            let valueFromDate = document.getElementById("pickerFrom").value;
-            let valueToDate = document.getElementById("pickerTo").value;
+        let one = document.getElementById("pickerFrom");
+        let two = document.getElementById("pickerTo");
+        one.value = newValue;
+        two.value = '<ctg:info-date needDate="now"/>';
+    }
 
-            console.log("valueFromDate : " + valueFromDate);
-
-            $.ajax({
-                url: 'controller',
-                type: 'POST',
-                dataType: 'text',
-                data: {
-                    command: 'listOrders',
-                    fromDate: valueFromDate,
-                    toDate: valueToDate
-                },
-                success (data) {
-
-                }
-            });
-        }
+    function changePeriod() {
+        period.options[2].selected = true;
     }
 </script>
 

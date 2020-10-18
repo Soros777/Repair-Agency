@@ -3,7 +3,6 @@ package ua.epam.finalproject.repairagency.web.filter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
-import ua.epam.finalproject.repairagency.service.OrderUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,25 +28,28 @@ public class SimpleRequestFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         Log.trace("Start doFilter");
-        String from = servletRequest.getParameter("fromDate");
-        String to = servletRequest.getParameter("toDate");
-
-        Log.debug("Got parameters : fromDate : " + from + " and toDate " + to);
-
-        if(!StringUtils.isEmpty(from) && !StringUtils.isEmpty(to)) {
-            from = format(from);
-            to = format(to);
-        } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            from = formatter.format(LocalDate.ofYearDay(2020, 1));
-            to = formatter.format(LocalDate.now());
-        }
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpSession session = request.getSession();
-        Log.debug("to session: from : " + from + " to + " + to);
-        session.setAttribute("from", from);
-        session.setAttribute("to", to);
+        if(request.getMethod().equalsIgnoreCase("POST")) {
+            String from = servletRequest.getParameter("fromDate");
+            String to = servletRequest.getParameter("toDate");
+
+            Log.debug("Got parameters : fromDate : " + from + " and toDate " + to);
+
+            if(!StringUtils.isEmpty(from) && !StringUtils.isEmpty(to)) {
+                from = format(from);
+                to = format(to);
+            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                to = formatter.format(LocalDate.now());
+                from = formatter.format(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            }
+
+            HttpSession session = request.getSession();
+            Log.debug("to session: from : " + from + " to : " + to);
+            session.setAttribute("from", from);
+            session.setAttribute("to", to);
+        }
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
@@ -76,12 +79,6 @@ public class SimpleRequestFilter implements Filter {
 
         return result.toString();
     }
-
-//    public static void main(String[] args) {
-//        SimpleRequestFilter filter = new SimpleRequestFilter();
-//        String string = filter.format("1 October, 2020");
-//        System.out.println(filter.format(string);
-//    }
 
     private String getMonth(String month) {
         switch (month) {

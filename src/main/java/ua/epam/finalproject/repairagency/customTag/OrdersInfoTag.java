@@ -5,6 +5,7 @@ import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Order;
 import ua.epam.finalproject.repairagency.model.Status;
 
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -12,10 +13,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrdersInfoTag extends TagSupport {
 
-    private List<Order> orders;
+    private List<Order> allOrders;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private String needInfo;
@@ -27,39 +29,37 @@ public class OrdersInfoTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        Log.trace("Start doTag");
-        orders = (List<Order>) pageContext.getSession().getAttribute("orders");
+        Log.trace("Start do Tag");
+        allOrders = (List<Order>) pageContext.getSession().getAttribute("orders");
         String dateFromStr = (String) pageContext.getSession().getAttribute("from");
         String dateToStr = (String) pageContext.getSession().getAttribute("to");
-        Log.debug("========== dateFromStr : " + dateFromStr);
-        Log.debug("========== dateToStr : " + dateToStr);
         dateFrom = LocalDate.parse(dateFromStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         dateTo = LocalDate.parse(dateToStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Log.debug("===========================================================================================================");
-        Log.trace("Params are : orders (size) : " + orders.size() + "; dateFrom : " + dateFrom + "; dateTo : " + dateTo);
 
-        long result;
+        List<Order> specificOrders;
         if(!needInfo.equals("all")) {
-            result = orders.stream()
+            specificOrders = allOrders.stream()
                     .filter(o -> !o.getCreatedDate().isAfter(dateTo))
                     .filter(o -> !o.getCreatedDate().isBefore(dateFrom))
                     .filter(o -> o.getStatus() == Status.fromString(needInfo))
-                    .count();
+                    .collect(Collectors.toList());
         } else {
-            result = orders.stream()
+            specificOrders = allOrders.stream()
                     .filter(o -> !o.getCreatedDate().isAfter(dateTo))
                     .filter(o -> !o.getCreatedDate().isBefore(dateFrom))
-                    .count();
+                    .collect(Collectors.toList());
         }
-
         try {
             JspWriter out = pageContext.getOut();
-            out.write(String.valueOf(result));
+            out.write(String.valueOf(specificOrders.size()));
         } catch (IOException e) {
             Log.error("Can't write in the out cause : " + e);
             throw new AppException("Internal server error");
         }
+        HttpSession session = pageContext.getSession();
+        session.setAttribute(needInfo + "Orders", specificOrders);
 
+        Log.trace("Do Tag finishes");
         return SKIP_BODY;
     }
 
