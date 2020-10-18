@@ -54,9 +54,9 @@ public class CommandAccessFilter implements Filter {
         } else {
 
             //ajax message
-            String errorMessasge = "You do not have permission to access the requested resource";
+            String errorMessage = "You do not have permission to access the requested resource";
 
-            request.setAttribute("errorMessage", errorMessasge);
+            request.setAttribute("errorMessage", errorMessage);
             Log.warn("Attempting to invoke an inadmissible command");
 
             response.getWriter().write("no permissions");

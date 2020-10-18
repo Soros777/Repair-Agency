@@ -29,12 +29,14 @@ public class ListOrdersCommand extends ActionCommand {
         HttpSession session = request.getSession();
         String from = (String) session.getAttribute("from");
         String to = (String) session.getAttribute("to");
-        String forMasterId = (String) session.getAttribute("forMasterId");
+        String forMasterName = request.getParameter("forMasterName");
+        Log.debug("Param from request  == forMasterName == is : " + forMasterName);
 
         List<Order> orderList = orderService.findForPeriod(from, to);
 
-        if(!StringUtils.isEmpty(forMasterId)) {
-            orderList = orderService.filterMaster(orderList, forMasterId);
+        if(!StringUtils.isEmpty(forMasterName)) {
+            Log.debug("Filter for master name : " + forMasterName);
+            orderList = orderService.filterMaster(orderList, forMasterName);
         }
 
         session.setAttribute("orders", orderList);

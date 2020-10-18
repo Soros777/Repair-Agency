@@ -2,9 +2,6 @@
 
 <div class="table-responsive">
     <form action="controller" method="POST" name="masterForm">
-        <input type="hidden" name="command" value="listOrder">
-        <input type="hidden" name="from" value="${from}">
-        <input type="hidden" name="to" value="${to}">
         <table class="table table-bordered table-hover table-striped">
             <thead>
             <tr>
@@ -21,7 +18,6 @@
             </thead>
             <tbody>
             <c:forEach var="order" items="${orders}">
-                <input type="hidden" name="forMasterId" value="${order.master.id}">
                 <tr>
                     <td><c:out value="${order.id}"/></td>
                     <td><ctg:user-name user="${order.createdByClient}"/></td>
@@ -30,9 +26,7 @@
                     <td><ctg:user-name user="${order.manager}"/></td>
 
                     <td>
-                        <a href="#" onclick="document.forms.masterForm.submit()">
-                            <ctg:user-name user="${order.master}"/>
-                        </a>
+                        <a href="#" onclick="sendForm(this)"><ctg:user-name user="${order.master}"/></a>
                     </td>
 
                     <td><c:out value="${order.cost}"/></td>
@@ -42,5 +36,9 @@
             </c:forEach>
             </tbody>
         </table>
+        <input type="hidden" name="command" value="listOrders">
+        <input type="hidden" name="fromDate" value="<ctg:info-date needDate="${from}"/>">
+        <input type="hidden" name="toDate" value="<ctg:info-date needDate="${to}"/>">
+        <input type="hidden" name="forMasterId" id="masterName">
     </form>
 </div>

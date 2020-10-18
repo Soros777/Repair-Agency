@@ -40,6 +40,15 @@
     function changePeriod() {
         period.options[2].selected = true;
     }
+
+    function sendForm(masterNameLink) {
+        console.log("Here");
+        let name = masterNameLink.text;
+        let input = document.getElementById("masterName");
+        console.log(name);
+        input.value = name;
+        document.forms.masterForm.submit();
+    }
 </script>
 
 <script>

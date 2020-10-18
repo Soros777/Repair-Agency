@@ -10,6 +10,7 @@ import ua.epam.finalproject.repairagency.repository.OrderDao;
 import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,7 +89,17 @@ public class OrderService {
         throw new AppException("Can't find orders");
     }
 
-    public List<Order> filterMaster(List<Order> orderList, String forMasterId) {
-        return orderList.stream().filter(o -> o.getMaster().getId() == Integer.parseInt(forMasterId)).collect(Collectors.toList());
+    public List<Order> filterMaster(List<Order> orderList, String masterName) {
+        Log.debug("Start filter orderList for master");
+        List<Order> result = new ArrayList<>();
+        for (Order order : orderList) {
+            if(order.getMaster().getPersonName().equals(masterName)) {
+                result.add(order);
+            }
+        }
+        return result;
+
+
+//        return orderList.stream().filter(o -> o.getMaster().getId() == Integer.parseInt(forMasterId)).collect(Collectors.toList());
     }
 }
