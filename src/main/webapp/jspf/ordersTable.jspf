@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 
 <div class="table-responsive">
-    <form action="controller" method="POST" name="masterForm">
+
         <table class="table table-bordered table-hover table-striped">
             <thead>
             <tr>
@@ -26,7 +26,16 @@
                     <td><ctg:user-name user="${order.manager}"/></td>
 
                     <td>
-                        <a href="#" onclick="sendForm(this)"><ctg:user-name user="${order.master}"/></a>
+                        <c:set var="formName">
+                            m${order.master.id}
+                        </c:set>
+                        <form action="controller" method="POST" name="${formName}">
+                            <input type="hidden" name="command" value="listOrders">
+                            <input type="hidden" name="fromDate" value="<ctg:info-date needDate="${from}"/>">
+                            <input type="hidden" name="toDate" value="<ctg:info-date needDate="${to}"/>">
+                            <input type="hidden" name="forMasterName" id="masterName" value="<ctg:user-name user="${order.master}"/>">
+                            <a href="#" onclick="document.forms.${formName}.submit();"><ctg:user-name user="${order.master}"/></a>
+                        </form>
                     </td>
 
                     <td><c:out value="${order.cost}"/></td>
@@ -36,9 +45,5 @@
             </c:forEach>
             </tbody>
         </table>
-        <input type="hidden" name="command" value="listOrders">
-        <input type="hidden" name="fromDate" value="<ctg:info-date needDate="${from}"/>">
-        <input type="hidden" name="toDate" value="<ctg:info-date needDate="${to}"/>">
-        <input type="hidden" name="forMasterId" id="masterName">
-    </form>
+
 </div>

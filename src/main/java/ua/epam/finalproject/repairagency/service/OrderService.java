@@ -93,7 +93,7 @@ public class OrderService {
         Log.debug("Start filter orderList for master");
         List<Order> result = new ArrayList<>();
         for (Order order : orderList) {
-            if(order.getMaster().getPersonName().equals(masterName)) {
+            if(order.getMaster() != null && order.getMaster().getPersonName().equals(masterName)) {
                 result.add(order);
             }
         }
