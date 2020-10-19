@@ -1,10 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<div class="table-responsive">
-    <table class="table table-bordered table-hover table-striped">
+<div class="table-responsive text-center">
+
+    <h4 class="mt-4 mb-4">Заказ № ${order.id}</h4>
+
+    <table class="table table-bordered table-hover table-striped table-dark">
         <thead>
-        <tr>
-            <th>Заказ №</th>
+        <tr class="lighten-5">
             <th>Заказчик</th>
             <th>Девайс</th>
             <th>Описание проблемы</th>
@@ -17,16 +19,44 @@
         </thead>
         <tbody>
             <tr>
-                <td>${order.id}</td>
                 <td>${order.createdByClient.personName}</td>
                 <td>${order.device}</td>
                 <td>${order.description}</td>
                 <td>${order.manager.personName}</td>
                 <td>${order.master.personName}</td>
-                <td>${order.cost}</td>
+                <td>
+                    <form action="controller" method="POST" name="changeOrderCost">
+                        <input type="hidden" name="command" value="changeOrderCost">
+                        <input type="text" class="form-control f-c-p dark" name="orderCost" value="${order.cost}"
+                               oninput="activeSetCostButton(${order.cost}, this.value)" onchange="rollback(${order.cost}, this)">
+                    </form>
+                </td>
                 <td>${order.status}</td>
                 <td>${order.createdDate}</td>
             </tr>
         </tbody>
     </table>
+
+    <div class="pt-4 buttons pb-4">
+        <a href="#" class="btn btn-outline-white not-active" id="costBtn" onclick="document.forms.changeOrderCost.submit();">
+            Определить<br/>стоимость работ
+<%--            <i class="fa fa-download ml-2"></i>--%>
+        </a>
+        <a href="#" class="btn btn-outline-white">
+            Установить статус<br/>"Ждёт оплату"
+<%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
+        </a>
+        <a href="#" class="btn btn-outline-white">
+            Назначить<br/>мастера
+            <%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
+        </a>
+        <a href="#" class="btn btn-outline-white">
+            Установить статус<br/>"Оплачен"
+            <%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
+        </a>
+        <a href="#" class="btn btn-outline-white">
+            Установить статус<br/>"Отменён"
+            <%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
+        </a>
+    </div>
 </div>

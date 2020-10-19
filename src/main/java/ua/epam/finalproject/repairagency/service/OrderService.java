@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class OrderService {
@@ -92,14 +93,33 @@ public class OrderService {
     public List<Order> filterMaster(List<Order> orderList, String masterName) {
         Log.debug("Start filter orderList for master");
         List<Order> result = new ArrayList<>();
-        for (Order order : orderList) {
-            if(order.getMaster() != null && order.getMaster().getPersonName().equals(masterName)) {
-                result.add(order);
-            }
+
+        return orderList.stream()
+                .filter(order -> order.getMaster() != null && order.getMaster().getPersonName().equals(masterName))
+                .collect(Collectors.toList());
+
+    }
+
+    public Order setOrderCost(Order order, String orderCost) {
+        Log.trace("Start set order cost");
+
+        double newValue = Double.parseDouble(orderCost);
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            Order updatedOrder = orderDao.setCost(connection, order, newValue);
+            connection.commit();
+            return updatedOrder;
+        } catch (SQLException e) {
+            ServiceUtil.rollback(connection);
+        } catch (NamingException e) {
+            Log.error("Can't get instance of Connection Pool cause : " + e);
+            throw new AppException("Internal server error");
+        } finally {
+            ServiceUtil.close(connection);
         }
-        return result;
 
-
-//        return orderList.stream().filter(o -> o.getMaster().getId() == Integer.parseInt(forMasterId)).collect(Collectors.toList());
+        Log.error("Can't set order cost");
+        throw new AppException("Can't set order cost");
     }
 }

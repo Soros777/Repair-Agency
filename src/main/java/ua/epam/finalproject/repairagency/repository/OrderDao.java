@@ -14,4 +14,6 @@ public interface OrderDao {
     List<Order> findAllOrders(Connection connection) throws SQLException;
 
     List<Order> findForPeriod(Connection connection, String from, String to) throws SQLException;
+
+    Order setCost(Connection connection, Order order, double orderCost) throws SQLException;
 }

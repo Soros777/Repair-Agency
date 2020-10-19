@@ -92,4 +92,25 @@ public class OrderDaoDB implements OrderDao {
         Log.trace("Order list size is : " + orders.size());
         return orders;
     }
+
+    @Override
+    public Order setCost(Connection connection, Order order, double orderCost) throws SQLException {
+        Log.trace("Start set cost");
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE orders SET cost=? WHERE id=?");
+            preparedStatement.setDouble(1, orderCost);
+            preparedStatement.setInt(2, order.getId());
+            if(preparedStatement.executeUpdate() == 1) {
+                order.setCost(orderCost);
+                Log.debug("Order updated successfully");
+                return order;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't set order cost cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
+        Log.error("Can't set order cost");
+        throw new AppException("Can't set order cost");
+    }
 }

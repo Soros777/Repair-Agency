@@ -49,6 +49,24 @@
         input.value = name;
         document.forms.masterForm.submit();
     }
+
+    function activeSetCostButton(cost, newValue) {
+        let el = document.getElementById('costBtn');
+        if(el.classList.contains('not-active')) {
+            el.classList.remove('not-active');
+        }
+        if(cost == newValue) {
+            el.classList.add('not-active');
+        }
+    }
+
+    function rollback(value, element) {
+        if(element.value == value) {
+            element.value = value;
+            element.classList.add('not-active');
+        }
+    }
+
 </script>
 
 <script>

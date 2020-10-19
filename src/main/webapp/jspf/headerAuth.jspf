@@ -16,7 +16,7 @@
                 </li>
 
                 <c:if test="${user.role.value ne 'Client'}">
-                    <li class="nav-item <c:if test="${param.tab eq 'orders'}"> active </c:if>">
+                    <li class="nav-item <c:if test="${param.tab eq 'orders' || param.tab eq 'order'}"> active </c:if>">
                         <a onclick="document.forms.ordersForm.submit()" href="#" href="#" class="nav-link waves-effect">Orders</a>
                     </li>
                 </c:if>

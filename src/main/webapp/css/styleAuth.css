@@ -126,6 +126,34 @@ li.nav-item {
     text-align: center;
 }
 
+.buttons {
+    text-align: center;
+    background-color: #0b51c5;
+}
+
+.buttons a {
+    font-size: 0.7rem;
+    margin: 5px 20px;
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+    color: grey !important;
+}
+
+.dark {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white;
+    margin-top: -5px;
+}
+
+.dark:focus {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white;
+}
+
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
     .col-25, .col-75, input[type=submit] {

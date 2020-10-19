@@ -27,7 +27,7 @@
             <form action="controller" method="POST" name="ordersForm">
                 <input type="hidden" name="command" value="listOrders">
                 <a onclick="document.forms.ordersForm.submit()" href="#"
-                            class="list-group-item waves-effect <c:if test="${param.tab eq 'orders'}"> active </c:if>">
+                            class="list-group-item waves-effect <c:if test="${param.tab eq 'orders' || param.tab eq 'order'}"> active </c:if>">
                     <i class="fa fa-map mr-3"></i>Orders
                 </a>
             </form>
