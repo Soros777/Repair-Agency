@@ -16,7 +16,9 @@
   <main class="pt-5 max-lg-5">
     <div class="container-fluid mt-5">
 
-      <%@ include file="/jspf/searchAuth.jspf"%>
+      <c:if test="${param.tab ne 'order'}">
+        <%@ include file="/jspf/searchAuth.jspf"%>
+      </c:if>
 
       <c:if test="${param.tab eq 'main'}">
         <%@ include file="/jspf/grafics.jspf"%>
@@ -28,6 +30,10 @@
 
       <c:if test="${param.tab eq 'orders'}">
         <%@ include file="/jspf/orders.jspf"%>
+      </c:if>
+
+      <c:if test="${param.tab eq 'order'}">
+        <%@ include file="/jspf/order.jspf"%>
       </c:if>
 
     </div>

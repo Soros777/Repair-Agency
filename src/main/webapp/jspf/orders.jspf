@@ -32,17 +32,7 @@
                         </div>
                     </div>
                 </form>
-
-                <%@ include file="/jspf/ordersList.jsp" %>
-                <%--                <c:if test="${empty masterId}">--%>
-                <%--                    --%>
-                <%--                </c:if>--%>
-
-                <%--                <c:if test="${!empty masterId}">--%>
-
-                <%--                </c:if>--%>
-
-                <%--                End content      --%>
+                <%@ include file="/jspf/ordersList.jspf" %>
             </div>
         </div>
     </div>

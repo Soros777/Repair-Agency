@@ -46,7 +46,7 @@
         <init-param>
             <param-name>manager</param-name>
             <param-value>
-                listOrders appointMaster defineWorkCost changeWaitPayStatus changePayedStatus changeCanceledStatus topUpClientAccount
+                listOrders appointMaster defineWorkCost changeWaitPayStatus changePayedStatus changeCanceledStatus topUpClientAccount showOrder
             </param-value>
         </init-param>
         <init-param>
@@ -58,16 +58,16 @@
         <init-param>
             <param-name>master</param-name>
             <param-value>
-                changeWorkingStatus changeDoneStatus
+                changeWorkingStatus changeDoneStatus showOrder
             </param-value>
         </init-param>
         <init-param>
             <param-name>common</param-name>
-            <param-value>logout noCommand</param-value>
+            <param-value>noCommand</param-value>
         </init-param>
         <init-param>
             <param-name>out-of-control</param-name>
-            <param-value>login register</param-value>
+            <param-value>login register logout</param-value>
         </init-param>
     </filter>
 

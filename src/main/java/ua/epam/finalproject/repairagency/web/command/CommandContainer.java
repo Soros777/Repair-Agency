@@ -31,6 +31,7 @@ public class CommandContainer {
 //
         //manager commands
         actionCommands.put("listOrders", new ListOrdersCommand(orderService));
+        actionCommands.put("showOrder", new ShowOrderCommand());
 
         Log.debug("Command container was successfully initialized");
         Log.trace("Number of commands --> " + actionCommands.size());

@@ -19,22 +19,31 @@
             <tbody>
             <c:forEach var="order" items="${orders}">
                 <tr>
-                    <td><c:out value="${order.id}"/></td>
+                    <td>
+                        <c:set var="formOrdId">
+                            ord${order.id}
+                        </c:set>
+                        <form action="controller" method="POST" name="${formOrdId}">
+                            <input type="hidden" name="command" value="showOrder">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                            <a href="#" onclick="document.forms.${formOrdId}.submit();"><c:out value="${order.id}"/></a>
+                        </form>
+                    </td>
                     <td><ctg:user-name user="${order.createdByClient}"/></td>
                     <td><c:out value="${order.device}"/></td>
                     <td><c:out value="${order.description}"/></td>
                     <td><ctg:user-name user="${order.manager}"/></td>
 
                     <td>
-                        <c:set var="formName">
+                        <c:set var="formMasterName">
                             m${order.master.id}
                         </c:set>
-                        <form action="controller" method="POST" name="${formName}">
+                        <form action="controller" method="POST" name="${formMasterName}">
                             <input type="hidden" name="command" value="listOrders">
                             <input type="hidden" name="fromDate" value="<ctg:info-date needDate="${from}"/>">
                             <input type="hidden" name="toDate" value="<ctg:info-date needDate="${to}"/>">
                             <input type="hidden" name="forMasterName" id="masterName" value="<ctg:user-name user="${order.master}"/>">
-                            <a href="#" onclick="document.forms.${formName}.submit();"><ctg:user-name user="${order.master}"/></a>
+                            <a href="#" onclick="document.forms.${formMasterName}.submit();"><ctg:user-name user="${order.master}"/></a>
                         </form>
                     </td>
 

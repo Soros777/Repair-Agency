@@ -20,6 +20,9 @@ public class SimpleSessionListener implements HttpSessionAttributeListener {
         } else {
             Log.trace("Add : " + event.getClass().getSimpleName() + " : " + event.getName() + " : " + event.getValue());
         }
+        if(event.getName().equals("order")) {
+            Log.debug("================== " + event.getName());
+        }
     }
 
     @Override
@@ -29,6 +32,9 @@ public class SimpleSessionListener implements HttpSessionAttributeListener {
                     " with size : " + ((List<?>) event.getValue()).size());
         } else {
             Log.trace("Replace : " + event.getClass().getSimpleName() + " : " + event.getName() + " : " + event.getValue());
+        }
+        if(event.getName().equals("order")) {
+            Log.debug("================== " + event.getName());
         }
     }
 

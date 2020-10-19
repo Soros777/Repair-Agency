@@ -17,7 +17,7 @@
 
                 <c:if test="${user.role.value ne 'Client'}">
                     <li class="nav-item <c:if test="${param.tab eq 'orders'}"> active </c:if>">
-                        <a href="controller?p=authorizedPage&tab=orders" class="nav-link waves-effect">Orders</a>
+                        <a onclick="document.forms.ordersForm.submit()" href="#" href="#" class="nav-link waves-effect">Orders</a>
                     </li>
                 </c:if>
 
@@ -28,7 +28,7 @@
 
                 <c:if test="${user.role.value eq 'Client'}">
                     <li class="nav-item <c:if test="${param.tab eq 'create'}"> active </c:if>">
-                        <a href="controller?p=authorizedPage&tab=create" class="nav-link waves-effect">Create order</a>
+                        <a class="nav-link waves-effect">Create order</a>
                     </li>
                 </c:if>
 

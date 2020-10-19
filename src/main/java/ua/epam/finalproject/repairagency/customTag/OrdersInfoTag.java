@@ -36,6 +36,13 @@ public class OrdersInfoTag extends TagSupport {
         dateFrom = LocalDate.parse(dateFromStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         dateTo = LocalDate.parse(dateToStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+        if(allOrders == null || dateFromStr == null || dateTo == null || needInfo == null) {
+            Log.error("One of params is null : " +
+                    "allOrders : " + allOrders + ", dateFromStr : " + dateFromStr +
+                    ", dateTo : " + dateTo + " , needInfo : " + needInfo);
+            throw new AppException("Internal server error");
+        }
+
         List<Order> specificOrders;
         if(!needInfo.equals("all")) {
             specificOrders = allOrders.stream()
