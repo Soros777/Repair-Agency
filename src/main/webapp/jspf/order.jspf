@@ -15,6 +15,9 @@
             <th>Стоимость заказа, грн</th>
             <th>Статус заказа</th>
             <th>Дата создания</th>
+            <c:if test="${order.status eq 'WAIT_FOR_PAY'}" var="showPay">
+                <th>Оплачен клиентом</th>
+            </c:if>
         </tr>
         </thead>
         <tbody>
@@ -54,14 +57,25 @@
             </td>
             <td>${order.status}</td>
             <td>${order.createdDate}</td>
+            <c:if test="${showPay}">
+                <td>${order.getPay}</td>
+            </c:if>
         </tr>
         </tbody>
     </table>
 
-    <c:if test="${canCangeCost}">
+    <c:if test="${canCangeCost && order.status ne 'CANCELED'}">
         <form action="controller" method="POST" name="setWaitingPayStatus">
             <input type="hidden" name="command" value="changeOrderStatus">
             <input type="hidden" name="newOrderStatus" value="WAIT_FOR_PAY">
+        </form>
+        <form action="controller" method="POST" name="setPayedStatus">
+            <input type="hidden" name="command" value="changeOrderStatus">
+            <input type="hidden" name="newOrderStatus" value="PAYED">
+        </form>
+        <form action="controller" method="POST" name="setCanceledStatus">
+            <input type="hidden" name="command" value="changeOrderStatus">
+            <input type="hidden" name="newOrderStatus" value="CANCELED">
         </form>
         <div class="pt-4 buttons pb-4">
             <a href="#" class="btn btn-outline-white not-active" id="costBtn"
@@ -75,14 +89,14 @@
             <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>" onclick="document.forms.appointMaster.submit();" id="setMasterBtn">
                 Назначить<br/>мастера
             </a>
-            <a href="#" class="btn btn-outline-white">
-                Установить статус<br/>"Оплачен"
-            </a>
-            <a href="#" class="btn btn-outline-white">
-                Установить статус<br/>"Отменён"
-            </a>
+            <c:if test="${showPay && order.getPay}">
+                <a href="#" class="btn btn-outline-white" onclick="document.forms.setPayedStatus.submit();">
+                    Установить статус<br/>"Оплачен"
+                </a>
+            </c:if>
+                <a href="#" class="btn btn-outline-white" onclick="document.forms.setCanceledStatus.submit();">
+                    Установить статус<br/>"Отменён"
+                </a>
         </div>
     </c:if>
-
-
 </div>

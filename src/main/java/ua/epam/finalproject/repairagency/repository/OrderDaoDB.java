@@ -57,7 +57,8 @@ public class OrderDaoDB implements OrderDao {
                         resultSet.getInt("created_by_client_id"), resultSet.getInt("device_id"),
                         resultSet.getString("description"), resultSet.getInt("master_id"),
                         resultSet.getInt("manager_id"), resultSet.getDouble("cost"),
-                        resultSet.getString("status"), resultSet.getString("created_date"));
+                        resultSet.getString("status"), resultSet.getString("created_date"),
+                        resultSet.getBoolean("get_pay"));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -85,7 +86,8 @@ public class OrderDaoDB implements OrderDao {
                         resultSet.getInt("created_by_client_id"), resultSet.getInt("device_id"),
                         resultSet.getString("description"), resultSet.getInt("master_id"),
                         resultSet.getInt("manager_id"), resultSet.getDouble("cost"),
-                        resultSet.getString("status"), resultSet.getString("created_date"));
+                        resultSet.getString("status"), resultSet.getString("created_date"),
+                        resultSet.getBoolean("get_pay"));
                 orders.add(order);
             }
         } catch (SQLException e) {

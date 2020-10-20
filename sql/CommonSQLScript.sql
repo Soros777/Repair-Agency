@@ -135,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `repairagency`.`orders` (
   `cost` DECIMAL(10,2) NULL,
   `status` ENUM('NEW', 'WAIT_FOR_PAY', 'PAYED', 'CANCELED', 'WORKING', 'MADE') NOT NULL,
   `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `get_pay` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_created_by_client_id_idx` (`created_by_client_id` ASC) VISIBLE,

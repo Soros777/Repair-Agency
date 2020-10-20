@@ -12,10 +12,11 @@ public class Order {
     private double cost;
     private Status status;
     private LocalDate createdDate;
+    boolean getPay;
 
     public Order() {}
 
-    public Order(int id, Client createdByClient, Device device, String description, User master, User manager, double cost, Status status, LocalDate createdDate) {
+    public Order(int id, Client createdByClient, Device device, String description, User master, User manager, double cost, Status status, LocalDate createdDate, boolean getPay) {
         this.id = id;
         this.createdByClient = createdByClient;
         this.device = device;
@@ -25,6 +26,7 @@ public class Order {
         this.cost = cost;
         this.status = status;
         this.createdDate = createdDate;
+        this.getPay = getPay;
     }
 
     public int getId() {
@@ -99,6 +101,14 @@ public class Order {
         this.createdDate = createdDate;
     }
 
+    public boolean isGetPay() {
+        return getPay;
+    }
+
+    public void setGetPay(boolean getPay) {
+        this.getPay = getPay;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -111,6 +121,7 @@ public class Order {
                 ", cost=" + cost +
                 ", status=" + status +
                 ", createdDate=" + createdDate +
+                ", getPay=" + getPay +
                 '}';
     }
 }
