@@ -1,6 +1,7 @@
 package ua.epam.finalproject.repairagency.repository;
 
 import ua.epam.finalproject.repairagency.model.Order;
+import ua.epam.finalproject.repairagency.model.Status;
 import ua.epam.finalproject.repairagency.model.User;
 
 import java.sql.Connection;
@@ -19,4 +20,6 @@ public interface OrderDao {
     Order setCost(Connection connection, Order order, double orderCost) throws SQLException;
 
     Order setManager(Connection connection, Order order, User manager) throws SQLException;
+
+    Order changeStatus(Connection connection, Order order, Status newStatus) throws SQLException;
 }

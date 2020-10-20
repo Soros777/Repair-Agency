@@ -3,6 +3,7 @@ package ua.epam.finalproject.repairagency.repository;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Order;
+import ua.epam.finalproject.repairagency.model.Status;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.OrderUtil;
 
@@ -135,5 +136,26 @@ public class OrderDaoDB implements OrderDao {
         }
         Log.error("Can't set order manager");
         throw new AppException("Can't set order manager");
+    }
+
+    @Override
+    public Order changeStatus(Connection connection, Order order, Status newStatus) throws SQLException {
+        Log.trace("Start change status");
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE orders SET status=? WHERE id=?");
+            preparedStatement.setString(1, newStatus.toString());
+            preparedStatement.setInt(2, order.getId());
+            if(preparedStatement.executeUpdate() == 1) {
+                order.setStatus(newStatus);
+                Log.debug("Order status updated successfully");
+                return order;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't set order cost cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
+        Log.error("Can't change order status");
+        throw new AppException("Can't change order status");
     }
 }

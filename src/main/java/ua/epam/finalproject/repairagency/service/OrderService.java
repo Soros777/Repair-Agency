@@ -3,6 +3,7 @@ package ua.epam.finalproject.repairagency.service;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Order;
+import ua.epam.finalproject.repairagency.model.Status;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.repository.ConnectionPool;
 import ua.epam.finalproject.repairagency.repository.DeviceDao;
@@ -125,5 +126,28 @@ public class OrderService {
 
         Log.error("Can't set order cost");
         throw new AppException("Can't set order cost");
+    }
+
+    public Order changeStatus(Order order, String newOrderStatus) {
+        Log.trace("Start change order status");
+
+        Status newStatus = Status.fromString(newOrderStatus);
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            Order updatedOrder = orderDao.changeStatus(connection, order, newStatus);
+            connection.commit();
+            return updatedOrder;
+        } catch (SQLException e) {
+            ServiceUtil.rollback(connection);
+        } catch (NamingException e) {
+            Log.error("Can't get instance of Connection Pool cause : " + e);
+            throw new AppException("Internal server error");
+        } finally {
+            ServiceUtil.close(connection);
+        }
+
+        Log.error("Can't change order status");
+        throw new AppException("Can't change order status");
     }
 }

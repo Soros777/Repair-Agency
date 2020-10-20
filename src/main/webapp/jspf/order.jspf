@@ -18,37 +18,44 @@
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>${order.createdByClient.personName}</td>
-                <td>${order.device}</td>
-                <td>${order.description}</td>
-                <td>${order.manager.personName}</td>
-                <td>${order.master.personName}</td>
-                <td>
-                    <form action="controller" method="POST" name="changeOrderCost">
-                        <input type="hidden" name="command" value="changeOrderCost">
-                        <c:if test="${order.manager == null || order.manager.id == user.id}" var="can">
+        <tr>
+            <td>${order.createdByClient.personName}</td>
+            <td>${order.device}</td>
+            <td>${order.description}</td>
+            <td>${order.manager.personName}</td>
+            <td>${order.master.personName}</td>
+            <td>
+                <form action="controller" method="POST" name="changeOrderCost">
+                    <input type="hidden" name="command" value="changeOrderCost">
+                    <c:if test="${order.manager == null || order.manager.id == user.id}" var="can">
                         <input type="text" class="form-control f-c-p dark" name="orderCost" value="${order.cost}"
-                               oninput="activeSetCostButton(${order.cost}, this.value)" onchange="rollback(${order.cost}, this)">
-                        </c:if>
-                        <c:if test="${!can}">
-                            ${order.cost}
-                        </c:if>
-                    </form>
-                </td>
-                <td>${order.status}</td>
-                <td>${order.createdDate}</td>
-            </tr>
+                               oninput="activeSetCostButton(${order.cost}, this.value)"
+                               onchange="rollback(${order.cost}, this)">
+                    </c:if>
+                    <c:if test="${!can}">
+                        ${order.cost}
+                    </c:if>
+                </form>
+            </td>
+            <td>${order.status}</td>
+            <td>${order.createdDate}</td>
+        </tr>
         </tbody>
     </table>
 
     <c:if test="${can}">
+        <form action="controller" method="POST" name="setWaitingPayStatus">
+            <input type="hidden" name="command" value="changeOrderStatus">
+            <input type="hidden" name="newOrderStatus" value="WAIT_FOR_PAY">
+        </form>
         <div class="pt-4 buttons pb-4">
-            <a href="#" class="btn btn-outline-white not-active" id="costBtn" onclick="document.forms.changeOrderCost.submit();">
+            <a href="#" class="btn btn-outline-white not-active" id="costBtn"
+               onclick="document.forms.changeOrderCost.submit();">
                 Определить<br/>стоимость работ
             </a>
             <c:if test="${order.cost != 0 && order.status == 'NEW'}" var="waitPay"/>
-            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>">
+            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>"
+               onclick="document.forms.setWaitingPayStatus.submit();">
                 Установить статус<br/>"Ждёт оплату"
             </a>
             <a href="#" class="btn btn-outline-white">

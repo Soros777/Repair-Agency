@@ -2,19 +2,18 @@ package ua.epam.finalproject.repairagency.web.command;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.model.Order;
-import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ChangeOrderCostCommand extends ActionCommand {
+public class ChangeOrderStatusCommand extends ActionCommand {
 
     private OrderService orderService;
-    private static final Logger Log = Logger.getLogger(ChangeOrderCostCommand.class);
+    private static final Logger Log = Logger.getLogger(ChangeOrderStatusCommand.class);
 
-    public ChangeOrderCostCommand(OrderService orderService) {
+    public ChangeOrderStatusCommand(OrderService orderService) {
         this.orderService = orderService;
     }
 
@@ -25,11 +24,10 @@ public class ChangeOrderCostCommand extends ActionCommand {
         HttpSession session = request.getSession();
 
         Order order = (Order) session.getAttribute("order");
-        User manager = (User) session.getAttribute("user");
-        String orderCost = request.getParameter("orderCost");
-        Log.debug("Params are : order : " + order + "; orderCost : " + orderCost);
+        String newOrderStatus = request.getParameter("newOrderStatus");
+        Log.debug("Params are : order : " + order + "; newOrderStatus : " + newOrderStatus);
 
-        Order updatedOrder = orderService.setOrderCost(order, orderCost, manager);
+        Order updatedOrder = orderService.changeStatus(order, newOrderStatus);
 
         session.setAttribute("order", updatedOrder);
 

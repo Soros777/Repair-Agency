@@ -46,7 +46,7 @@
         <init-param>
             <param-name>manager</param-name>
             <param-value>
-                listOrders appointMaster changeOrderCost changeStatus topUpClientAccount showOrder
+                listOrders appointMaster changeOrderCost changeOrderStatus topUpClientAccount showOrder
             </param-value>
         </init-param>
         <init-param>

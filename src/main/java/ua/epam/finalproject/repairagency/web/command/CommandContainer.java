@@ -33,6 +33,7 @@ public class CommandContainer {
         actionCommands.put("listOrders", new ListOrdersCommand(orderService));
         actionCommands.put("showOrder", new ShowOrderCommand());
         actionCommands.put("changeOrderCost", new ChangeOrderCostCommand(orderService));
+        actionCommands.put("changeOrderStatus", new ChangeOrderStatusCommand(orderService));
 
         Log.debug("Command container was successfully initialized");
         Log.trace("Number of commands --> " + actionCommands.size());
