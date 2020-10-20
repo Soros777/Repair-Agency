@@ -23,16 +23,31 @@
             <td>${order.device}</td>
             <td>${order.description}</td>
             <td>${order.manager.personName}</td>
-            <td>${order.master.personName}</td>
+            <td>
+                <c:if test="${order.master == null && order.status eq 'WAIT_FOR_PAY'}" var="canAppointMaster">
+                <form action="controller" method="POST" name="appointMaster">
+                    <input type="hidden" name="command" value="appointMaster">
+                    <select class="form-control f-c-p dark" id="master" name="masterName"  onchange="masterChanged (this.value)">
+                        <option>...</option>
+                        <c:forEach var="master" items="${masters}">
+                        <option class="opt">${master.personName}</option>
+                        </c:forEach>
+                    </select>
+                </form>
+                </c:if>
+                <c:if test="${!canAppointMaster}">
+                    ${order.master.personName}
+                </c:if>
+            </td>
             <td>
                 <form action="controller" method="POST" name="changeOrderCost">
                     <input type="hidden" name="command" value="changeOrderCost">
-                    <c:if test="${order.manager == null || order.manager.id == user.id}" var="can">
+                    <c:if test="${order.manager == null || order.manager.id == user.id}" var="canCangeCost">
                         <input type="text" class="form-control f-c-p dark" name="orderCost" value="${order.cost}"
                                oninput="activeSetCostButton(${order.cost}, this.value)"
                                onchange="rollback(${order.cost}, this)">
                     </c:if>
-                    <c:if test="${!can}">
+                    <c:if test="${!canCangeCost}">
                         ${order.cost}
                     </c:if>
                 </form>
@@ -43,7 +58,7 @@
         </tbody>
     </table>
 
-    <c:if test="${can}">
+    <c:if test="${canCangeCost}">
         <form action="controller" method="POST" name="setWaitingPayStatus">
             <input type="hidden" name="command" value="changeOrderStatus">
             <input type="hidden" name="newOrderStatus" value="WAIT_FOR_PAY">
@@ -54,11 +69,10 @@
                 Определить<br/>стоимость работ
             </a>
             <c:if test="${order.cost != 0 && order.status == 'NEW'}" var="waitPay"/>
-            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>"
-               onclick="document.forms.setWaitingPayStatus.submit();">
+            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>" onclick="document.forms.setWaitingPayStatus.submit();">
                 Установить статус<br/>"Ждёт оплату"
             </a>
-            <a href="#" class="btn btn-outline-white">
+            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>" onclick="document.forms.appointMaster.submit();" id="setMasterBtn">
                 Назначить<br/>мастера
             </a>
             <a href="#" class="btn btn-outline-white">

@@ -9,6 +9,7 @@ import ua.epam.finalproject.repairagency.service.UserUtil;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -352,5 +353,45 @@ public class UserDaoDB implements UserDao {
         }
         Log.error("Can't obtain wallet count");
         throw new AppException("Can't authorise user");
+    }
+
+    @Override
+    public List<User> getUsersViaRole(Connection connection, int roleId) throws SQLException {
+        Log.trace("Start get users via role");
+
+        List<User> masters = new ArrayList<>();
+        User master;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE role_id=?");
+            preparedStatement.setInt(1, roleId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                master = UserUtil.getUserFromParam(
+                        resultSet.getInt("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("person_name"),
+                        getRoleById(connection, resultSet.getInt("role_id")),
+                        resultSet.getString("photo_path"),
+                        resultSet.getString("contact_phone"),
+                        getLocaleById(connection, resultSet.getInt("locale_id")),
+                        resultSet.getString("registration_date")
+                );
+                masters.add(master);
+            }
+            Log.trace("Obtained master list size : " + masters.size());
+            return masters;
+        } catch (SQLException e) {
+            Log.error("Can't obtain wallet count cause : " + e);
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            throw new SQLException(e);
+        }
     }
 }

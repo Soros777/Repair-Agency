@@ -7,6 +7,7 @@ import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.repository.ConnectionPool;
+import ua.epam.finalproject.repairagency.repository.EntityContainer;
 import ua.epam.finalproject.repairagency.repository.UserDao;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Locale;
 
 public class UserService {
@@ -170,5 +172,20 @@ public class UserService {
         }
         Log.debug("Entered email is new");
         return true;
+    }
+
+    public List<User> getAllMasters() {
+        Log.trace("Start get all masters");
+        Role role = Role.MASTER;
+        int roleId = EntityContainer.getIdFromRole(role);
+
+        Connection connection;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            return userDao.getUsersViaRole(connection, roleId);
+        } catch (SQLException | NamingException e) {
+            Log.error("Can't get all masters cause : " + e);
+            throw new AppException("Can't get all masters");
+        }
     }
 }

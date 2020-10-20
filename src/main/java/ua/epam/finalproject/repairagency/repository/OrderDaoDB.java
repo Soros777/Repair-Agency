@@ -78,6 +78,7 @@ public class OrderDaoDB implements OrderDao {
             preparedStatement = connection.prepareStatement("SELECT * FROM orders WHERE created_date BETWEEN ? and ?");
             preparedStatement.setString(1, from);
             preparedStatement.setString(2, to);
+            Log.debug("=================== preparedStatement : " + preparedStatement);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Order order = OrderUtil.getFromData(resultSet.getInt("id"),
@@ -117,25 +118,21 @@ public class OrderDaoDB implements OrderDao {
     }
 
     @Override
-    public Order setManager(Connection connection, Order order, User manager) throws SQLException {
+    public void setManager(Connection connection, Order order, int managerId) throws SQLException {
         Log.trace("Start set manager");
 
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement("UPDATE orders SET manager_id=? WHERE id=?");
-            preparedStatement.setInt(1, manager.getId());
+            preparedStatement.setInt(1, managerId);
             preparedStatement.setInt(2, order.getId());
             if(preparedStatement.executeUpdate() == 1) {
-                order.setManager(manager);
                 Log.debug("Order manager updated successfully");
-                return order;
             }
         } catch (SQLException e) {
             Log.error("Can't set order manager cause " + e);
             RepositoryUtil.closeAndThrow(e, preparedStatement);
         }
-        Log.error("Can't set order manager");
-        throw new AppException("Can't set order manager");
     }
 
     @Override
@@ -157,5 +154,22 @@ public class OrderDaoDB implements OrderDao {
         }
         Log.error("Can't change order status");
         throw new AppException("Can't change order status");
+    }
+
+    @Override
+    public void setMaster(Connection connection, Order order, int masterId) throws SQLException {
+        Log.trace("Start set master");
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE orders SET master_id=? WHERE id=?");
+            preparedStatement.setInt(1, masterId);
+            preparedStatement.setInt(2, order.getId());
+            if(preparedStatement.executeUpdate() == 1) {
+                Log.debug("Master set successfully");
+            }
+        } catch (SQLException e) {
+            Log.error("Can't set order cost cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
     }
 }

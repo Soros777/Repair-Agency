@@ -7,6 +7,7 @@ import ua.epam.finalproject.repairagency.model.Status;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.repository.ConnectionPool;
 import ua.epam.finalproject.repairagency.repository.DeviceDao;
+import ua.epam.finalproject.repairagency.repository.EntityContainer;
 import ua.epam.finalproject.repairagency.repository.OrderDao;
 
 import javax.naming.NamingException;
@@ -76,6 +77,9 @@ public class OrderService {
 
     public List<Order> findForPeriod(String from, String to) {
         Log.debug("Start find for period");
+        from = from + " 00:00:00";
+        to = to + " 23:59:59";
+
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -111,8 +115,9 @@ public class OrderService {
             connection = ConnectionPool.getInstance().getConnection();
             Order updatedOrder = orderDao.setCost(connection, order, newValue);
             if(updatedOrder.getManager() == null) {
-                updatedOrder = orderDao.setManager(connection, order, manager);
+                orderDao.setManager(connection, order, manager.getId());
             }
+            updatedOrder.setManager(manager);
             connection.commit();
             return updatedOrder;
         } catch (SQLException e) {
@@ -149,5 +154,28 @@ public class OrderService {
 
         Log.error("Can't change order status");
         throw new AppException("Can't change order status");
+    }
+
+    public Order appointMaster(Order order, String masterName) {
+        Log.trace("Start appoint master");
+        User master = EntityContainer.getPersonalByName(masterName);
+
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            orderDao.setMaster(connection, order, master.getId());
+            order.setMaster(master);
+            connection.commit();
+            return order;
+        } catch (SQLException e) {
+            ServiceUtil.rollback(connection);
+        } catch (NamingException e) {
+            Log.error("Can't get instance of Connection Pool cause : " + e);
+            throw new AppException("Internal server error");
+        } finally {
+            ServiceUtil.close(connection);
+        }
+        Log.error("Can't appoint master");
+        throw new AppException("Can't appoint master");
     }
 }

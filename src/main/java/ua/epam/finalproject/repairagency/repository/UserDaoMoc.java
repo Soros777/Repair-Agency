@@ -68,4 +68,9 @@ public class UserDaoMoc implements UserDao {
     public double getWalletValue(Connection connection, int id) throws SQLException {
         return 0;
     }
+
+    @Override
+    public List<User> getUsersViaRole(Connection connection, int roleId) {
+        return null;
+    }
 }

@@ -24,6 +24,8 @@ public class SimpleServletListener implements ServletContextListener {
         Connection connection;
         try {
             connection = ConnectionPool.getInstance().getConnection();
+            // connection pool to session
+            // in classes to get connection pool from session
             EntityContainer.fillContainers(connection);
             Log.trace("Containers was fel successfully.");
         } catch (SQLException | NamingException e) {

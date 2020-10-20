@@ -19,7 +19,9 @@ public interface OrderDao {
 
     Order setCost(Connection connection, Order order, double orderCost) throws SQLException;
 
-    Order setManager(Connection connection, Order order, User manager) throws SQLException;
+    void setManager(Connection connection, Order order, int managerId) throws SQLException;
 
     Order changeStatus(Connection connection, Order order, Status newStatus) throws SQLException;
+
+    void setMaster(Connection connection, Order order, int masterId) throws SQLException;
 }

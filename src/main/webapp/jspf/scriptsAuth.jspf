@@ -67,6 +67,19 @@
         }
     }
 
+    function masterChanged(value) {
+        let el = document.getElementById('setMasterBtn');
+        if(value == '...') {
+            if(!el.classList.contains('not-active')) {
+                el.classList.add('not-active');
+            }
+        } else {
+            if(el.classList.contains('not-active')) {
+                el.classList.remove('not-active');
+            }
+        }
+    }
+
 </script>
 
 <script>

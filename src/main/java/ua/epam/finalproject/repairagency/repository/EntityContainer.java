@@ -9,10 +9,7 @@ import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.UserUtil;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class EntityContainer {
 
@@ -160,5 +157,30 @@ public class EntityContainer {
 
     public static User getPersonalById(int userId) {
         return personal.get(userId);
+    }
+
+    public static int getIdFromRole(Role role) {
+        Log.trace("Start get id from role");
+        Set<Map.Entry<Integer, Role>> entries = roles.entrySet();
+        for (Map.Entry<Integer, Role> entry : entries) {
+            if(entry.getValue() == role) {
+                return entry.getKey();
+            }
+        }
+        Log.error("Can't get id from role");
+        throw new AppException("Can't get id from role");
+    }
+
+    public static User getPersonalByName(String masterName) {
+        Log.trace("Start get personal by name");
+        Collection<User> workers = personal.values();
+        for (User worker : workers) {
+            if(worker.getPersonName().equals(masterName)) {
+                Log.trace("Master obtained successfully");
+                return worker;
+            }
+        }
+        Log.error("Can't get master by name");
+        throw new AppException("Can't get master by name");
     }
 }

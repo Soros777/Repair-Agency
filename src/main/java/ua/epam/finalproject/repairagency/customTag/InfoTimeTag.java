@@ -24,7 +24,6 @@ public class InfoTimeTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        Log.trace("Start do tag");
         LocalDate localDateNow = LocalDate.now();
         LocalDate outDate;
         switch (needDate) {
