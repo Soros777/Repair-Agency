@@ -3,6 +3,7 @@ package ua.epam.finalproject.repairagency.service;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Order;
+import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.repository.ConnectionPool;
 import ua.epam.finalproject.repairagency.repository.DeviceDao;
 import ua.epam.finalproject.repairagency.repository.OrderDao;
@@ -100,7 +101,7 @@ public class OrderService {
 
     }
 
-    public Order setOrderCost(Order order, String orderCost) {
+    public Order setOrderCost(Order order, String orderCost, User manager) {
         Log.trace("Start set order cost");
 
         double newValue = Double.parseDouble(orderCost);
@@ -108,6 +109,9 @@ public class OrderService {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             Order updatedOrder = orderDao.setCost(connection, order, newValue);
+            if(updatedOrder.getManager() == null) {
+                updatedOrder = orderDao.setManager(connection, order, manager);
+            }
             connection.commit();
             return updatedOrder;
         } catch (SQLException e) {

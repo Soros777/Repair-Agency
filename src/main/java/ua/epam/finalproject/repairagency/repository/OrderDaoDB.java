@@ -3,6 +3,7 @@ package ua.epam.finalproject.repairagency.repository;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Order;
+import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.OrderUtil;
 
 import java.sql.*;
@@ -103,7 +104,7 @@ public class OrderDaoDB implements OrderDao {
             preparedStatement.setInt(2, order.getId());
             if(preparedStatement.executeUpdate() == 1) {
                 order.setCost(orderCost);
-                Log.debug("Order updated successfully");
+                Log.debug("Order cost updated successfully");
                 return order;
             }
         } catch (SQLException e) {
@@ -112,5 +113,27 @@ public class OrderDaoDB implements OrderDao {
         }
         Log.error("Can't set order cost");
         throw new AppException("Can't set order cost");
+    }
+
+    @Override
+    public Order setManager(Connection connection, Order order, User manager) throws SQLException {
+        Log.trace("Start set manager");
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE orders SET manager_id=? WHERE id=?");
+            preparedStatement.setInt(1, manager.getId());
+            preparedStatement.setInt(2, order.getId());
+            if(preparedStatement.executeUpdate() == 1) {
+                order.setManager(manager);
+                Log.debug("Order manager updated successfully");
+                return order;
+            }
+        } catch (SQLException e) {
+            Log.error("Can't set order manager cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
+        Log.error("Can't set order manager");
+        throw new AppException("Can't set order manager");
     }
 }

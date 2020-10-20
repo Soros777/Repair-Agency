@@ -1,6 +1,7 @@
 package ua.epam.finalproject.repairagency.repository;
 
 import ua.epam.finalproject.repairagency.model.Order;
+import ua.epam.finalproject.repairagency.model.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,4 +17,6 @@ public interface OrderDao {
     List<Order> findForPeriod(Connection connection, String from, String to) throws SQLException;
 
     Order setCost(Connection connection, Order order, double orderCost) throws SQLException;
+
+    Order setManager(Connection connection, Order order, User manager) throws SQLException;
 }

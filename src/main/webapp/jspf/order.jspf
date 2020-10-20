@@ -12,7 +12,7 @@
             <th>Описание проблемы</th>
             <th>Операционист<br/>(Менеджер)</th>
             <th>Мастер</th>
-            <th>Стоимость заказа</th>
+            <th>Стоимость заказа, грн</th>
             <th>Статус заказа</th>
             <th>Дата создания</th>
         </tr>
@@ -27,8 +27,13 @@
                 <td>
                     <form action="controller" method="POST" name="changeOrderCost">
                         <input type="hidden" name="command" value="changeOrderCost">
+                        <c:if test="${order.manager == null || order.manager.id == user.id}" var="can">
                         <input type="text" class="form-control f-c-p dark" name="orderCost" value="${order.cost}"
                                oninput="activeSetCostButton(${order.cost}, this.value)" onchange="rollback(${order.cost}, this)">
+                        </c:if>
+                        <c:if test="${!can}">
+                            ${order.cost}
+                        </c:if>
                     </form>
                 </td>
                 <td>${order.status}</td>
@@ -37,26 +42,26 @@
         </tbody>
     </table>
 
-    <div class="pt-4 buttons pb-4">
-        <a href="#" class="btn btn-outline-white not-active" id="costBtn" onclick="document.forms.changeOrderCost.submit();">
-            Определить<br/>стоимость работ
-<%--            <i class="fa fa-download ml-2"></i>--%>
-        </a>
-        <a href="#" class="btn btn-outline-white">
-            Установить статус<br/>"Ждёт оплату"
-<%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
-        </a>
-        <a href="#" class="btn btn-outline-white">
-            Назначить<br/>мастера
-            <%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
-        </a>
-        <a href="#" class="btn btn-outline-white">
-            Установить статус<br/>"Оплачен"
-            <%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
-        </a>
-        <a href="#" class="btn btn-outline-white">
-            Установить статус<br/>"Отменён"
-            <%--            <i class="fa fa-graduation-cap ml-2"></i>--%>
-        </a>
-    </div>
+    <c:if test="${can}">
+        <div class="pt-4 buttons pb-4">
+            <a href="#" class="btn btn-outline-white not-active" id="costBtn" onclick="document.forms.changeOrderCost.submit();">
+                Определить<br/>стоимость работ
+            </a>
+            <c:if test="${order.cost != 0 && order.status == 'NEW'}" var="waitPay"/>
+            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>">
+                Установить статус<br/>"Ждёт оплату"
+            </a>
+            <a href="#" class="btn btn-outline-white">
+                Назначить<br/>мастера
+            </a>
+            <a href="#" class="btn btn-outline-white">
+                Установить статус<br/>"Оплачен"
+            </a>
+            <a href="#" class="btn btn-outline-white">
+                Установить статус<br/>"Отменён"
+            </a>
+        </div>
+    </c:if>
+
+
 </div>
