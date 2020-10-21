@@ -30,16 +30,19 @@ public class PayOrderCommand extends ActionCommand {
         String orderId = request.getParameter("orderId");
         HttpSession session = request.getSession();
         Client client = (Client) session.getAttribute("user");
-        List<Order> orders = (List<Order>) session.getAttribute("orders");
+        Log.debug("Parameters : orderId : " + orderId + ", client : " + client);
+
         ConnectionPool connectionPool = (ConnectionPool) session.getAttribute("connectionPool");
 
-        if(!userService.payOrder(client, orderId, orders, connectionPool, orderService)) {
+
+        if(!userService.payOrder(client, orderId, connectionPool, orderService)) {
             return "controller?p=authorizedPage&tab=notEnoughMoney";
         }
 
         List<Order> clientOrders = orderService.findForClient(client, connectionPool);
 
         session.setAttribute("clientOrders", clientOrders);
+        session.setAttribute("user", client);
 
         Log.trace("Command finishes");
         return "controller?p=authorizedPage&tab=clientOrders";

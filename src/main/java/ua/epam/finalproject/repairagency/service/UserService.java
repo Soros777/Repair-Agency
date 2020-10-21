@@ -190,33 +190,28 @@ public class UserService {
         }
     }
 
-    public boolean payOrder(Client client, String orderId, List<Order> orders, ConnectionPool connectionPool, OrderService orderService) {
+    public boolean payOrder(Client client, String orderId, ConnectionPool connectionPool, OrderService orderService) {
         Log.trace("Start pay order");
-
-        Order needPayOrder = null;
-        for (Order order : orders) {
-            if(order.getId() == Integer.parseInt(orderId)) {
-                needPayOrder = order;
-            }
-        }
-        if(needPayOrder == null) {
-            Log.error("Can't obtain needed order");
-            throw new AppException("Can't obtain order for paying");
-        }
-
-        if(client.getWalletCount() < needPayOrder.getCost()) {
-            return false;
-        }
 
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
-            userDao.payOrder(client, needPayOrder.getCost(), connection);
+
+            Order needPayOrder = orderService.findById(connection, orderId);
+            if(client.getWalletCount() < needPayOrder.getCost()) {
+                Log.trace("Client has not enough money for pay order");
+                return false;
+            }
+
+            userDao.takeOffMoney(client, needPayOrder.getCost(), connection);
+            double newWalletValue = userDao.getWalletValue(connection, client.getId());
+            client.setWalletCount(newWalletValue);
             orderService.payOrder(orderId, connection);
             connection.commit();
             Log.debug("Order payed successfully!");
+            return true;
         } catch (SQLException e) {
-            Log.error("Cant obtain id for locale or role" + e);
+            Log.error("Cant pay order cause " + e);
             if(connection != null) {
                 try {
                     connection.rollback();
@@ -224,7 +219,7 @@ public class UserService {
                     Log.error("Can't close connection"  + e);
                 }
             }
-            throw new AppException("Can't add new user");
+            throw new AppException("Can't pay order");
         } finally {
             if(connection != null) {
                 try {

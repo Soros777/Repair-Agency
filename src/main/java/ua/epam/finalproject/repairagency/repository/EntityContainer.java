@@ -2,10 +2,7 @@ package ua.epam.finalproject.repairagency.repository;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
-import ua.epam.finalproject.repairagency.model.Client;
-import ua.epam.finalproject.repairagency.model.Device;
-import ua.epam.finalproject.repairagency.model.Role;
-import ua.epam.finalproject.repairagency.model.User;
+import ua.epam.finalproject.repairagency.model.*;
 import ua.epam.finalproject.repairagency.service.UserUtil;
 
 import java.sql.*;

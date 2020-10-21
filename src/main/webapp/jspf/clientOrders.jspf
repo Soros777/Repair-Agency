@@ -5,10 +5,6 @@
         <div class="card">
             <div class="card-body text-center">
                 <%--                Start content         --%>
-                <form action="controller" method="POST" name="payOrder">
-                    <input type="hidden" name="command" value="payOrder">
-                    <input type="hidden" name="orderId" value="${order.id}">
-                </form>
                 <h4 class="mt-4 mb-4">Список Ваших заявок на ремонт</h4>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped">
@@ -27,9 +23,9 @@
                         <tbody>
                         <c:forEach var="order" items="${clientOrders}">
                             <tr
-                                    <c:if test="${order.status eq 'WAIT_FOR_PAY'}"
-                                          var="waitPay">class="bg-warning"</c:if>
-                                    <c:if test="${order.status eq 'CANCELED'}">class="bg-danger"</c:if> >
+                                    <c:if test="${order.status eq 'WAIT_FOR_PAY' && !order.getPay}" var="waitPay">class="bg-warning"</c:if>
+                                    <c:if test="${order.status eq 'CANCELED'}">class="bg-danger"</c:if>
+                                    <c:if test="${order.status eq 'WAIT_FOR_PAY' && order.getPay}" var="payed">class="bg-success"</c:if> >
                                 <td>${order.id}</td>
                                 <td><c:out value="${order.device}"/></td>
                                 <td><c:out value="${order.description}"/></td>
@@ -37,12 +33,19 @@
                                 <td><ctg:user-name user="${order.master}"/></td>
                                 <td>${order.cost}</td>
                                 <td>
+                                    <form action="controller" method="POST" name="payOrder${order.id}">
+                                        <input type="hidden" name="command" value="payOrder">
+                                        <input type="hidden" name="orderId" value="${order.id}">
+                                    </form>
                                     <c:if test="${waitPay}">
-                                        <a href="#" onclick="document.forms.payOrder.submit()" title="Оплатить заказ">
+                                        <a href="#" onclick="document.forms.payOrder${order.id}.submit()" title="Оплатить заказ">
                                                 ${order.status}
                                         </a>
                                     </c:if>
-                                    <c:if test="${!waitPay}">
+                                    <c:if test="${payed}">
+                                        Оплата поступила
+                                    </c:if>
+                                    <c:if test="${!payed}">
                                         ${order.status}
                                     </c:if>
                                 </td>

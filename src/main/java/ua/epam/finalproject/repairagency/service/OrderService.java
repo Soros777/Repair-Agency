@@ -13,6 +13,7 @@ import ua.epam.finalproject.repairagency.repository.OrderDao;
 
 import javax.naming.NamingException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +99,6 @@ public class OrderService {
 
     public List<Order> filterMaster(List<Order> orderList, String masterName) {
         Log.debug("Start filter orderList for master");
-        List<Order> result = new ArrayList<>();
 
         return orderList.stream()
                 .filter(order -> order.getMaster() != null && order.getMaster().getPersonName().equals(masterName))
@@ -194,5 +194,15 @@ public class OrderService {
         Log.error("Can't find client orders");
         throw new AppException("Can't find client orders");
 
+    }
+
+    public void payOrder(String orderId, Connection connection) throws SQLException {
+        Log.trace("Go to order Dao");
+        orderDao.payOrder(connection, Integer.parseInt(orderId));
+    }
+
+    public Order findById(Connection connection, String orderId) throws SQLException {
+        Log.trace("Go to order Dao");
+        return orderDao.findById(connection, Integer.parseInt(orderId));
     }
 }

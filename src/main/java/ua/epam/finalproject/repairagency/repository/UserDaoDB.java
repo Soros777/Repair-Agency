@@ -42,13 +42,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't get user by email cause : " + e);
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
         return user;
     }
@@ -70,13 +64,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't obtain locale value cause : " + e);
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
         Log.error("Can't obtain locale from id");
         throw new AppException("Cant authorise user");
@@ -99,13 +87,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't obtain role value cause : " + e);
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
         Log.error("Can't obtain role from id");
         throw new AppException("Cant authorise user");
@@ -226,13 +208,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't add user cause : " + e);
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
         Log.debug("Can't add new user");
         throw new AppException("Can't add new user");
@@ -267,13 +243,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't obtain locale id");
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
         Log.error("Can't define locale id");
         throw new AppException("Can't add new user");
@@ -295,13 +265,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't obtain role id");
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
         Log.error("Can't define role id");
         throw new AppException("Can't add new user");
@@ -318,10 +282,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't add client wallet");
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
         }
     }
 
@@ -343,13 +304,7 @@ public class UserDaoDB implements UserDao {
             }
         } catch (SQLException e) {
             Log.error("Can't obtain wallet count cause : " + e);
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
         Log.error("Can't obtain wallet count");
         throw new AppException("Can't authorise user");
@@ -382,26 +337,31 @@ public class UserDaoDB implements UserDao {
                 masters.add(master);
             }
             Log.trace("Obtained master list size : " + masters.size());
-            return masters;
         } catch (SQLException e) {
             Log.error("Can't obtain wallet count cause : " + e);
-            if(resultSet != null) {
-                resultSet.close();
-            }
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
+        return masters;
     }
 
     @Override
-    public void payOrder(Client client, double cost, Connection connection) {
-        Log.trace("Start pay order");
+    public void takeOffMoney(Client client, double cost, Connection connection) throws SQLException {
+        Log.trace("Start taking off order cost from user account");
 
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement("");
+            preparedStatement = connection.prepareStatement("UPDATE clients SET wallet_count=wallet_count-? WHERE parent=?");
+            preparedStatement.setDouble(1, cost);
+            preparedStatement.setInt(2, client.getId());
+            if(preparedStatement.executeUpdate() == 1) {
+                Log.debug("Order cost was taking off from client account");
+            } else {
+                Log.error("Can't take off money from client account");
+                throw new AppException("Can't take off money from client account");
+            }
+        } catch (SQLException e) {
+            Log.error("Can't take off money from client account");
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
         }
     }
 }

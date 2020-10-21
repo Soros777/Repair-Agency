@@ -4,11 +4,9 @@ import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Order;
 import ua.epam.finalproject.repairagency.model.Status;
-import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.OrderUtil;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +32,7 @@ public class OrderDaoDB implements OrderDao {
             }
         } catch (SQLException e) {
             Log.error("Can't save order cause " + e);
-            if(preparedStatement != null) {
-                preparedStatement.close();
-            }
-            throw new SQLException(e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
         }
         Log.error("Can't save order");
         throw new AppException("Can't save order");
@@ -176,6 +171,44 @@ public class OrderDaoDB implements OrderDao {
         }
         Log.trace("Client order list size is : " + clientOrders.size());
         return clientOrders;
+    }
+
+    @Override
+    public void payOrder(Connection connection, int orderId) throws SQLException {
+        Log.trace("Start pay order");
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE orders SET get_pay=1 WHERE id=?");
+            preparedStatement.setInt(1, orderId);
+            if(preparedStatement.executeUpdate() == 1) {
+                Log.debug("Order field \'get_pay\' updated");
+            } else {
+                Log.error("Can't update order field");
+                throw new AppException("Can't pay order");
+            }
+        } catch (SQLException e) {
+            Log.error("Can't pay order cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
+    }
+
+    @Override
+    public Order findById(Connection connection, int orderId) throws SQLException {
+        Log.trace("Start find by id");
+        List<Order> orders = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM orders WHERE id=?");
+            preparedStatement.setInt(1, orderId);
+            resultSet = preparedStatement.executeQuery();
+            fillList(resultSet, orders);
+        } catch (SQLException e) {
+            Log.error("Can't pay order cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
+        }
+        return orders.get(0);
     }
 
     private void fillList(ResultSet resultSet, List<Order> orderList) throws SQLException {
