@@ -23,7 +23,7 @@
 
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link waves-effect">Profile</a>
+                    <a href="controller?p=authorizedPage&tab=userProfile" class="nav-link waves-effect">Profile</a>
                 </li>
 
                 <c:if test="${user.role.value eq 'Client'}">

@@ -34,7 +34,7 @@
 
         </c:if>
 
-        <a href="#" class="list-group-item waves-effect">
+        <a href="controller?p=authorizedPage&tab=userProfile" class="list-group-item waves-effect">
             <i class="fa fa-user mr-3"></i>Profile
         </a>
 

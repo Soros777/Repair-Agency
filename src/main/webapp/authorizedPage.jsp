@@ -40,6 +40,10 @@
         <%@ include file="/jspf/clientOrders.jspf"%>
       </c:if>
 
+      <c:if test="${param.tab eq 'userProfile'}">
+        <%@ include file="/jspf/userProfile.jspf"%>
+      </c:if>
+
       <c:if test="${param.tab eq 'notEnoughMoney'}">
         <%@ include file="/jspf/notEnoughMoney.jspf"%>
       </c:if>
