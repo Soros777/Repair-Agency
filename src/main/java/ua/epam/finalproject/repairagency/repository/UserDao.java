@@ -28,4 +28,6 @@ public interface UserDao {
     double getWalletValue(Connection connection, int id) throws SQLException;
 
     List<User> getUsersViaRole(Connection connection, int roleId) throws SQLException;
+
+    void payOrder(Client client, double cost, Connection connection);
 }

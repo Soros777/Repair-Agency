@@ -394,4 +394,14 @@ public class UserDaoDB implements UserDao {
             throw new SQLException(e);
         }
     }
+
+    @Override
+    public void payOrder(Client client, double cost, Connection connection) {
+        Log.trace("Start pay order");
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("");
+        }
+    }
 }

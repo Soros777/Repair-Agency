@@ -80,6 +80,7 @@ public class CommandAccessFilter implements Filter {
 
         HttpSession session = httpRequest.getSession(false);
         if (session == null) {
+            Log.trace("================ session is null");
             return false;
         }
 

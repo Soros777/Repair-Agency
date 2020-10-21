@@ -1,47 +1,57 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <div class="row wow fadeIn">
     <div class="col-md-12 mb-4">
         <div class="card">
             <div class="card-body text-center">
                 <%--                Start content         --%>
-                    <form action="controller" method="POST" name="payOrder">
-
-                    </form>
-                    <h4 class="mt-4 mb-4">Список Ваших заявок на ремонт</h4>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead class="table-dark">
-                            <tr>
-                                <th>№ заказа</th>
-                                <th>Девайс</th>
-                                <th>Описание проблемы</th>
-                                <th>Операционист<br/>(Менеджер)</th>
-                                <th>Мастер</th>
-                                <th>Стоимость заказа, грн</th>
-                                <th>Статус заказа</th>
-                                <th>Дата создания</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="order" items="${clientOrders}">
-                                <tr class="danger">
-                                    <td>${order.id}</td>
-                                    <td><c:out value="${order.device}"/></td>
-                                    <td><c:out value="${order.description}"/></td>
-                                    <td><ctg:user-name user="${order.manager}"/></td>
-                                    <td><ctg:user-name user="${order.master}"/></td>
-                                    <td>${order.cost}</td>
-                                    <td>
+                <form action="controller" method="POST" name="payOrder">
+                    <input type="hidden" name="command" value="payOrder">
+                    <input type="hidden" name="orderId" value="${order.id}">
+                </form>
+                <h4 class="mt-4 mb-4">Список Ваших заявок на ремонт</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>№ заказа</th>
+                            <th>Девайс</th>
+                            <th>Описание проблемы</th>
+                            <th>Операционист<br/>(Менеджер)</th>
+                            <th>Мастер</th>
+                            <th>Стоимость заказа, грн</th>
+                            <th>Статус заказа</th>
+                            <th>Дата создания</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="order" items="${clientOrders}">
+                            <tr
+                                    <c:if test="${order.status eq 'WAIT_FOR_PAY'}"
+                                          var="waitPay">class="bg-warning"</c:if>
+                                    <c:if test="${order.status eq 'CANCELED'}">class="bg-danger"</c:if> >
+                                <td>${order.id}</td>
+                                <td><c:out value="${order.device}"/></td>
+                                <td><c:out value="${order.description}"/></td>
+                                <td><ctg:user-name user="${order.manager}"/></td>
+                                <td><ctg:user-name user="${order.master}"/></td>
+                                <td>${order.cost}</td>
+                                <td>
+                                    <c:if test="${waitPay}">
                                         <a href="#" onclick="document.forms.payOrder.submit()" title="Оплатить заказ">
                                                 ${order.status}
                                         </a>
-                                    </td>
-                                    <td>${order.createdDate}</td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                                    </c:if>
+                                    <c:if test="${!waitPay}">
+                                        ${order.status}
+                                    </c:if>
+                                </td>
+                                <td>${order.createdDate}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
                 <%--                End content      --%>
             </div>
         </div>

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
 import ua.epam.finalproject.repairagency.model.Client;
+import ua.epam.finalproject.repairagency.model.Order;
 import ua.epam.finalproject.repairagency.model.Role;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.repository.ConnectionPool;
@@ -186,6 +187,52 @@ public class UserService {
         } catch (SQLException | NamingException e) {
             Log.error("Can't get all masters cause : " + e);
             throw new AppException("Can't get all masters");
+        }
+    }
+
+    public boolean payOrder(Client client, String orderId, List<Order> orders, ConnectionPool connectionPool, OrderService orderService) {
+        Log.trace("Start pay order");
+
+        Order needPayOrder = null;
+        for (Order order : orders) {
+            if(order.getId() == Integer.parseInt(orderId)) {
+                needPayOrder = order;
+            }
+        }
+        if(needPayOrder == null) {
+            Log.error("Can't obtain needed order");
+            throw new AppException("Can't obtain order for paying");
+        }
+
+        if(client.getWalletCount() < needPayOrder.getCost()) {
+            return false;
+        }
+
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            userDao.payOrder(client, needPayOrder.getCost(), connection);
+            orderService.payOrder(orderId, connection);
+            connection.commit();
+            Log.debug("Order payed successfully!");
+        } catch (SQLException e) {
+            Log.error("Cant obtain id for locale or role" + e);
+            if(connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    Log.error("Can't close connection"  + e);
+                }
+            }
+            throw new AppException("Can't add new user");
+        } finally {
+            if(connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Log.error("Can't close connection");
+                }
+            }
         }
     }
 }

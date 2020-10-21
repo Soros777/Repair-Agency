@@ -5,14 +5,11 @@ import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.model.Order;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.service.OrderService;
-import ua.epam.finalproject.repairagency.service.OrderUtil;
 import ua.epam.finalproject.repairagency.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class ListOrdersCommand extends ActionCommand {
@@ -24,7 +21,6 @@ public class ListOrdersCommand extends ActionCommand {
     public ListOrdersCommand(OrderService orderService, UserService userService) {
         this.orderService = orderService;
         this.userService = userService;
-
     }
 
     @Override
