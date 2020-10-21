@@ -27,7 +27,7 @@ public class CommandContainer {
         // client commands
         OrderService orderService = new OrderService(new OrderDaoDB(), new DeviceDao());
         actionCommands.put("createOrder", new CreateOrderCommand(orderService));
-//        actionCommands.put("listMenu", new ListMenuCommand());
+        actionCommands.put("showClientOrders", new ShowClientOrdersCommand(orderService));
 //
         //manager commands
         actionCommands.put("listOrders", new ListOrdersCommand(orderService, userService));

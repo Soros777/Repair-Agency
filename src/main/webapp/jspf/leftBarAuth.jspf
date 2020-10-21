@@ -45,6 +45,12 @@
         </c:if>
 
         <c:if test="${user.role.value eq 'Client'}">
+            <a href="controller?p=authorizedPage&tab=clientOrders" class="list-group-item waves-effect <c:if test="${param.tab eq 'clientOrders'}"> active </c:if>" onclick="document.forms.showClientOrders.submit()">
+                <i class="fa fa-table mr-3"></i>My orders
+            </a>
+        </c:if>
+
+        <c:if test="${user.role.value eq 'Client'}">
             <a href="#" class="list-group-item waves-effect">
                 <i class="fa fa-money mr-3"></i>My count
             </a>

@@ -52,7 +52,7 @@
         <init-param>
             <param-name>client</param-name>
             <param-value>
-                createOrder payOrder giveFeedback
+                createOrder payOrder giveFeedback showClientOrders
             </param-value>
         </init-param>
         <init-param>

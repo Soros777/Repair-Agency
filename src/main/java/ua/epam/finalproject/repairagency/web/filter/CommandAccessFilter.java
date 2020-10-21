@@ -7,6 +7,7 @@ import ua.epam.finalproject.repairagency.model.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
@@ -51,15 +52,16 @@ public class CommandAccessFilter implements Filter {
         if (accessAllowed(request)) {
             Log.debug("Filter finished");
             chain.doFilter(request, response);
-        } else {
+//        } else {
+//
+//            //ajax message
+//            String errorMessage = "You do not have permission to access the requested resource";
+//
+//            request.setAttribute("errorMessage", errorMessage);
+            Log.warn("Trying to invoke an inadmissible command or session is null");
 
-            //ajax message
-            String errorMessage = "You do not have permission to access the requested resource";
-
-            request.setAttribute("errorMessage", errorMessage);
-            Log.warn("Attempting to invoke an inadmissible command");
-
-            response.getWriter().write("no permissions");
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            httpServletResponse.sendRedirect(indexPath);
         }
     }
 

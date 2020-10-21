@@ -47,9 +47,9 @@
                         </form>
                     </td>
 
-                    <td><c:out value="${order.cost}"/></td>
-                    <td><c:out value="${order.status}"/></td>
-                    <td><c:out value="${order.createdDate}"/></td>
+                    <td>${order.cost}</td>
+                    <td>${order.status}</td>
+                    <td>${order.createdDate}</td>
                 </tr>
             </c:forEach>
             </tbody>

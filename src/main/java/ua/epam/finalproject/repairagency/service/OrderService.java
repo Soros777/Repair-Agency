@@ -2,6 +2,7 @@ package ua.epam.finalproject.repairagency.service;
 
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.exeption.AppException;
+import ua.epam.finalproject.repairagency.model.Client;
 import ua.epam.finalproject.repairagency.model.Order;
 import ua.epam.finalproject.repairagency.model.Status;
 import ua.epam.finalproject.repairagency.model.User;
@@ -15,7 +16,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class OrderService {
@@ -177,5 +177,22 @@ public class OrderService {
         }
         Log.error("Can't appoint master");
         throw new AppException("Can't appoint master");
+    }
+
+    public List<Order> findForClient(Client client, ConnectionPool connectionPool) {
+        Log.trace("Start find all clients orders");
+
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            return orderDao.findForClient(connection, client.getId());
+        } catch (SQLException e) {
+            ServiceUtil.rollback(connection);
+        } finally {
+            ServiceUtil.close(connection);
+        }
+        Log.error("Can't find clients orders");
+        throw new AppException("Can't find clients orders");
+
     }
 }

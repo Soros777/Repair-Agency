@@ -52,15 +52,7 @@ public class OrderDaoDB implements OrderDao {
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM orders");
-            while (resultSet.next()) {
-                Order order = OrderUtil.getFromData(resultSet.getInt("id"),
-                        resultSet.getInt("created_by_client_id"), resultSet.getInt("device_id"),
-                        resultSet.getString("description"), resultSet.getInt("master_id"),
-                        resultSet.getInt("manager_id"), resultSet.getDouble("cost"),
-                        resultSet.getString("status"), resultSet.getString("created_date"),
-                        resultSet.getBoolean("get_pay"));
-                orders.add(order);
-            }
+            fillList(resultSet, orders);
         } catch (SQLException e) {
             Log.error("Can't save order cause " + e);
             RepositoryUtil.closeAndThrow(e, resultSet, statement);
@@ -81,15 +73,7 @@ public class OrderDaoDB implements OrderDao {
             preparedStatement.setString(2, to);
             Log.debug("=================== preparedStatement : " + preparedStatement);
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Order order = OrderUtil.getFromData(resultSet.getInt("id"),
-                        resultSet.getInt("created_by_client_id"), resultSet.getInt("device_id"),
-                        resultSet.getString("description"), resultSet.getInt("master_id"),
-                        resultSet.getInt("manager_id"), resultSet.getDouble("cost"),
-                        resultSet.getString("status"), resultSet.getString("created_date"),
-                        resultSet.getBoolean("get_pay"));
-                orders.add(order);
-            }
+            fillList(resultSet, orders);
         } catch (SQLException e) {
             Log.error("Can't save order cause " + e);
             RepositoryUtil.closeAndThrow(e, resultSet, preparedStatement);
@@ -172,6 +156,37 @@ public class OrderDaoDB implements OrderDao {
         } catch (SQLException e) {
             Log.error("Can't set order cost cause " + e);
             RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
+    }
+
+    @Override
+    public List<Order> findForClient(Connection connection, int clientId) throws SQLException {
+        Log.trace("Start obtain all client's orders");
+        List<Order> clientOrders = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM orders WHERE created_by_client_id=?");
+            preparedStatement.setInt(1, clientId);
+            resultSet = preparedStatement.executeQuery();
+            fillList(resultSet, clientOrders);
+        } catch (SQLException e) {
+            Log.error("Can't obtain client's orders cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
+        }
+        Log.trace("Client's order list size is : " + clientOrders.size());
+        return clientOrders;
+    }
+
+    private void fillList(ResultSet resultSet, List<Order> orderList) throws SQLException {
+        while (resultSet.next()) {
+            Order order = OrderUtil.getFromData(resultSet.getInt("id"),
+                    resultSet.getInt("created_by_client_id"), resultSet.getInt("device_id"),
+                    resultSet.getString("description"), resultSet.getInt("master_id"),
+                    resultSet.getInt("manager_id"), resultSet.getDouble("cost"),
+                    resultSet.getString("status"), resultSet.getString("created_date"),
+                    resultSet.getBoolean("get_pay"));
+            orderList.add(order);
         }
     }
 }

@@ -24,4 +24,6 @@ public interface OrderDao {
     Order changeStatus(Connection connection, Order order, Status newStatus) throws SQLException;
 
     void setMaster(Connection connection, Order order, int masterId) throws SQLException;
+
+    List<Order> findForClient(Connection connection, int clientId) throws SQLException;
 }

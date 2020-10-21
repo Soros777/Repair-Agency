@@ -33,6 +33,15 @@
                 </c:if>
 
                 <c:if test="${user.role.value eq 'Client'}">
+                    <form action="controller" method="POST" name="showClientOrders">
+                        <input type="hidden" name="command" value="showClientOrders">
+                    </form>
+                    <li class="nav-item <c:if test="${param.tab eq 'clientOrders'}"> active </c:if>">
+                        <a class="nav-link waves-effect" onclick="document.forms.showClientOrders.submit()">My orders</a>
+                    </li>
+                </c:if>
+
+                <c:if test="${user.role.value eq 'Client'}">
                     <li class="nav-item">
                         <a href="#" class="nav-link waves-effect">My count</a>
                     </li>
