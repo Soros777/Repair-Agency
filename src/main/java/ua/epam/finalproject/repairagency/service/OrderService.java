@@ -180,7 +180,7 @@ public class OrderService {
     }
 
     public List<Order> findForClient(Client client, ConnectionPool connectionPool) {
-        Log.trace("Start find all clients orders");
+        Log.trace("Start find all client orders");
 
         Connection connection = null;
         try {
@@ -191,8 +191,8 @@ public class OrderService {
         } finally {
             ServiceUtil.close(connection);
         }
-        Log.error("Can't find clients orders");
-        throw new AppException("Can't find clients orders");
+        Log.error("Can't find client orders");
+        throw new AppException("Can't find client orders");
 
     }
 }

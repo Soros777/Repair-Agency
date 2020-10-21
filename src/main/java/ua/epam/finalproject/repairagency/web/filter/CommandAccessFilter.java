@@ -52,7 +52,7 @@ public class CommandAccessFilter implements Filter {
         if (accessAllowed(request)) {
             Log.debug("Filter finished");
             chain.doFilter(request, response);
-//        } else {
+        } else {
 //
 //            //ajax message
 //            String errorMessage = "You do not have permission to access the requested resource";

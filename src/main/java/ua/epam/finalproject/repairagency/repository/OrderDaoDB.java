@@ -161,7 +161,7 @@ public class OrderDaoDB implements OrderDao {
 
     @Override
     public List<Order> findForClient(Connection connection, int clientId) throws SQLException {
-        Log.trace("Start obtain all client's orders");
+        Log.trace("Start obtain all client orders");
         List<Order> clientOrders = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -171,10 +171,10 @@ public class OrderDaoDB implements OrderDao {
             resultSet = preparedStatement.executeQuery();
             fillList(resultSet, clientOrders);
         } catch (SQLException e) {
-            Log.error("Can't obtain client's orders cause " + e);
+            Log.error("Can't obtain client orders cause " + e);
             RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
-        Log.trace("Client's order list size is : " + clientOrders.size());
+        Log.trace("Client order list size is : " + clientOrders.size());
         return clientOrders;
     }
 
