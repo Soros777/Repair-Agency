@@ -29,7 +29,11 @@
                             <a href="#" onclick="document.forms.${formOrdId}.submit();"><c:out value="${order.id}"/></a>
                         </form>
                     </td>
-                    <td><ctg:user-name user="${order.createdByClient}"/></td>
+                    <td>
+                        <a href="controller?p=authorizedPage&tab=topUpClientWallet&clientId=${order.createdByClient.id}">
+                            <ctg:user-name user="${order.createdByClient}"/>
+                        </a>
+                    </td>
                     <td><c:out value="${order.device}"/></td>
                     <td><c:out value="${order.description}"/></td>
                     <td><ctg:user-name user="${order.manager}"/></td>

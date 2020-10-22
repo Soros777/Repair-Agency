@@ -9,8 +9,10 @@
                 <p>Ваше имя : ${user.personName}</p>
                 <p>E-mail : ${user.email}</p>
                 <p>Контактный телефон : ${user.contactPhone}</p>
-                <p>Остаток на счету : ${user.walletCount} грн</p>
-                <%--                End content      --%>
+                <c:if test="${user.role.value eq 'Client'}">
+                    <p>Остаток на счету : ${user.walletCount} грн</p>
+                </c:if>
+                    <%--                End content      --%>
             </div>
         </div>
     </div>

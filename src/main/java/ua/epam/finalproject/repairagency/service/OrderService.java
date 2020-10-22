@@ -193,7 +193,6 @@ public class OrderService {
         }
         Log.error("Can't find client orders");
         throw new AppException("Can't find client orders");
-
     }
 
     public void payOrder(String orderId, Connection connection) throws SQLException {
@@ -204,5 +203,21 @@ public class OrderService {
     public Order findById(Connection connection, String orderId) throws SQLException {
         Log.trace("Go to order Dao");
         return orderDao.findById(connection, Integer.parseInt(orderId));
+    }
+
+    public List<Order> findForMaster(String masterId, ConnectionPool connectionPool) {
+        Log.trace("Start find orders for master");
+
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            return orderDao.findForMaster(connection, Integer.parseInt(masterId));
+        } catch (SQLException e) {
+            ServiceUtil.rollback(connection);
+        } finally {
+            ServiceUtil.close(connection);
+        }
+        Log.error("Can't find orders for master");
+        throw new AppException("Can't find orders for master");
     }
 }

@@ -211,6 +211,24 @@ public class OrderDaoDB implements OrderDao {
         return orders.get(0);
     }
 
+    @Override
+    public List<Order> findForMaster(Connection connection, int masterId) throws SQLException {
+        Log.trace("Start obtain orders for master");
+        List<Order> masterOrders = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM orders WHERE master_id=?");
+            preparedStatement.setInt(1, masterId);
+            resultSet = preparedStatement.executeQuery();
+            fillList(resultSet, masterOrders);
+        } catch (SQLException e) {
+            Log.error("Can't obtain orders for master cause " + e);
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
+        }
+        return masterOrders;
+    }
+
     private void fillList(ResultSet resultSet, List<Order> orderList) throws SQLException {
         while (resultSet.next()) {
             Order order = OrderUtil.getFromData(resultSet.getInt("id"),

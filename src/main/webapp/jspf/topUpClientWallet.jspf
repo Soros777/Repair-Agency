@@ -1,0 +1,30 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
+<div class="row wow fadeIn">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <%--                Start content         --%>
+                <h4 class="mt-4 mb-4">Страница пополнения счёта клиента</h4>
+                <p>Имя клиента: ${client.personName}</p>
+                <p>E-mail клиента : ${client.email}</p>
+                <p>Контактный телефон : ${client.contactPhone}</p>
+                <p>Остаток на счету : ${client.walletCount}</p>
+
+                    <form action="controller" method="POST">
+                        <input type="hidden" name="command" value="topUpClientWallet">
+                        <input type="hidden" name="clientId" value="${client.id}">
+                        <div class="form-row align-items-center">
+                            <div class="form-group col-md-3">
+                                <input type="text" name="amount" class=" form-control mt-2">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="submit" value="Пополнить счёт клиента" class="mt-2"/>
+                            </div>
+                        </div>
+                    </form>
+                <%--                End content      --%>
+            </div>
+        </div>
+    </div>
+</div>

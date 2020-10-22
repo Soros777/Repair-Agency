@@ -30,4 +30,6 @@ public interface UserDao {
     List<User> getUsersViaRole(Connection connection, int roleId) throws SQLException;
 
     void takeOffMoney(Client client, double cost, Connection connection) throws SQLException;
+
+    void topUpWallet(Connection connection, int clientId, double amount) throws SQLException;
 }

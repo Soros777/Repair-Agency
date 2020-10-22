@@ -16,7 +16,7 @@
   <main class="pt-5 max-lg-5">
     <div class="container-fluid mt-5">
 
-      <c:if test="${param.tab ne 'order' && param.tab ne 'clientOrders'}">
+      <c:if test="${param.tab ne 'order' && param.tab ne 'clientOrders' && param.tab ne 'userProfile'}">
         <%@ include file="/jspf/searchAuth.jspf"%>
       </c:if>
 
@@ -44,8 +44,16 @@
         <%@ include file="/jspf/userProfile.jspf"%>
       </c:if>
 
+      <c:if test="${param.tab eq 'topUpClientWallet'}">
+        <%@ include file="/jspf/topUpClientWallet.jspf"%>
+      </c:if>
+
       <c:if test="${param.tab eq 'notEnoughMoney'}">
         <%@ include file="/jspf/notEnoughMoney.jspf"%>
+      </c:if>
+
+      <c:if test="${param.tab eq 'successTopUpWallet'}">
+        <%@ include file="/jspf/successTopUpWallet.jspf"%>
       </c:if>
 
     </div>

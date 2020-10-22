@@ -30,4 +30,6 @@ public interface OrderDao {
     void payOrder(Connection connection, int parseInt) throws SQLException;
 
     Order findById(Connection connection, int orderId) throws SQLException;
+
+    List<Order> findForMaster(Connection connection, int masterId) throws SQLException;
 }

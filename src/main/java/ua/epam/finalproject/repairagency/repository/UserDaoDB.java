@@ -364,4 +364,25 @@ public class UserDaoDB implements UserDao {
             RepositoryUtil.closeAndThrow(e, preparedStatement);
         }
     }
+
+    @Override
+    public void topUpWallet(Connection connection, int clientId, double amount) throws SQLException {
+        Log.trace("Start top up wallet");
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE clients SET wallet_count=wallet_count+? WHERE parent=?");
+            preparedStatement.setDouble(1, amount);
+            preparedStatement.setInt(2, clientId);
+            if(preparedStatement.executeUpdate() == 1) {
+                Log.trace("Client wallet was updated successfully");
+            } else {
+                Log.error("Can't update client wallet");
+                throw new AppException("Can't update client wallet");
+            }
+        } catch (SQLException e) {
+            Log.error("Can't update client wallet");
+            RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
+    }
 }

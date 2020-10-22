@@ -1,6 +1,10 @@
 package ua.epam.finalproject.repairagency.web.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import ua.epam.finalproject.repairagency.model.Client;
+import ua.epam.finalproject.repairagency.repository.EntityContainer;
+import ua.epam.finalproject.repairagency.service.UserService;
 import ua.epam.finalproject.repairagency.web.command.ActionCommand;
 import ua.epam.finalproject.repairagency.web.command.CommandContainer;
 
@@ -32,6 +36,13 @@ public class Controller extends HttpServlet {
             forward = "index";
         }
         forward = forward + ".jsp";
+
+        String clientId = request.getParameter("clientId");
+        if(!StringUtils.isEmpty(clientId)) {
+            Log.trace("Queried client with id : " + clientId);
+            Client client = EntityContainer.getClientById(Integer.parseInt(clientId));
+            request.setAttribute("client", client);
+        }
 
         request.getRequestDispatcher(forward).forward(request, response);
     }

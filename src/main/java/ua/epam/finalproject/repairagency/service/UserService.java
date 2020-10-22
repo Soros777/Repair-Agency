@@ -230,4 +230,35 @@ public class UserService {
             }
         }
     }
+
+    public void totUpWallet(String clientId, String amount, ConnectionPool connectionPool) {
+        Log.trace("Start top up wallet");
+
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            userDao.topUpWallet(connection, Integer.parseInt(clientId), Double.parseDouble(amount));
+
+            connection.commit();
+            Log.debug("Client wallet updated successfully!");
+        } catch (SQLException e) {
+            Log.error("Cant pay order cause " + e);
+            if(connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    Log.error("Can't close connection"  + e);
+                }
+            }
+            throw new AppException("Can't pay order");
+        } finally {
+            if(connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Log.error("Can't close connection");
+                }
+            }
+        }
+    }
 }

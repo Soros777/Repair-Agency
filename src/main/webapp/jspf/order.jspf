@@ -28,15 +28,16 @@
             <td>${order.manager.personName}</td>
             <td>
                 <c:if test="${order.master == null && order.status eq 'WAIT_FOR_PAY'}" var="canAppointMaster">
-                <form action="controller" method="POST" name="appointMaster">
-                    <input type="hidden" name="command" value="appointMaster">
-                    <select class="form-control f-c-p dark" id="master" name="masterName"  onchange="masterChanged (this.value)">
-                        <option>...</option>
-                        <c:forEach var="master" items="${masters}">
-                        <option class="opt">${master.personName}</option>
-                        </c:forEach>
-                    </select>
-                </form>
+                    <form action="controller" method="POST" name="appointMaster">
+                        <input type="hidden" name="command" value="appointMaster">
+                        <select class="form-control f-c-p dark" id="master" name="masterName"
+                                onchange="masterChanged (this.value)">
+                            <option>...</option>
+                            <c:forEach var="master" items="${masters}">
+                                <option class="opt">${master.personName}</option>
+                            </c:forEach>
+                        </select>
+                    </form>
                 </c:if>
                 <c:if test="${!canAppointMaster}">
                     ${order.master.personName}
@@ -83,10 +84,12 @@
                 Определить<br/>стоимость работ
             </a>
             <c:if test="${order.cost != 0 && order.status == 'NEW'}" var="waitPay"/>
-            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>" onclick="document.forms.setWaitingPayStatus.submit();">
+            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>"
+               onclick="document.forms.setWaitingPayStatus.submit();">
                 Установить статус<br/>"Ждёт оплату"
             </a>
-            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>" onclick="document.forms.appointMaster.submit();" id="setMasterBtn">
+            <a href="#" class="btn btn-outline-white <c:if test="${!waitPay}">not-active</c:if>"
+               onclick="document.forms.appointMaster.submit();" id="setMasterBtn">
                 Назначить<br/>мастера
             </a>
             <c:if test="${showPay && order.getPay}">
@@ -94,9 +97,33 @@
                     Установить статус<br/>"Оплачен"
                 </a>
             </c:if>
-                <a href="#" class="btn btn-outline-white" onclick="document.forms.setCanceledStatus.submit();">
-                    Установить статус<br/>"Отменён"
+            <a href="#" class="btn btn-outline-white" onclick="document.forms.setCanceledStatus.submit();">
+                Установить статус<br/>"Отменён"
+            </a>
+        </div>
+    </c:if>
+
+    <c:if test="${order.master.id == user.id && order.status ne 'MADE'}">
+        <%--        Buttons for master--%>
+        <form action="controller" method="POST" name="changeWork">
+            <input type="hidden" name="command" value="changeOrderStatus">
+            <input type="hidden" name="newOrderStatus" value="WORKING">
+        </form>
+        <form action="controller" method="POST" name="changeMade">
+            <input type="hidden" name="command" value="changeOrderStatus">
+            <input type="hidden" name="newOrderStatus" value="MADE">
+        </form>
+        <div class="pt-4 buttons pb-4">
+            <c:if test="${order.status eq 'PAYED'}">
+                <a href="#" class="btn btn-outline-white" onclick="document.forms.changeWork.submit();">
+                    Установить статус<br/>"В работе"
                 </a>
+            </c:if>
+            <c:if test="${order.status eq 'WORKING'}">
+                <a href="#" class="btn btn-outline-white" onclick="document.forms.changeMade.submit();">
+                    Установить статус<br/>"Выполнен"
+                </a>
+            </c:if>
         </div>
     </c:if>
 </div>
