@@ -1,0 +1,19 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+
+<form action="controller" method="POST">
+
+    <input type="hidden" name="orderId" value="${param.orderId}">
+
+    <div class="row mr-auto ml-auto">
+        <div class="col-25">
+            <label for="description">Мы Вас внимательно слушаем</label>
+        </div>
+        <div class="col-75">
+            <textarea id="description" name="description" placeholder="Всё ли было хорошо??" style="height:200px"></textarea>
+        </div>
+    </div>
+    <div class="row  mr-auto ml-auto">
+        <input type="hidden" name="command" value="leaveFeedback">
+        <input type="submit" value="Отправить отзыв">
+    </div>
+</form>

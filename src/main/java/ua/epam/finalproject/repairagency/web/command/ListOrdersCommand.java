@@ -42,6 +42,8 @@ public class ListOrdersCommand extends ActionCommand {
 
         List<User> masters = userService.getAllMasters();
 
+        Log.trace("============ orderList : " + orderList + "======================");
+
         session.setAttribute("orders", orderList);
         session.setAttribute("masters", masters);
 

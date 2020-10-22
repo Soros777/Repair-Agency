@@ -1,0 +1,19 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+
+<div class="row wow fadeIn">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+<%--                Start content         --%>
+                <c:if test="${param.conf ne 'thanks'}">
+                    <%@ include file="/jspf/feedbackForm.jspf"%>
+                </c:if>
+
+                <c:if test="${param.conf eq 'thanks'}">
+                    <%@ include file="/jspf/feedbackAnswer.jspf"%>
+                </c:if>
+<%--                End content      --%>
+            </div>
+        </div>
+    </div>
+</div>

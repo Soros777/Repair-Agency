@@ -7,6 +7,7 @@
             <tr>
                 <th>Заказ №</th>
                 <th>Заказчик</th>
+                <th>Ban</th>
                 <th>Девайс</th>
                 <th>Описание проблемы</th>
                 <th>Операционист<br/>(Менеджер)</th>
@@ -34,6 +35,7 @@
                             <ctg:user-name user="${order.createdByClient}"/>
                         </a>
                     </td>
+                    <td>${order.createdByClient.status}</td>
                     <td><c:out value="${order.device}"/></td>
                     <td><c:out value="${order.description}"/></td>
                     <td><ctg:user-name user="${order.manager}"/></td>

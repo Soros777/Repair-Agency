@@ -15,6 +15,7 @@ import java.util.*;
 public class CommandAccessFilter implements Filter {
 
     private String indexPath;
+    HttpSession session;
     private static final Logger Log = Logger.getLogger(CommandAccessFilter.class);
 
     // commands access
@@ -49,27 +50,31 @@ public class CommandAccessFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         Log.debug("Filter starts");
 
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        session = httpRequest.getSession(false);
+
         if (accessAllowed(request)) {
             Log.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
-//
-//            //ajax message
-//            String errorMessage = "You do not have permission to access the requested resource";
-//
-//            request.setAttribute("errorMessage", errorMessage);
-            Log.warn("Trying to invoke an inadmissible command or session is null");
+            //ajax message
+            String errorMessage = "You do not have permission to access the requested resource";
 
-            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.sendRedirect(indexPath);
+            request.setAttribute("errorMessage", errorMessage);
+            Log.warn("Trying to invoke an inadmissible command");
+
+
+//            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+//            httpServletResponse.sendRedirect(indexPath);
         }
     }
 
     private boolean accessAllowed(ServletRequest request) {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-
         String commandName = request.getParameter("command");
         Log.debug("Checking command : == " + commandName);
+
+
+
         if (StringUtils.isEmpty(commandName)) {
             return true; // why false
         }
@@ -78,7 +83,6 @@ public class CommandAccessFilter implements Filter {
             return true;
         }
 
-        HttpSession session = httpRequest.getSession(false);
         if (session == null) {
             Log.trace("================ session is null");
             return false;

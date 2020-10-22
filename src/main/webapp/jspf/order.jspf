@@ -126,4 +126,12 @@
             </c:if>
         </div>
     </c:if>
+
+    <c:if test="${order.createdByClient.id == user.id && order.status eq 'MADE'}">
+        <div class="pt-4 buttons pb-4">
+            <a href="controller?p=authorizedPage&tab=leaveFeedback&orderId=${order.id}" class="btn btn-outline-white"">
+                Оставить отзыв
+            </a>
+        </div>
+    </c:if>
 </div>

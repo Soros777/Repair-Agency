@@ -13,9 +13,7 @@ import ua.epam.finalproject.repairagency.repository.OrderDao;
 
 import javax.naming.NamingException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -219,5 +217,25 @@ public class OrderService {
         }
         Log.error("Can't find orders for master");
         throw new AppException("Can't find orders for master");
+    }
+
+    public Order findById(ConnectionPool connectionPool, String orderId) {
+        Log.trace("Start find by id");
+
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+            return findById(connection, orderId);
+        } catch (SQLException e) {
+            ServiceUtil.rollback(connection);
+        } finally {
+            ServiceUtil.close(connection);
+        }
+        Log.error("Can't find by id");
+        throw new AppException("Can't find order by id");
+    }
+
+    public void addFeedBack(ConnectionPool connectionPool, String orderId, String feedbackText) {
+
     }
 }

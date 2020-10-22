@@ -29,6 +29,8 @@ public class CommandContainer {
         actionCommands.put("createOrder", new CreateOrderCommand(orderService));
         actionCommands.put("showClientOrders", new ShowClientOrdersCommand(orderService));
         actionCommands.put("payOrder", new PayOrderCommand(orderService, userService));
+        actionCommands.put("showClientOrder", new ShowClientOrderCommand(orderService));
+        actionCommands.put("leaveFeedback", new LeaveFeedbackCommand(orderService));
 //
         //manager commands
         actionCommands.put("listOrders", new ListOrdersCommand(orderService, userService));
@@ -37,6 +39,7 @@ public class CommandContainer {
         actionCommands.put("changeOrderStatus", new ChangeOrderStatusCommand(orderService));
         actionCommands.put("appointMaster", new AppointMasterCommand(orderService));
         actionCommands.put("topUpClientWallet", new TopUpClientWalletCommand(userService));
+        actionCommands.put("banClient", new BanClientCommand(userService));
 
         //master commands
         actionCommands.put("showMastersOrders", new ShowMasterOrdersCommand(orderService, userService));

@@ -56,6 +56,14 @@
         <%@ include file="/jspf/successTopUpWallet.jspf"%>
       </c:if>
 
+      <c:if test="${param.tab eq 'successChangeStatus'}">
+        <%@ include file="/jspf/successChangeStatus.jspf"%>
+      </c:if>
+
+      <c:if test="${param.tab eq 'leaveFeedbackCard'}">
+        <%@ include file="/jspf/leaveFeedbackCard.jspf"%>
+      </c:if>
+
     </div>
   </main>
   <%@ include file="/jspf/footerAuth.jspf"%>

@@ -32,4 +32,8 @@ public interface UserDao {
     void takeOffMoney(Client client, double cost, Connection connection) throws SQLException;
 
     void topUpWallet(Connection connection, int clientId, double amount) throws SQLException;
+
+    User getClientById(Connection connection, int clientId) throws SQLException;
+
+    void changeClientStatus(Connection connection, int clientId) throws SQLException;
 }

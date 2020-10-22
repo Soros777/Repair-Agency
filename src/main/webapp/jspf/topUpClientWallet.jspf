@@ -23,6 +23,16 @@
                             </div>
                         </div>
                     </form>
+
+                    <hr class="m-2"/>
+
+                    <form action="controller" method="POST">
+                        <input type="hidden" name="command" value="banClient">
+                        <input type="hidden" name="clientId" value="${client.id}">
+                        <div class="form-group col-md-3">
+                            <input type="submit" value="Забанить / разбанить клиента" class="mt-2"/>
+                        </div>
+                    </form>
                 <%--                End content      --%>
             </div>
         </div>

@@ -231,16 +231,17 @@ public class UserService {
         }
     }
 
-    public void totUpWallet(String clientId, String amount, ConnectionPool connectionPool) {
+    public User topUpWallet(String clientId, String amount, ConnectionPool connectionPool) {
         Log.trace("Start top up wallet");
 
         Connection connection = null;
         try {
             connection = connectionPool.getConnection();
             userDao.topUpWallet(connection, Integer.parseInt(clientId), Double.parseDouble(amount));
-
+            User client = userDao.getClientById(connection, Integer.parseInt(clientId));
             connection.commit();
             Log.debug("Client wallet updated successfully!");
+            return client;
         } catch (SQLException e) {
             Log.error("Cant pay order cause " + e);
             if(connection != null) {
@@ -251,6 +252,40 @@ public class UserService {
                 }
             }
             throw new AppException("Can't pay order");
+        } finally {
+            if(connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Log.error("Can't close connection");
+                }
+            }
+        }
+    }
+
+    public User changeStatus(String clientId, ConnectionPool connectionPool) {
+        Log.trace("Start change status");
+
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection();
+
+            userDao.changeClientStatus(connection, Integer.parseInt(clientId));
+
+            User client = userDao.getClientById(connection, Integer.parseInt(clientId));
+            connection.commit();
+            Log.debug("Client status updated successfully!");
+            return client;
+        } catch (SQLException e) {
+            Log.error("Can't change status cause " + e);
+            if(connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    Log.error("Can't close connection"  + e);
+                }
+            }
+            throw new AppException("Can't change client status");
         } finally {
             if(connection != null) {
                 try {

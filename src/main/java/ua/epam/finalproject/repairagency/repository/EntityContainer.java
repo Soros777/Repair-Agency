@@ -104,23 +104,42 @@ public class EntityContainer {
 
     private static void fillClientContainer(Connection connection, int clientRoleId) throws SQLException {
         Log.trace("Start fill client container");
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        PreparedStatement userPreparedStatement = null;
+        ResultSet userResultSet = null;
+        PreparedStatement clientPreparedStatement = null;
+        ResultSet clientResultSet = null;
         try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE role_id=?");
-            preparedStatement.setInt(1, clientRoleId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                double walletCount = getWalletCount(connection, resultSet.getInt("id"));
-                User user = obtain(resultSet);
-                Client client = UserUtil.getClientFromUser(user, walletCount);
-                clients.put(resultSet.getInt("id"), client);
+            userPreparedStatement = connection.prepareStatement("SELECT * FROM users WHERE role_id=?");
+            userPreparedStatement.setInt(1, clientRoleId);
+            userResultSet = userPreparedStatement.executeQuery();
+            while (userResultSet.next()) {
+                User user = obtain(userResultSet);
+                clientPreparedStatement = connection.prepareStatement("SELECT * FROM clients WHERE parent=?");
+                clientPreparedStatement.setInt(1, userResultSet.getInt("id"));
+                clientResultSet = clientPreparedStatement.executeQuery();
+                if(clientResultSet.next()) {
+                    double walletCount = clientResultSet.getDouble("wallet_count");
+                    boolean status = clientResultSet.getBoolean("ban");
+                    Client client = UserUtil.getClientFromUser(user, walletCount, status);
+                    clients.put(userResultSet.getInt("id"), client);
+                }
             }
-            Log.trace("Client container size is : " + clients.size());
+            Log.trace("Client container is : " + clients);
         } catch (SQLException e) {
             Log.error("Can't fill client container");
-            RepositoryUtil.closeAndThrow(e, resultSet, preparedStatement);
+            RepositoryUtil.closeAndThrow(e, userResultSet, userPreparedStatement);
         }
+    }
+
+    private static boolean getStatus(Connection connection, int id) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT ban FROM clients WHERE parent=?");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            Log.trace("Status was obtained");
+            return resultSet.getBoolean(1);
+        }
+        Log.error("Can't get client status");
+        throw new AppException("Can't get status");
     }
 
     private static double getWalletCount(Connection connection, int clientId) throws SQLException {

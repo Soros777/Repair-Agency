@@ -26,7 +26,21 @@
                                     <c:if test="${order.status eq 'WAIT_FOR_PAY' && !order.getPay}" var="waitPay">class="bg-warning"</c:if>
                                     <c:if test="${order.status eq 'CANCELED'}">class="bg-danger"</c:if>
                                     <c:if test="${order.status eq 'WAIT_FOR_PAY' && order.getPay}" var="payed">class="bg-success"</c:if> >
-                                <td>${order.id}</td>
+                                <td>
+                                    <c:if test="${order.status eq 'MADE'}" var="made">
+                                        <c:set var="formOrdId">
+                                            ord${order.id}
+                                        </c:set>
+                                        <form action="controller" method="POST" name="${formOrdId}">
+                                            <input type="hidden" name="command" value="showClientOrder">
+                                            <input type="hidden" name="orderId" value="${order.id}">
+                                            <a href="#" onclick="document.forms.${formOrdId}.submit();"><c:out value="${order.id}"/></a>
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${!made}">
+                                        ${order.id}
+                                    </c:if>
+                                </td>
                                 <td><c:out value="${order.device}"/></td>
                                 <td><c:out value="${order.description}"/></td>
                                 <td><ctg:user-name user="${order.manager}"/></td>

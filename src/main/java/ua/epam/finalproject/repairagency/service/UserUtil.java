@@ -160,6 +160,22 @@ public class UserUtil {
         return user;
     }
 
+    public static Client getClientFromUser(User user, double walletValue, boolean status) {
+        Client client = new Client();
+        client.setId(user.getId());
+        client.setEmail(user.getEmail());
+        client.setPersonName(user.getPersonName());
+        client.setPassword(user.getPassword());
+        client.setPhotoPath(user.getPhotoPath());
+        client.setRole(user.getRole());
+        client.setWalletCount(walletValue);
+        client.setContactPhone(user.getContactPhone());
+        client.setLocale(user.getLocale());
+        client.setRegistrationDate(user.getRegistrationDate());
+        client.setStatus(status);
+        return client;
+    }
+
     public static Client getClientFromUser(User user, double walletValue) {
         Client client = new Client();
         client.setId(user.getId());

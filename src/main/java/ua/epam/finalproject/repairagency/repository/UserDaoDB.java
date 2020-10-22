@@ -101,7 +101,8 @@ public class UserDaoDB implements UserDao {
              PreparedStatement mainPreparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email=?");
              PreparedStatement localePreparedStatement = connection.prepareStatement("SELECT value FROM locales WHERE id=?");
              PreparedStatement rolePreparedStatement = connection.prepareStatement("SELECT value FROM roles WHERE id=?");
-             PreparedStatement walletCountPreparedStatement = connection.prepareStatement("SELECT wallet_count FROM clients WHERE parent=?")
+             PreparedStatement walletCountPreparedStatement = connection.prepareStatement("SELECT wallet_count FROM clients WHERE parent=?");
+             PreparedStatement clientStatusPrepareStatement = connection.prepareStatement("SELECT ban FROM clients WHERE parent=?")
         )
         {
             Log.debug("Connections and preparedStatements are obtained");
@@ -156,8 +157,10 @@ public class UserDaoDB implements UserDao {
             if(registeredUser != null && role.valueEqualsTo("Client")) {
                 Log.trace("It is a client");
                 double walletCount = getWalletCount(walletCountPreparedStatement, registeredUser.getId());
+                boolean status = getClientStatus(clientStatusPrepareStatement, registeredUser.getId());
                 if(registeredUser instanceof Client) {
                     ((Client) registeredUser).setWalletCount(walletCount);
+                    ((Client) registeredUser).setStatus(status);
                 }
             }
         } catch (SQLException e) {
@@ -170,6 +173,16 @@ public class UserDaoDB implements UserDao {
         }
 
         return registeredUser;
+    }
+
+    private boolean getClientStatus(PreparedStatement clientStatusPrepareStatement, int id) throws SQLException {
+        clientStatusPrepareStatement.setInt(1, id);
+        ResultSet resultSet = clientStatusPrepareStatement.executeQuery();
+        if(resultSet.next()) {
+            return resultSet.getBoolean(1);
+        }
+        Log.error("Can't obtain client status");
+        throw new AppException("Can't obtain client wallet count");
     }
 
 
@@ -383,6 +396,78 @@ public class UserDaoDB implements UserDao {
         } catch (SQLException e) {
             Log.error("Can't update client wallet");
             RepositoryUtil.closeAndThrow(e, preparedStatement);
+        }
+    }
+
+    @Override
+    public User getClientById(Connection connection, int clientId) throws SQLException {
+        Log.trace("Start get client by id");
+        Client client = new Client();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE id=?");
+            preparedStatement.setInt(1, clientId);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                client = Client.getWithInitParams(resultSet.getInt("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("person_name"),
+                        getRoleById(connection, resultSet.getInt("role_id")),
+                        resultSet.getString("photo_path"),
+                        resultSet.getString("contact_phone"),
+                        getLocaleById(connection, resultSet.getInt("locale_id")),
+                        resultSet.getString("registration_date"));
+
+            }
+            preparedStatement = connection.prepareStatement("SELECT * FROM clients WHERE parent=?");
+            preparedStatement.setInt(1, clientId);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                client.setWalletCount(resultSet.getDouble("wallet_count"));
+                client.setStatus(resultSet.getBoolean("ban"));
+            }
+        } catch (SQLException e) {
+            Log.error("Can't get client by id");
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
+        }
+        Log.trace("Client obtained successfully");
+        return client;
+    }
+
+    @Override
+    public void changeClientStatus(Connection connection, int clientId) throws SQLException {
+        Log.trace("Start change client status");
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT ban FROM clients WHERE parent=?");
+            preparedStatement.setInt(1, clientId);
+            resultSet = preparedStatement.executeQuery();
+            String ban = "";
+            if(resultSet.next()) {
+                ban = resultSet.getString(1);
+                Log.trace("ban is : " + ban);
+                if(ban.equals("TRUE")) {
+                    ban = "FALSE";
+                } else if(ban.equals("FALSE")){
+                    ban = "TRUE";
+                }
+            }
+            preparedStatement = connection.prepareStatement("UPDATE clients SET ban=? WHERE parent=?");
+            preparedStatement.setString(1, ban);
+            preparedStatement.setInt(2, clientId);
+            if(preparedStatement.executeUpdate() == 1) {
+                Log.trace("Client status was updated successfully");
+            } else {
+                Log.error("Can't change client status");
+                throw new AppException("Can't change client status");
+            }
+        } catch (SQLException e) {
+            Log.error("Can't change client status");
+            RepositoryUtil.closeAndThrow(e, preparedStatement, resultSet);
         }
     }
 }

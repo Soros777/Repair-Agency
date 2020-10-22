@@ -1,0 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
+<div class="success-color text-center">
+    <h3 class="mt-4 mb-4">Статус клиента изменён</h3>
+</div>

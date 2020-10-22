@@ -3,36 +3,39 @@ package ua.epam.finalproject.repairagency.web.command;
 import org.apache.log4j.Logger;
 import ua.epam.finalproject.repairagency.model.User;
 import ua.epam.finalproject.repairagency.repository.ConnectionPool;
+import ua.epam.finalproject.repairagency.repository.EntityContainer;
 import ua.epam.finalproject.repairagency.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 
-public class TopUpClientWalletCommand extends ActionCommand {
+public class BanClientCommand extends ActionCommand {
 
     private UserService userService;
-    private static final Logger Log = Logger.getLogger(TopUpClientWalletCommand.class);
+    private static final Logger Log = Logger.getLogger(BanClientCommand.class);
 
-    public TopUpClientWalletCommand(UserService userService) {
+    public BanClientCommand(UserService userService) {
         this.userService = userService;
     }
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Log.trace("Command starts");
+        Log.trace("Start ban / unban client");
 
         HttpSession session = request.getSession();
         String clientId = request.getParameter("clientId");
-        String amount = request.getParameter("amount");
         ConnectionPool connectionPool = (ConnectionPool) session.getAttribute("connectionPool");
-        Log.debug("Params are : clientId : " + clientId + "; amount : " + amount);
+        Log.debug("Param clientId : " + clientId);
 
-        User client = userService.topUpWallet(clientId, amount, connectionPool);
+        User client = userService.changeStatus(clientId, connectionPool);
 
-        session.setAttribute("user", client);
-
+        try {
+            EntityContainer.fillContainers(connectionPool.getConnection());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         Log.trace("Command finishes");
-        return "controller?p=authorizedPage&tab=successTopUpWallet&clientId=" + clientId;
+        return "controller?p=authorizedPage&tab=successChangeStatus&clientId=" + clientId;
     }
 }
